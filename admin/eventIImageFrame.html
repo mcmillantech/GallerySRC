@@ -1,0 +1,42 @@
+<?php
+// ------------------------------------------------------
+//  Project	OnLine Gallery
+//  File	eventImageFrame.php
+//		Frame to pick image files for events
+//		from eventedit.php
+//
+//  Author	John McMillan, McMillan Technolo0gy
+// ------------------------------------------------------
+	require_once "../common.php";
+?>
+<!DOCTYPE html>
+
+<html lang="en-GB">
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Upload images</title>
+<link type="text/css" rel="stylesheet" href="../Gallery.css">
+<script>
+function done()
+{
+	var parent = window.parent;
+	el = parent.document.getElementById('frame');
+	el.style.visibility="hidden";
+}
+</script>
+
+</head>
+
+<body>
+<h3>Gallery Web Site: Select images</h3>
+
+<?php
+	$fileList = scandir("/images/small/");
+	print_r($fileList);
+	echo "<Button onClick='done()'>Close</button>";
+
+
+?>
+</body>
+</html>
