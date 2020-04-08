@@ -1,0 +1,65 @@
+
+<style>
+.whiteText
+{
+	color: 		white;
+	position: 	relative;
+	text-align: 	center;
+	text-shadow:	2px 2px 4px #000000;
+	left:		10px;
+	top: 		-120px;
+	font-size: 	120%;
+	visibility:	hidden;
+	z-index: 	1;
+}
+</style>
+
+    <div id='mainPanel'>
+        <div class='homeLeft'>
+
+            <img src='{impath}/small/Lupe.jpg' style='width:83%; padding-top:12px;'>
+            <div style='text-align: left;padding-left:5px'>
+            <p>{html}</p>
+            </div>
+            {signup}
+            <a href='mailto:{mailto}?subject={signupsubject}&body={signuptext}'>Keep me updated</a>
+            <h3>Recent works</h3>
+            <span class='collectImage' style='width: 98%' onMouseOut='colMouseOut(0)' 
+                  onClick='openColl(0)'>
+                <div onMouseOver='colMouseOver(0)'>
+                    <img src='{imgrecent}' id='coli0' style='height:237px;'>
+                    <img src='{imgrecent}' id='coli0m'
+                     style='height:237px; position:relative; opacity:0.5; display:none'>
+                    <div class='whiteText' id=coltx0><b>Recent</b></div>
+                </div>
+
+                <div class='collTxt' id='coltx0'>
+                </div>
+            </span>
+<!--	<img onClick='window.location="collections.php?col=0"' 
+                src='{impath}/small/Recent.jpg' style='width:83%; padding-top:12px;'>
+         -->
+        </div>
+
+        <div class='homeCollect'>
+        {colls}
+            <span class='collectImage' onMouseOut='colMouseOut({id})' onClick='openColl({id})'>
+                <div onMouseOver='colMouseOver({id})' style='border:solid 1px;'>
+                    <img src='{img}' id='{imid}' style='height:237px;'>
+                    <img src='{img}' id='{id2}'
+                     style='height:237px; position:relative; opacity:0.5; display:none'>
+                    <div class='whiteText' id={idtxt}><b>{name}</b></div>
+                </div>
+
+                <div class='collTxt' id='{idtxt}'>
+                </div>
+            </span>
+        {/colls}
+    <br></div>	<!-- homeCollect -->
+
+    </div>		<!-- mainPanel -->
+    {footer}
+    </div>		<!-- container -->
+</body>
+</html>
+

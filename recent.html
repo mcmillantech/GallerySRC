@@ -1,0 +1,41 @@
+<!--  Show the left side -->
+	<div id='mainPanel'>
+		<span class='collectImage'>
+			<img src='{image}' style='width:83%; padding-top:12px;'>
+		</span>
+		<span class='collectImage'>
+			<p style='text-align:justify; margin-left: 10px;'>{text}</p>
+		</span>
+
+		<div style='clear:both'> </div>
+			{list}
+			<span class='collectImage'>
+				<h3 style='max-width: 98%'>{name}</h3>
+				<p>{size}</p>
+				<p>{year} - {media}<br>
+				{mount}
+				</p>
+				<div style='height:405px'>
+				<img src='{image}' style='{style}' onClick='enlarge(-1, {id})'>
+				</div>
+				<p>Price {price}</p>
+				{buy}</p>
+			</span>
+			{/list}
+
+	</div>
+</div>
+
+<script>
+function enlarge(col, id)
+{
+	var str = "enlarge.php?col=" + col + "&id=" + id;
+	document.location = str;
+}
+
+
+</script>
+</body>
+</html>
+
+

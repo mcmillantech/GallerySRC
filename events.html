@@ -1,0 +1,94 @@
+
+<style>
+#evLeft
+{
+	width:				22%;
+	float:				left;
+	margin:				5px;
+	padding-left:		5px;
+}
+
+#evMain
+{
+	position:			relative;
+	float:				left;
+	width:				75%;
+	margin:				5px;
+}
+
+.evList
+{
+	float:				left;
+	width:				260px;
+	padding:			5px;
+	text-align:			center;
+}
+
+.evTxt
+{
+	color:			red;
+}
+
+.whiteText
+{
+	color: 				white;
+	position: 			absolute;
+	text-align: 		center;
+	width:				90%;
+	left:				5%;
+	top: 				60px;
+	font-size: 			120%;
+	z-index: 			1;
+}
+
+
+</style>
+
+	<div id='evLeft'>
+	<h2 style='text-align:center'>Forthcoming {stream}</h2>
+	{forthRows}
+	{leftPanel}
+		<img src={image1} style='width:75%; padding-left: 12%'><br>
+		<b>{title}</b><br>
+		{dates}<br>
+		{times}<br>
+		{location}<br>
+		{text}<br>
+	{/leftPanel}
+	</div>
+
+	<div id='evMain'>
+		<h2>Current and Previous {stream}</h2>
+		{mainPanel}
+			<h3>{title}</h3>
+
+			<div class='picImage' {picClick}>
+				<img  {picClick} src='{image1}' style='width:98%;'>
+				<div class='whiteText'><b>{location}</b></div>
+			</div>
+
+			<div class='evList' style='display:{display2}'>
+				<img src='{image2}' style='width:96%;'>
+			</div>
+			<div class='evList' style='display:{display3}'>
+				<img src='{image3}' style='width:96%;'>
+			</div>
+			<div style='clear:left'>&nbsp;</div>
+	
+			<div class='evList'>
+				{dates}<br>
+				{times}<br>
+				Location: {location}<br>
+				{address}<br>
+				Contact: {contact}<br><br>
+				{text}
+			</div>
+			<div style='clear:both'><hr></div>
+		{/mainPanel}
+	</div>
+
+{footer}
+</div>
+
+</body>
+</html>
