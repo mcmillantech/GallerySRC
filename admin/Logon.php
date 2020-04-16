@@ -50,29 +50,26 @@
 // ----------------------------------------------
 function doSubmit()
 {	
-	el = document.getElementById('pw');
-	var pw = el.value;
+    el = document.getElementById('pw');
+    var pw = el.value;
 
-	var hAjax;
-	var reply = false;
-	hAjax = new XMLHttpRequest();
-	
-	hAjax.onreadystatechange=function()
-	{
-		if (hAjax.readyState==4 && hAjax.status==200)
-		{
-		    var httxt = hAjax.responseText;
-		    if (httxt == 'OK')						// Logon success
-		    {
-			   window.location = 'index.php';
-	    	}
-			var el = document.getElementById('errors');
-		    el.innerHTML = httxt;					// Otherwise display the error
-	    }
+    var hAjax;
+    var reply = false;
+    hAjax = new XMLHttpRequest();
+
+    hAjax.onreadystatechange=function() {
+        if (hAjax.readyState==4 && hAjax.status==200) {
+            var httxt = hAjax.responseText;
+            if (httxt == 'OK') {				// Logon success
+               window.location = 'index.php';
+            }
+            var el = document.getElementById('errors');
+            el.innerHTML = httxt;					// Otherwise display the error
+        }
     }
     var str = "AjaxLogOn.php?pw=" + pw;
-	hAjax.open("GET",str,true);
-	hAjax.send();
+    hAjax.open("GET",str,true);
+    hAjax.send();
 }
 </script>
 </body>

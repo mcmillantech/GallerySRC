@@ -23,15 +23,19 @@
 	<li><a href='#' onmouseover='mopen("m2")' onmouseout='mclosetime()'>Pictures</a>
             <div id='m2' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
             <a href='piclist.php'>Pictures</a>
-            <a href='collist.php'>Collections</a>
+<?php
+    //# option 2 
+            echo "<a href='collist.php'>Collections</a>";
+    //# end 2
+?>
             </div>
 	<li><a href='#' onmouseover='mopen("m3")' onmouseout='mclosetime()'>Other</a>
             <div id='m3' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
 <?php
     //# option 1 
-            echo "<a href='voucherlist.php'>Vouchers</a>";
+            echo "<a href='voucherlist.php'>Vouchers xx</a>";
     //# end 1 
-    //# option 4
+    //# option 4 
             echo "<a href='shiplist.php'>Shipping grid</a>";
     //# end 4
             echo "<a href='aboutedit.php?type=hometext'>Home Page Text</a>";

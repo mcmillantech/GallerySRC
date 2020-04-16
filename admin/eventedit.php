@@ -25,6 +25,7 @@ protected function showForm($mode)
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Gallery Event Edit</title>
 <link type="text/css" rel="stylesheet" href="../Gallery.css">
+<link type="text/css" rel="stylesheet" href="../custom.css">
 <script src="../Cunha.js"></script>
 <script>
 function showFileFrame()

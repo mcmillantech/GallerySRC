@@ -20,6 +20,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Gallery Future Event</title>
 <link type="text/css" rel="stylesheet" href="../Gallery.css">
+<link type="text/css" rel="stylesheet" href="../custom.css">
 <style>
 </style>
 </head>

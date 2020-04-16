@@ -17,6 +17,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Upload images</title>
 <link type="text/css" rel="stylesheet" href="../Gallery.css">
+<link type="text/css" rel="stylesheet" href="../custom.css">
 <style>
 .lsTitle
 {
