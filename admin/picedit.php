@@ -29,6 +29,7 @@ JS function showFileFrame()
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Gallery Picture Edit</title>
 <link type="text/css" rel="stylesheet" href="../Gallery.css">
+<link type="text/css" rel="stylesheet" href="../custom.css">
 <script src="../Cunha.js"></script>
 <style>
 .input

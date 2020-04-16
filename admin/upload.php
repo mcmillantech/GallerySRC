@@ -16,6 +16,7 @@
 <title>Upload spreadsheet</title>
 <link type="text/css" rel="stylesheet" href="Gallery.css">
 <link type="text/css" rel="stylesheet" href="../Gallery.css">
+<link type="text/css" rel="stylesheet" href="../custom.css">
 <script src="../Cunha.js"></script>
 </head>
 

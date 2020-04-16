@@ -26,6 +26,7 @@ class shiplist extends DataList
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Gallery Collections</title>
 <link type="text/css" rel="stylesheet" href="../Gallery.css">
+<link type="text/css" rel="stylesheet" href="../custom.css">
 <script src="../Cunha.js"></script>
 <style>
 .lsTitle

@@ -17,6 +17,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Art site Admin</title>
 <link type="text/css" rel="stylesheet" href="../Gallery.css">
+<link type="text/css" rel="stylesheet" href="../Menus.css">
+<link type="text/css" rel="stylesheet" href="../custom.css">
 <script src="../Cunha.js"></script>
 
 </head>

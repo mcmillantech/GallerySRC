@@ -24,6 +24,7 @@ function postForm($order)
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Art Site Admin Orders</title>
 <link type="text/css" rel="stylesheet" href="../Gallery.css">
+<link type="text/css" rel="stylesheet" href="../custom.css">
 </head>
 
 <body>
