@@ -1,8 +1,8 @@
 <?php
 // ------------------------------------------------------
-//  Project	Artist Gallery
-//  File	collections.php
-//		Show collections
+//  Project	Art Gallery
+//  File	indexnc.php
+//		Home page, no collections
 //
 //  Author	John McMillan
 //  Copyright   McMillan Technology 2019

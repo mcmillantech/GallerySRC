@@ -93,10 +93,9 @@ function showOnePicture ($pic, $uselowprice)
     }
     else {
         if ($pic['quantity'] > 0)
-            $pic["buy"] = "<p><button onClick='buy($id)'>Buy</button><br><br>";
+            $pic["buy"] = "<div><button onclick='buy($id)'>Buy</button></div>";
         else
-            $pic["buy"] = "<p style='color:red;font-size:140%'>Sold";
-//	echo $pic['buy'] . "<br>";
+            $pic["buy"] = "<div style='color:red;font-size:120%'>Sold</div>";
     }
 	return $pic;
 }

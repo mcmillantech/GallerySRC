@@ -5,7 +5,7 @@
 //		Home page
 //
 //  Author	John McMillan
-//  Copyright    McMillan Technology 2019
+//  Copyright   McMillan Technology 2019
 // ------------------------------------------------------
     session_start();
     require_once "common.php";

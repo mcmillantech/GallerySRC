@@ -47,6 +47,13 @@ function closePanel()
 	var el = document.getElementById("shipPanel");
 	el.style.visibility = "hidden";
 }
+
+function enlarge(col, id)
+{
+	var str = "enlarge.php?col=" + col + "&id=" + id;
+	document.location = str;
+}
+
 </script>
 
     <div id='mainPanel'>
@@ -69,31 +76,33 @@ function closePanel()
 <!--  Now the 3 columns -->
         <div style='clear:both'> </div>
             {list}
-            <span class='collectImage' style='height:666px'>
-                <h3 style='max-width: 98%; height:46px'>{name}</h3>
+            <div class='collectImage' style='height:666px'>
+                <h3 style='max-width: 98%; height:20px'>{name}</h3>
                 <p>{size}&nbsp;</p>
                 <p>{year} - {media}<br>
                 {mount}&nbsp;
                 </p>
                 <div style='height:405px;'>
-                <img src='{image}' style='{style}' 
 <!--# option 3 -->
-                     onClick='enlarge({collection}, {id})'
-<!--# end 3 -->
-                 >
+                    <img src='{image}' style='{style}' 
+                     onClick='enlarge({collection}, {id})'>
                 </div>
                 <p>Click to enlarge</p> 
+<!--# alt 3 -->
+                    <img src='{image}' style='{style}'> 
+                </div>
+<!--# end 3 -->
 <!--# option 4 -->
-                <p>Price {price} plus shipping 
+                <div>Price {price} plus shipping 
                 <span onclick='showShipping("{shippingrate}")' style='color:blue'>
-                 Cost </span>
-                </p>
+                    Cost </span><br><br>
+                </div>
 <!--# alt 4 -->
                 <p>Price {price} </p>
 <!--# end 4 -->
-                {buy}</p>
+                {buy}<br>
             <hr>		
-            </span>
+            </div>
             {/list}
         <div style='clear:both'>&nbsp; </div>
 
@@ -103,12 +112,6 @@ function closePanel()
 
 
 <script>
-function enlarge(col, id)
-{
-	var str = "enlarge.php?col=" + col + "&id=" + id;
-	document.location = str;
-}
-
 
 </script>
 </body>
