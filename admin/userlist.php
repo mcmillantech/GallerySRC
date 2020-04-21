@@ -59,7 +59,7 @@ protected function SQLDate($dt)
 </head>
 <body>
 <?php
-	session_start();
+//	session_start();
 //	include "adminmenus.php";
 	require_once "../common.php";
 	require_once "DataList.php";
