@@ -3,14 +3,18 @@
 //  Project	Online Gallery
 //  File	AjaxLogOn.php
 //
+//  Ajax server for log on
+//  Checks the username and password
+//
 //  Author	John McMillan
 //  McMillan Technology Ltd
-//
-//  Ajax server for log on
-//
-//  Checks the password
 // --------------------------------------------------------------
     session_start();
+
+    require_once '../common.php';
+    
+    $config = setConfig();			// Connect to database
+    $mysqli = dbConnect($config);
 
     global $name;
     checkPassword();
@@ -22,14 +26,25 @@
 // -------------------------------------------
 function checkPassword()
 {
+    global $mysqli;
+
+    $uname = $_GET['user'];
     $pw = $_GET['pw'];
-    if ($pw == "small-garden")
-	{
-            logOn();
-            $_SESSION['userLevel'] = 1;
-	}
-	else
-            echo "Error: wrong password";
+    
+    $sql = "SELECT * FROM users WHERE username='$uname'";
+    $result = $mysqli->query($sql);
+    if (mysqli_num_rows($result) < 1) {
+        echo "User not recognised";
+        return;
+    }
+
+    $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    if ($pw == $record['password']) {
+        logOn();
+        $_SESSION['userLevel'] = $record['level'];
+    }
+    else
+        echo "Error: wrong password";
 }
 
 // -------------------------------------------
