@@ -19,6 +19,11 @@ function sizeCheck()
 	}
 }
 
+function logon()
+{
+    window.location = "logon.php";
+}
+
 // ---------------------------------------
 // Open a drop down
 //
