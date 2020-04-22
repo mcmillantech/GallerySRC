@@ -56,8 +56,8 @@ function logCheck()
 {
                             // See if a user is logged on
     if (!array_key_exists('userLevel', $_SESSION)) {
-        echo "No logon ";
-        header('Location: logon.html');
+        echo "<button onClick='logon()'>Please log on</button> ";
+        die();
     }
                             // Now there should be a session - process timeout
     $tm = time();
@@ -67,7 +67,7 @@ function logCheck()
     if (($tm - $lastTime) > 3600) {
         session_unset();
         session_destroy();
-        header('Location: logon.html');//		exit;
+        header('Location: logon.php');
     }
 
     $_SESSION['MLastAccess'] = $tm;
@@ -75,3 +75,4 @@ function logCheck()
 }
 
 ?>
+
