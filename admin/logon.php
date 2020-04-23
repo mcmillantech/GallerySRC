@@ -1,20 +1,4 @@
-<?php
-// ------------------------------------------------------
-//  Project	Artist Gallery
-//  File	admin/logon.php
-//		Present and process the logon form
-//
-//  This is called from the logcheck function in
-//  adminmenus.php and passes to AjaxLogOn to do 
-//  the checking. An onSubmit function connectss to
-//  AJAX and either routes to the calling page or
-//  places an error message and stays here.
-//
-//  Author	John McMillan, McMillan Technolo0gy
-// ------------------------------------------------------
-?>
 <!DOCTYPE html>
-
 <html>
 <head>
 <title>Admin log on</title>
@@ -47,7 +31,7 @@
 <br><br>
 
 <?php
-                            // Set the calling page, default to index
+
     if (array_key_exists('page', $_GET))
         $page = $_GET['page'];
     else 
@@ -92,12 +76,11 @@ function doSubmit(page)
     hAjax.onreadystatechange=function() {
         if (hAjax.readyState==4 && hAjax.status==200) {
             var httxt = hAjax.responseText;
-            if (httxt == 'OK') {			// Logon success
+            if (httxt == 'OK') {				// Logon success
                window.location = page;
             }
             var el = document.getElementById('errors');
-            el.innerHTML = httxt;		// Otherwise display the error
-            return false;
+            el.innerHTML = httxt;					// Otherwise display the error
         }
     }
     var str = "AjaxLogOn.php?user=" + uname + "&pw=" + pw;
