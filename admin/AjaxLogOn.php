@@ -42,6 +42,7 @@ function checkPassword()
     if ($pw == $record['password']) {
         logOn();
         $_SESSION['userLevel'] = $record['level'];
+        $_SESSION['fullName'] = $record['fullname'];
     }
     else
         echo "Error: wrong password";
