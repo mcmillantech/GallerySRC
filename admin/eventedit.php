@@ -45,33 +45,32 @@ function showFileFrame()
 
 class EvEdit extends DataEdit
 {
-	function __construct($mysqli)
-	{
-		parent::__construct($mysqli);
-	}
+    function __construct($mysqli)
+    {
+        parent::__construct($mysqli);
+    }
 
-	protected function setNewItem()
-	{
-		$this->record = array
-		(
-			'title' => '',
-			'stream' => 'Exhibitions',
+    protected function setNewItem()
+    {
+        $this->record = array (
+                'title' => '',
+                'stream' => 'Exhibitions',
 //			'mainimage' => '',
-			'date1' => '',
-			'date2' => '',
-			'times' => '',
-			'location' => '',
-			'address' => '',
-			'contact' => '',
-			'image1' => '',
-			'image2' => '',
-			'image3' => '',
-			'image4' => '',
-			'image5' => '',
-			'image6' => '',
-			'text' => ''
-		);
-	}
+                'date1' => '',
+                'date2' => '',
+                'times' => '',
+                'location' => '',
+                'address' => '',
+                'contact' => '',
+                'image1' => '',
+                'image2' => '',
+                'image3' => '',
+                'image4' => '',
+                'image5' => '',
+                'image6' => '',
+                'text' => ''
+        );
+    }
 
 // -------------------------------------------
 //	Override of DataEdit virtual function

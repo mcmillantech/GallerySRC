@@ -121,6 +121,8 @@ class userEdit extends DataEdit
             $this->showLine('Postcode', $dta, 'postcode', 16);
             $this->showLine('Website', $dta, 'website', 45);
             $this->showLine('Level', $dta, 'level', 2);
+            echo "<span class='prompt'> &nbsp;(2 artist, 3 superadmin)";
+            echo "</span><br>";
             echo "<button type='submit'>Post</button>";
         echo "</form>";
 

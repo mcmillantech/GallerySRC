@@ -122,6 +122,28 @@ class UserList extends DataList
             . ")";
         $this->mysqli->query($sql)
             or die ("Error inserting item " . mysqli_error($this->mysqli));
+        
+    $this->createCollection();
+    }
+
+    // -------------------------------------------
+    // Create a collection for this user
+    // 
+    // -------------------------------------------
+    private function createCollection()
+    {
+        $sql = "SELECT MAX(sequence) as sequence FROM collections";
+        $result = $this->mysqli->query($sql);
+        $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $nextSequence = $record['sequence'] + 1;
+        
+        $sql2 = "INSERT INTO collections (name, search, sequence) VALUES ("
+            . $this->postField('fullname')  . ','
+            . $this->postField('fullname')  . ','
+            . "$nextSequence)";
+        echo $sql2;
+        $this->mysqli->query($sql2)
+            or die ("Error creating collection" . mysqli_error($this->mysqli));
     }
 
     protected function upDateItem()

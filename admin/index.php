@@ -26,7 +26,7 @@
 <body>
 <h1>Control Panel</h1>
 <?php
-	include "adminmenus.php";
+    include "adminmenus.php";
 ?>
 </body>
 </html>

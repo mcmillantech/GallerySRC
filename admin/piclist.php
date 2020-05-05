@@ -65,248 +65,244 @@ function doDelete(item, name)
 
 class PicList extends DataList
 {
-	function __construct($mysqli)
-	{
-		parent::__construct($mysqli);
-	}
+    function __construct($mysqli)
+    {
+            parent::__construct($mysqli);
+    }
 
-	public function showListLine($line)
-	{
-		$id = $line['id'];
-		$name = $line['name'];
-		$onEdit = "window.location=\"picedit.php?mode=upd&item=$id\"";
-	
-		echo "\n<span class='lsTitle'>$name</span>";
-		echo "<span class='lsButton'>";
-			echo "<button onClick='$onEdit'>Edit</button>";
-			echo "&nbsp;";
-			echo "<button onClick='doDelete($id, \"$name\")'>Delete</button>";
-		echo "</span><br>";
-	}
+    public function showListLine($line)
+    {
+            $id = $line['id'];
+            $name = $line['name'];
+            $onEdit = "window.location=\"picedit.php?mode=upd&item=$id\"";
 
-	// ----------------------------------------------
-	//	Show headings
-	//
-	// ----------------------------------------------
-	public function showHeading()
-	{
-		echo "\n<b><span class='lsTitle'>Title</span>";
-		echo "<span class='lsButton'> Edit</span>";
-		echo "</b><br><br>";
-	}
+            echo "\n<span class='lsTitle'>$name</span>";
+            echo "<span class='lsButton'>";
+                    echo "<button onClick='$onEdit'>Edit</button>";
+                    echo "&nbsp;";
+                    echo "<button onClick='doDelete($id, \"$name\")'>Delete</button>";
+            echo "</span><br>";
+    }
 
-	// -------------------------------------------
-	//	Insert new item
-	//
-	// -------------------------------------------
-	protected function insertItem()
-	{
-		if ($_SESSION['picEdit'] == 0)				// Guard against repeating
-			return;
+    // ----------------------------------------------
+    //	Show headings
+    //
+    // ----------------------------------------------
+    public function showHeading()
+    {
+            echo "\n<b><span class='lsTitle'>Title</span>";
+            echo "<span class='lsButton'> Edit</span>";
+            echo "</b><br><br>";
+    }
 
-		$recent = $this->getCheckBox('recent');
-		$archive = $this->getCheckBox('archive');
-		$costcovered = $this->getCheckBox('costcovered');
+    // -------------------------------------------
+    //	Insert new item
+    //
+    // -------------------------------------------
+    protected function insertItem()
+    {
+        if ($_SESSION['picEdit'] == 0)				// Guard against repeating
+                return;
 
-		$sql = "INSERT INTO paintings "
-			. "(name, recent, dateset, media, size, mount, tags, priceweb, priceebay, "
-			. " costcovered, datesold, archive, image, notes, shippingrate, year, quantity, away) "
-			. " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		if (!($stmt = $this->mysqli->prepare($sql)))
-			echo "Prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
+        $recent = $this->getCheckBox('recent');
+        $archive = $this->getCheckBox('archive');
+        $costcovered = $this->getCheckBox('costcovered');
 
-		if (!$stmt->bind_param('sisssssiiisissiiis', $name, $recent, $dateset, $media, $size, 
-			$mount, $tags, $priceweb, $priceebay, $costcovered, $datesold, $archive, $image,
-			$notes, $shippingrate, $year, $quantity, $away))
-		echo	"Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
+        $sql = "INSERT INTO paintings "
+            . "(name, recent, dateset, media, size, mount, tags, priceweb, priceebay, "
+            . " costcovered, datesold, archive, image, notes, shippingrate, year, quantity, away) "
+            . " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        if (!($stmt = $this->mysqli->prepare($sql)))
+            echo "Prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-		$name = $_POST['name'];
-		$dt = $_POST['dateset'];
-		$dateset = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2);
-		$recent = $this->getCheckBox('recent');
-		$year = $_POST['year'];
-		$media = $_POST['media'];
-		$mount = $_POST['mount'];
-		$size = $_POST['size'];
-		$tags = $_POST['tags'];
-		$priceweb = $_POST['priceweb'] * 100;
-		$priceebay = $_POST['priceebay'] * 100;
-		$archive = $this->getCheckBox('archive');
-		$away = $this->SQLDate($_POST['away']);
-		$costcovered = $this->getCheckBox('costcovered');
-		$datesold  = $this->SQLDate($_POST['datesold']);
-		$image  = $_POST['image'];
-		$notes  = $_POST['notes'];
-		$shippingrate = $_POST['shippingrate'];
-		$quantity = $_POST['quantity'];
+        if (!$stmt->bind_param('sisssssiiisissiiis', $name, $recent, $dateset, $media, $size, 
+            $mount, $tags, $priceweb, $priceebay, $costcovered, $datesold, $archive, $image,
+            $notes, $shippingrate, $year, $quantity, $away))
+        echo	"Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-		if (!$stmt->execute())
-			$this->sqlError("Insert painting failed");
-		$newId = $this->mysqli->insert_id;
-		$stmt->close();
-		$this->setLinks($newId);
-		
-		$_SESSION['picEdit'] = 0;
-	}
+        $name = $_POST['name'];
+        $dt = $_POST['dateset'];
+        $dateset = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2);
+        $recent = $this->getCheckBox('recent');
+        $year = $_POST['year'];
+        $media = $_POST['media'];
+        $mount = $_POST['mount'];
+        $size = $_POST['size'];
+        $tags = $_POST['tags'];
+        $priceweb = $_POST['priceweb'] * 100;
+        $priceebay = $_POST['priceebay'] * 100;
+        $archive = $this->getCheckBox('archive');
+        $away = $this->SQLDate($_POST['away']);
+        $costcovered = $this->getCheckBox('costcovered');
+        $datesold  = $this->SQLDate($_POST['datesold']);
+        $image  = $_POST['image'];
+        $notes  = $_POST['notes'];
+        $shippingrate = $_POST['shippingrate'];
+        $quantity = $_POST['quantity'];
 
-	// ----------------------------------------------
-	//	Post updated record
-	//	Called from picedit.php
-	//
-	// ----------------------------------------------
-	protected function upDateItem()
-	{
-		$id = $_GET['item'];
+        if (!$stmt->execute())
+            $this->sqlError("Insert painting failed");
+        $newId = $this->mysqli->insert_id;
+        $stmt->close();
+        $this->setLinks($newId);
 
-		$sql = "UPDATE paintings SET name=?, recent=?, dateset=?, media=?, "
-			. "size=?, mount=?, tags=?, priceweb=?, priceebay=?, costcovered=?, "
-			. "datesold=?, archive=?, image=?, notes=?, shippingrate=?, year=?, "
-			. "quantity=?, away=?"
-			. " WHERE id=$id";
+        $_SESSION['picEdit'] = 0;
+    }
 
-		if (!($stmt = $this->mysqli->prepare($sql)))
-			echo "Prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
+    // ----------------------------------------------
+    //	Post updated record
+    //	Called from picedit.php
+    //
+    // ----------------------------------------------
+    protected function upDateItem()
+    {
+        $id = $_GET['item'];
 
-		if (!$stmt->bind_param('sisssssiiisissiiis', $name, $recent, $dateset, $media, $size, 
-			$mount, $tags, $priceweb, $priceebay, $costcovered, $datesold, $archive, 
-			$image, $notes, $shippingrate, $year, $quantity, $away))
-			"Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
+        $sql = "UPDATE paintings SET name=?, recent=?, dateset=?, media=?, "
+            . "size=?, mount=?, tags=?, priceweb=?, priceebay=?, costcovered=?, "
+            . "datesold=?, archive=?, image=?, notes=?, shippingrate=?, year=?, "
+            . "quantity=?, away=?"
+            . " WHERE id=$id";
 
-		$name = $_POST['name'];
-		$dt = $_POST['dateset'];
-		$dateset = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2);
-		$recent = $this->getCheckBox('recent');
-		$year = $_POST['year'];
-		$media = $_POST['media'];
-		$mount = $_POST['mount'];
-		$size = $_POST['size'];
-		$tags = $_POST['tags'];
-		$priceweb = $_POST['priceweb'] * 100;
-		$priceebay = $_POST['priceebay'] * 100;
-		$archive = $this->getCheckBox('archive');
-		$costcovered = $this->getCheckBox('costcovered');
-		$datesold  = $this->SQLDate($_POST['datesold']);
-		$image  = $_POST['image'];
-		$notes  = $_POST['notes'];
-		$shippingrate = $_POST['shippingrate'];
-		$quantity = $_POST['quantity'];
-		$away = $this->SQLDate($_POST['away']);
+        if (!($stmt = $this->mysqli->prepare($sql)))
+            echo "Prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-		$status = $stmt->execute();
-		if ($status === false)
-			$this->sqlError ("Execute failed");
-		$stmt->close();
+        if (!$stmt->bind_param('sisssssiiisissiiis', $name, $recent, $dateset, $media, $size, 
+            $mount, $tags, $priceweb, $priceebay, $costcovered, $datesold, $archive, 
+            $image, $notes, $shippingrate, $year, $quantity, $away))
+            "Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-		$this->setLinks($id);
-	}
+        $name = $_POST['name'];
+        $dt = $_POST['dateset'];
+        $dateset = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2);
+        $recent = $this->getCheckBox('recent');
+        $year = $_POST['year'];
+        $media = $_POST['media'];
+        $mount = $_POST['mount'];
+        $size = $_POST['size'];
+        $tags = $_POST['tags'];
+        $priceweb = $_POST['priceweb'] * 100;
+        $priceebay = $_POST['priceebay'] * 100;
+        $archive = $this->getCheckBox('archive');
+        $costcovered = $this->getCheckBox('costcovered');
+        $datesold  = $this->SQLDate($_POST['datesold']);
+        $image  = $_POST['image'];
+        $notes  = $_POST['notes'];
+        $shippingrate = $_POST['shippingrate'];
+        $quantity = $_POST['quantity'];
+        $away = $this->SQLDate($_POST['away']);
 
-	// ----------------------------------------------
-	//	Set up the links to collections
-	//
-	//	Parameter	id of painting
-	// ----------------------------------------------
-	private function setLinks($id)
-	{
-								// Start by deleting the existing links
-		$sql = "DELETE FROM links WHERE picture=?";
-		$stmtDel = $this->mysqli->prepare($sql);
-		$stmtDel->bind_param('i', $idL);
+        $status = $stmt->execute();
+        if ($status === false)
+                $this->sqlError ("Execute failed");
+        $stmt->close();
 
-		$idL = $id;				// 
-		$status = $stmtDel->execute();
-		if ($status == false)
-			$this->sqlError ("Execute delete linksfailed");
-		$stmtDel->close();
+        $this->setLinks($id);
+    }
 
-								// Prepare to look up collections		
-		$sql = "SELECT * FROM collections WHERE name=?";
-		if (!($stmtColl = $this->mysqli->prepare($sql)))
-			$this->sqlError ("Prepare colls failed");
-		if (!$stmtColl->bind_param('s', $collName))
-			$this->sqlError ("Bind coll failed");
+    // ----------------------------------------------
+    //	Set up the links to collections
+    //
+    //	Parameter	id of painting
+    // ----------------------------------------------
+    private function setLinks($id)
+    {
+                                    // Start by deleting the existing links
+        $sql = "DELETE FROM links WHERE picture=?";
+        $stmtDel = $this->mysqli->prepare($sql);
+        $stmtDel->bind_param('i', $idL);
 
-								// Prepare to insert links
-		$sql = "INSERT INTO links SET picture=?, collection=?";
-		if (!($stmtLink = $this->mysqli->prepare($sql)))
-			$this->sqlError ("Prepare link failed");
-		if (!$stmtLink->bind_param('ii', $picId, $collId))
-			$this->sqlError ("Bind coll failed");
-		$picId = $id;
+        $idL = $id;				// 
+        $status = $stmtDel->execute();
+        if ($status == false)
+                $this->sqlError ("Execute delete linksfailed");
+        $stmtDel->close();
 
-		$collName = $_POST['coll1'];
-		if ($collName <> '')
-		{
-			$collId = $this->lookupColl($stmtColl, $collName);
-			$status = $stmtLink->execute();
-			if (!$status)
-				$this->sqlError ("Link insert failed");
-		}
+                                        // Prepare to look up collections		
+        $sql = "SELECT * FROM collections WHERE name=?";
+        if (!($stmtColl = $this->mysqli->prepare($sql)))
+                $this->sqlError ("Prepare colls failed");
+        if (!$stmtColl->bind_param('s', $collName))
+                $this->sqlError ("Bind coll failed");
 
-		$collName = $_POST['coll2'];
-		if ($collName <> '')
-		{
-			$collId = $this->lookupColl($stmtColl, $collName);
-			$status = $stmtLink->execute();
-			if (!$status)
-				$this->sqlError ("Link insert failed");
-		}
+                                            // Prepare to insert links
+        $sql = "INSERT INTO links SET picture=?, collection=?";
+        if (!($stmtLink = $this->mysqli->prepare($sql)))
+                $this->sqlError ("Prepare link failed");
+        if (!$stmtLink->bind_param('ii', $picId, $collId))
+                $this->sqlError ("Bind coll failed");
+        $picId = $id;
 
-		$collName = $_POST['coll3'];
-		if ($collName <> '')
-		{
-			$collId = $this->lookupColl($stmtColl, $collName);
-			$status = $stmtLink->execute();
-			if (!$status)
-				$this->sqlError ("Link insert failed");
-		}
-		
-		$stmtColl->close();
-		$stmtLink->close();
-	}
+        $collName = $_POST['coll1'];
+        if ($collName <> '') {
+            $collId = $this->lookupColl($stmtColl, $collName);
+            $status = $stmtLink->execute();
+            if (!$status)
+                $this->sqlError ("Link insert failed");
+        }
 
-	// ----------------------------------------------
-	//	Helper for setLinks
-	//
-	//	Find the id of a collection given its name
-	// ----------------------------------------------
-	private function lookupColl($stmtColl)
-	{
-		try
-		{
-			$status = $stmtColl->execute();
-			$result = $stmtColl->get_result();
-			$row = $result->fetch_assoc();
-		}
-		catch(Exception $e){
-			$this->sqlError ("Lookup collection failed");
-		}
-		return $row['id'];
-	}
-	
-	// ----------------------------------------------
-	//	Process call to delete a painting
-	//
-	// ----------------------------------------------
-	protected function deleteItem()
-	{
-		$id = $_GET['item'];
+        $collName = $_POST['coll2'];
+        if ($collName <> '') {
+            $collId = $this->lookupColl($stmtColl, $collName);
+            $status = $stmtLink->execute();
+            if (!$status)
+                $this->sqlError ("Link insert failed");
+        }
 
-		$sql = "DELETE FROM paintings "
-			. " WHERE id=$id";
+        $collName = $_POST['coll3'];
+        if ($collName <> '') {
+            $collId = $this->lookupColl($stmtColl, $collName);
+            $status = $stmtLink->execute();
+            if (!$status)
+                $this->sqlError ("Link insert failed");
+        }
 
-		$this->mysqli->query($sql)
-			or die ("Error deleting event " . mysqli_error($this->mysqli));
-	}
+        $stmtColl->close();
+        $stmtLink->close();
+    }
 
-	protected function SQLDate($dt)
-	{
-		if ($dt == '')
-			return null;
-		$dt = str_replace('"', '', $dt);
-		list($day, $mon, $year) = explode("/", $dt);
-		$dtm = "$year-$mon-$day";
-		return $dtm;
-	}
+    // ----------------------------------------------
+    //	Helper for setLinks
+    //
+    //	Find the id of a collection given its name
+    // ----------------------------------------------
+    private function lookupColl($stmtColl)
+    {
+        try {
+            $status = $stmtColl->execute();
+            $result = $stmtColl->get_result();
+            $row = $result->fetch_assoc();
+        }
+        catch(Exception $e){
+            $this->sqlError ("Lookup collection failed");
+        }
+        return $row['id'];
+    }
+
+    // ----------------------------------------------
+    //	Process call to delete a painting
+    //
+    // ----------------------------------------------
+    protected function deleteItem()
+    {
+        $id = $_GET['item'];
+
+        $sql = "DELETE FROM paintings "
+            . " WHERE id=$id";
+
+        $this->mysqli->query($sql)
+            or die ("Error deleting event " . mysqli_error($this->mysqli));
+    }
+
+    protected function SQLDate($dt)
+    {
+        if ($dt == '')
+                return null;
+        $dt = str_replace('"', '', $dt);
+        list($day, $mon, $year) = explode("/", $dt);
+        $dtm = "$year-$mon-$day";
+        return $dtm;
+    }
 }
 
 // ----------------------------------------------
@@ -316,14 +312,24 @@ class PicList extends DataList
 //	of PicList
 // ----------------------------------------------
 
-	$config = setConfig();					// Connect to database
-	$mysqli = dbConnect($config);
+    $config = setConfig();			// Connect to database
+    $mysqli = dbConnect($config);
 
-	echo "<h3>Pictures</h3>";
-	$lst = new PicList($mysqli);
-	$lst->sqlShow("SELECT * FROM paintings ORDER BY name");
-	$lst->editPage("picedit.php");
-	$lst->run();
+    echo "<h3>Pictures</h3>";
+    $lst = new PicList($mysqli);
+//# option 11 
+    $name = $_SESSION['fullName'];
+    $sql = "SELECT l.*, c.id, p.* FROM collections c "
+        . "Join links l ON l.collection = c.id "
+        . "JOIN paintings p ON p.id = l.picture "
+        . "WHERE c.name='$name' "
+        . "ORDER BY p.dateset DESC";
+//# alt 11
+    $sql = "SELECT * FROM paintings ORDER BY name";
+//# end
+    $lst->sqlShow($sql);
+    $lst->editPage("picedit.php");
+    $lst->run();
 ?>
 </body>
 </html>

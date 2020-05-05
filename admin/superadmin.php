@@ -1,10 +1,28 @@
 <?php
+// ------------------------------------------------------
+//  Project	Artist Gallery
+//  File	admin/superadmin.php
+//		Allows super user
+//
+//  Author	John McMillan, McMillan Technolo0gy
+// ------------------------------------------------------
+?>
+<!DOCTYPE html>
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+<html lang="en-GB">
+<head>
+<meta http-equiv="Content-Language" content="en-gb">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Art site Super Admin</title>
+<link type="text/css" rel="stylesheet" href="../Gallery.css">
+<link type="text/css" rel="stylesheet" href="../Menus.css">
+<link type="text/css" rel="stylesheet" href="../custom.css">
+<script src="../Cunha.js"></script>
+
+</head>
+<body>
+<h1>Super Admin</h1>
+<?php
 
     session_start();
     require_once '../common.php';
@@ -17,8 +35,9 @@ function logCheck()
 {
                             // See if a user is logged on
     if (!array_key_exists('userLevel', $_SESSION)) {
-        echo "No logon ";               // No point in this
-        header('Location: Logon.php?page=superadmin.php');
+        echo "<button onClick='logon(\"superadmin.php\")'>Please log on</button> ";
+//        header('Location: Logon.php?page=superadmin.php');
+        die();
     }
                             // Now there should be a session - process timeout
                             // and check the user level
