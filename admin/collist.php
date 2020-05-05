@@ -187,14 +187,23 @@ class collist extends DataList
 //	of collist
 // ----------------------------------------------
 
-	$config = setConfig();					// Connect to database
-	$mysqli = dbConnect($config);
+    $config = setConfig();				// Connect to database
+    $mysqli = dbConnect($config);
 
-	echo "<h3>Collections</h3>";
-	$lst = new collist($mysqli);
-	$lst->sqlShow("SELECT * FROM collections ORDER BY sequence");
-	$lst->editPage("coledit.php");
-	$lst->run();
+    echo "<h3>Collections</h3>";
+    $lst = new collist($mysqli);
+/* # option 11 
+    $colId = $_GET['col'];
+    $sql = "SELECT l.*, p.* FROM links l "
+        . "JOIN paintings p ON p.id = l.picture "
+        . "WHERE l.collection = $colId "
+        . "ORDER BY p.dateset DESC"; # alt 11  
+ */
+    $sql = "SELECT * FROM collections ORDER BY sequence";
+    /* # end      */
+    $lst->sqlShow($sql);
+    $lst->editPage("coledit.php");
+    $lst->run();
 ?>
 </body>
 </html>
