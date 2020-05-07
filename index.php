@@ -10,7 +10,6 @@
     session_start();
     require_once "common.php";
     require "top2.php";
-
                                         // From here on we're in mainPanel
     $dta = array();
     $dta['impath'] = $impath;
@@ -36,6 +35,7 @@
 
     mysqli_free_result($result);
 
+    $dta['title'] = $title;
     $dta['footer'] = footer();
     showView("indexv.html", $dta);
 
