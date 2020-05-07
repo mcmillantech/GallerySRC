@@ -67,21 +67,26 @@ class PicList extends DataList
 {
     function __construct($mysqli)
     {
-            parent::__construct($mysqli);
+        parent::__construct($mysqli);
     }
 
     public function showListLine($line)
     {
-            $id = $line['id'];
-            $name = $line['name'];
-            $onEdit = "window.location=\"picedit.php?mode=upd&item=$id\"";
+        $id = $line['id'];
+        $name = $line['name'];
+        $onEdit = "window.location=\"picedit.php?mode=upd&item=$id\"";
 
-            echo "\n<span class='lsTitle'>$name</span>";
-            echo "<span class='lsButton'>";
-                    echo "<button onClick='$onEdit'>Edit</button>";
-                    echo "&nbsp;";
-                    echo "<button onClick='doDelete($id, \"$name\")'>Delete</button>";
-            echo "</span><br>";
+        echo "\n<span class='lsTitle'>$name</span>";
+        echo "<span class='lsButton'>";
+            echo "<button onClick='$onEdit'>Edit</button>";
+            echo "&nbsp;";
+            echo "<button onClick='doDelete($id, \"$name\")'>Delete</button>";
+        //# option 11
+        $artist = $line['artist'];
+        echo " &nbsp;$artist";
+        //# end
+        echo "</span>";
+        echo '<br>';
     }
 
     // ----------------------------------------------
@@ -318,12 +323,8 @@ class PicList extends DataList
     echo "<h3>Pictures</h3>";
     $lst = new PicList($mysqli);
 //# option 11 
-    $name = $_SESSION['fullName'];
-    $sql = "SELECT l.*, c.id, p.* FROM collections c "
-        . "Join links l ON l.collection = c.id "
-        . "JOIN paintings p ON p.id = l.picture "
-        . "WHERE c.name='$name' "
-        . "ORDER BY p.dateset DESC";
+    require_once 'artgroup.php';
+    $sql = picListSql($mysqli);
 //# alt 11
     $sql = "SELECT * FROM paintings ORDER BY name";
 //# end

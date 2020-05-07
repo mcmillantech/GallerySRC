@@ -21,6 +21,7 @@
 // --------------------------------------------
 function superMenu()
 {
+    require_once "../common.php";
     require_once 'artgroup.php';
     $config = setConfig();
     $mysqli = dbConnect($config);
