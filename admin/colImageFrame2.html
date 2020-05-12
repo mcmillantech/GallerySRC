@@ -1,0 +1,30 @@
+<!-- 
+    colImageFrame1.html
+        Frame to upload collection hover image
+        From col edit
+        Provides form to pick image and post to uploadRootImage.php
+
+    Author	John McMillan, McMillan Technolo0gy
+
+-->
+<html>
+<head>
+<script>
+function done()
+{
+	var parent = window.parent;
+	el = parent.document.getElementById('frame');
+	el.style.visibility="hidden";
+}
+</script>
+</head>
+
+<body>
+<form action='uploadRootImage.php?imgfield=search' method='post' enctype='multipart/form-data'>
+    Select image file to upload Frame2:
+    <input type='file' name='upload[]' accept='.jpg'><br><br>
+    <input type='submit' value='Process'>
+    <br><br><Button onClick='done()'>Close</button>
+</form>
+</body>
+</html>
