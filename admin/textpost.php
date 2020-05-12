@@ -31,13 +31,32 @@
 	$config = setConfig();					// Connect to database
 	$mysqli = dbConnect($config);
 
-//	$type = $_GET['type'] . "text";
 	$type = $_GET['type'];
+        switch ($type)
+        {
+            case 'hometext':
+                $imgRec = 'homeimage';
+                break;
+            case 'abouttext':
+                $imgRec = 'aboutimage';
+                break;
+            default:
+                $imgRec = '';
+                break;
+        }
+        
 	$html = addslashes( $_POST['htmltext']);
+        $image = addslashes( $_POST['image']);
 
 	$sql = "UPDATE text SET text=\"$html\" WHERE type='$type'";
+//    echo "$sql<br>";
 	$result = $mysqli->query($sql)
-		or die("Text table error " . $mysqli->error());
+            or die("Text table error " . $mysqli->error());
+
+	$sql2 = "UPDATE text SET text=\"$image\" WHERE type='$imgRec'";
+//    echo "$sql<br>";
+	$result = $mysqli->query($sql2)
+            or die("Text table error " . $mysqli->error());
 
 	echo "Record updated";
 ?>

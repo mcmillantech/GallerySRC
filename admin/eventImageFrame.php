@@ -4,6 +4,7 @@
 //  File	eventImageFrame.php
 //		Frame to pick image files for events
 //		from eventedit.php
+//		Also collections
 //
 //  Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
@@ -62,9 +63,9 @@ function pick(image)
 }
 
 // -----------------------------------------
-//	Hander for the pick button for collects
+//  Hander for the pick button for collects
 //
-//	Retrieve the image name from select list
+//  Retrieve the image name from select list
 //  and show the select pane
 // -----------------------------------------
 function pickCol(image)
@@ -113,7 +114,7 @@ function selected()
 
 	echo "<div style='position:absolute;'>";
 
-	$fileList = scandir("../Images/small/");
+	$fileList = scandir("../images/small/");
 	foreach ($fileList as $image)
 	{
 		if (substr($image, 0, 1) == '.')			// Don't show the folders

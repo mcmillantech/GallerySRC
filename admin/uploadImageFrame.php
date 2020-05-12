@@ -49,18 +49,22 @@ function postBack(file)
 // ---------------------------------------
 function uploadFiles()
 {
-	$targetDir = "../Images/large/";
-	$upload = $_FILES['upload'];
-	$fname = $upload['name'][0];
-	$tmpName = $upload['tmp_name'][0];
-	$targetFile = $targetDir . $fname;
-	
-										// Store the original large image
-	if (!move_uploaded_file($tmpName, $targetFile)) 
-    	die ("There was an error uploading $fname from $tmpName to $targetFile");
+    global $config;
+    
+    $targetDir = "../images/";
+    $imgPath = $config['images'];
+    $targetDir = " ../" . $imgPath . "/";
+    echo " $targetDir <br>";
+    
+    $imgField = 'images';           // Default - historical
+    if (array_key_exists('imgfield', $_GET))
+            $imgField = $_GET['imgfield'];
+                                            // Store the original large image
+    if (!move_uploaded_file($tmpName, $targetFile)) 
+    die ("There was an error uploading $fname from $tmpName to $targetFile");
     resize($fname, $targetFile);		// And the small one
-	echo "$fname uploaded<br>";
-	echo "<button onClick='postBack(\"$fname\")'>Done</button>";
+    echo "$fname uploaded<br>";
+    echo "<button onClick='postBack(\"$fname\")'>Done</button>";
 
 }
 
@@ -73,15 +77,15 @@ function uploadFiles()
 // ---------------------------------------
 function resize($fname, $fLarge)
 {
-	$targetDir = "../Images/small/";
-	$targetFile = $targetDir . $fname;
+    $targetDir = "../images/small/";
+    $targetFile = $targetDir . $fname;
 
-	$img = imagecreatefromjpeg($fLarge);
-	if (!$img)
-		die ("Failed resize $fLarge");
+    $img = imagecreatefromjpeg($fLarge);
+    if (!$img)
+            die ("Failed resize $fLarge");
     $small = imagescale($img , 300, -1);
-	if ($small === FALSE)
-		die ("Failed scaling $fLarge");
+    if ($small === FALSE)
+        die ("Failed scaling $fLarge");
     $small = imagescale($img , 300, -1);
     if (!imagejpeg($small, $targetFile, 100))
     	die("Failed to save $targetFile");

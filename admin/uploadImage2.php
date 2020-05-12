@@ -44,7 +44,7 @@
 // ---------------------------------------
 function uploadFiles()
 {
-	$targetDir = "../Images/large/";
+	$targetDir = "../images/large/";
 //print_r($_FILES);
 	$upload = $_FILES['upload'];
 	$number = count($upload['name']);
@@ -71,7 +71,7 @@ function uploadFiles()
 // ---------------------------------------
 function resize($fname, $fLarge)
 {
-	$targetDir = "../Images/small/";
+	$targetDir = "../images/small/";
 	$targetFile = $targetDir . $fname;
 
 	$img = imagecreatefromjpeg($fLarge);

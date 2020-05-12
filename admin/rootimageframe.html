@@ -9,12 +9,22 @@
 -->
 <html>
 <head>
+<script>
+function done()
+{
+	var parent = window.parent;
+	el = parent.document.getElementById('frame');
+	el.style.visibility="hidden";
+}
+</script>
 </head>
+
 <body>
 <form action='uploadRootImage.php' method='post' enctype='multipart/form-data'>
     Select image file to upload:
     <input type='file' name='upload[]' accept='.jpg'><br><br>
     <input type='submit' value='Process'>
+    <br><Button onClick='done()'>Close</button>
 </form>
 </body>
 </html>

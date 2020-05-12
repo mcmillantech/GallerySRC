@@ -37,9 +37,12 @@ JS function showFileFrame()
 }
 </style>
 <script>
-function showFileFrame()
+function showFileFrame(which)
 {
+//	var el = document.getElementById("frame" + which);
 	var el = document.getElementById("frame");
+        if (which == 2)
+            el.src = 'colImageFrame2.html';
 	el.style.visibility = "visible";
 }
 
@@ -48,97 +51,105 @@ function showFileFrame()
 
 <body>
 <?php
-	session_start();
-	require_once "../common.php";
-	include "adminmenus.php";
-	require_once "DataEdit.php";
+    session_start();
+ini_set("display_errors", "1");
+error_reporting(E_ALL);
+    require_once "../common.php";
+    include "adminmenus.php";
+    require_once "DataEdit.php";
 
 class colEdit extends DataEdit
 {
-	function __construct($mysqli)
-	{
-		parent::__construct($mysqli);
-		$_SESSION['colEdit'] = 1;
-	}
+    function __construct($mysqli)
+    {
+            parent::__construct($mysqli);
+            $_SESSION['colEdit'] = 1;
+    }
 
-	protected function setNewItem()
-	{
-		$this->record = array
-		(
-			'name' => '',
-			'image' => '',
-			'sequence' => '',
-			'search' => '',
-			'uselowprice' => '',
-			'text' => ''
-		);
-	}
+    protected function setNewItem()
+    {
+        $this->record = array
+        (
+            'name' => '',
+            'image' => '',
+            'sequence' => '',
+            'search' => '',
+            'uselowprice' => '',
+            'text' => ''
+        );
+    }
 
 // -------------------------------------------
 //	Override of DataEdit virtual function
 //
 //	Reads event into class member record
 // -------------------------------------------
-	protected function fetchItem()
-	{
-		$id = $_GET['item'];
-		$sql = "SELECT * FROM collections WHERE id=$id";
-		$result = $this->mysqli->query($sql)
-			or die ("Error fetching item" . mysqli_error($this->mysqli));
-		$this->record =  mysqli_fetch_array($result, MYSQLI_ASSOC);
-	}
+    protected function fetchItem()
+    {
+        $id = $_GET['item'];
+        $sql = "SELECT * FROM collections WHERE id=$id";
+        $result = $this->mysqli->query($sql)
+                or die ("Error fetching item" . mysqli_error($this->mysqli));
+        $this->record =  mysqli_fetch_array($result, MYSQLI_ASSOC);
+    }
 
 // -------------------------------------------
 //	Show the event edit form
 //
 // -------------------------------------------
-	protected function showForm($mode)
-	{
-		if ($mode=='ins')
-			$action = "collist.php?mode=ins";
-		else
-		{
-			$id = $_GET['item'];
-			$action = "collist.php?mode=upd&item=$id";
-		}
+    protected function showForm($mode)
+    {
+        if ($mode=='ins')
+            $action = "collist.php?mode=ins";
+        else {
+            $id = $_GET['item'];
+            $action = "collist.php?mode=upd&item=$id";
+        }
 
-		$dta = $this->record;
+        $dta = $this->record;
 
-		echo "<form method='post' action='$action'>";
-			$this->showLine('Name', $dta, 'name', 45);
-			$this->showLine('Image File', $dta, 'image', 45);
-			$this->showLine('Hover image', $dta, 'search', 45);
-			$this->showLine('Sequence', $dta, 'sequence', 8);
-			$this->showCheckBox('Use Ebay price', $dta, 'uselowprice');
-			$this->textArea('Text', $dta, 'text', 10, 60);
-			echo "<button type='submit'>Post</button>";
-		echo "</form>";
+        echo "<form method='post' action='$action'>";
+            $this->showLine('Name', $dta, 'name', 45);
+            $this->showLine('Image File', $dta, 'image', 45);
+            $this->showLine('Hover image', $dta, 'search', 45);
+            $this->showLine('Sequence', $dta, 'sequence', 8);
+            $this->showCheckBox('Use Ebay price', $dta, 'uselowprice');
+            $this->textArea('Text', $dta, 'text', 10, 60);
+            echo "<button type='submit'>Post</button>";
+        echo "</form>";
 
-		echo "<button onClick='showFileFrame()' "
-			. "style='position:absolute; top:135px; left:510px;'>Pick</button>";
-		echo "<div style='position:absolute; left:70px; top:300px; visibility: hidden'>";
-		echo "<iframe id='frame' style='background-color:white; height:300px; width:500px;' "
-			. "src='eventImageFrame.php?which=col'></iframe> ";
-		echo "</div>";
+        echo "<button onClick='showFileFrame(1)' "
+            . "style='position:absolute; top:162px; left:510px;'>Upload</button>";
+        echo "<div style='position:absolute; left:70px; top:300px; visibility: hidden'>";
+            echo "<iframe id='frame' style='background-color:white; height:300px; width:500px;' "
+                . "src='colImageFrame1.html'></iframe> ";
+        echo "</div>";
 
-	}
-	
-	private function collectionList()
-	{
-		$ar = array();
-		array_push($ar, '');
+        echo "<button onClick='showFileFrame(2)' "
+            . "style='position:absolute; top:200px; left:510px;'>Upload 2</button>";
+        echo "<div style='position:absolute; left:70px; top:300px; visibility: hidden'>";
+            echo "<iframe id='frame' style='background-color:white; height:300px; width:500px;' "
+                . "src='colImageFrame2.html'></iframe> ";
+        echo "</div>";
 
-		$sql = "SELECT * FROM collections";
-		$result = $this->mysqli->query($sql)
-			or die ("Error reading link" . mysqli_error($this->mysqli));
-		while ($coll = mysqli_fetch_array($result, MYSQLI_ASSOC))
-		{
-			array_push($ar, $coll['name']);
-		}
-		
-		mysqli_free_result($result);
-		return $ar;
-	}
+    }
+
+    private function collectionList()
+    {
+        $ar = array();
+        array_push($ar, '');
+
+        $sql = "SELECT * FROM collections";
+        $result = $this->mysqli->query($sql)
+                or die ("Error reading link" . mysqli_error($this->mysqli));
+        while ($coll = mysqli_fetch_array($result, MYSQLI_ASSOC))
+        {
+            array_push($ar, $coll['name']);
+        }
+
+        mysqli_free_result($result);
+        return $ar;
+    }
 }
 
 	$config = setConfig();					// Connect to database

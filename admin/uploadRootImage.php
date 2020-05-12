@@ -9,6 +9,8 @@
 // ------------------------------------------------------
     session_start();
     require_once "../common.php";
+ini_set("display_errors", "1");
+error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 
@@ -20,10 +22,10 @@
 <link type="text/css" rel="stylesheet" href="../Gallery.css">
 <link type="text/css" rel="stylesheet" href="../custom.css">
 <script>
-function postBack(file)
+function postBack(file, imgField)
 {
     var parent = window.parent;
-    var el = parent.document.getElementById('image');
+    var el = parent.document.getElementById(imgField);
     el.value = file;
     el = parent.document.getElementById('frame');
     el.style.visibility="hidden";
@@ -33,7 +35,7 @@ function postBack(file)
 </head>
 
 <body>
-<h3>Art Web Site: Import</h3>
+<h3>Upload Image</h3>
 
 <?php
 
@@ -49,16 +51,27 @@ function postBack(file)
 // ---------------------------------------
 function uploadFiles()
 {
+    global $config;
+    
     $targetDir = "../images/";
+//    $imgPath = $config['images'];
+//    $targetDir = " ../" . $imgPath . "/";
+//    echo " $targetDir <br>";
+ 
+    $imgField = 'image';           // Default - historical
+    if (array_key_exists('imgfield', $_GET))
+            $imgField = $_GET['imgfield'];
+    echo "$imgField<br>";
     $upload = $_FILES['upload'];
     $fname = $upload['name'][0];
     $tmpName = $upload['tmp_name'][0];
+//    echo "$fname<br>";
     $targetFile = $targetDir . $fname;
                                             // Store the image
     if (!move_uploaded_file($tmpName, $targetFile)) 
-    die ("There was an error uploading $fname from $tmpName to $targetFile");
-    echo "$fname uploaded<br>";
-    echo "<button onClick='postBack(\"$fname\")'>Done</button>";
+        die ("There was an error uploading $fname to $targetFile");
+    echo "$fname uploaded<br><br>";
+    echo "<button onClick='postBack(\"$fname\", \"$imgField\")'>Done</button>";
 
 }
 
