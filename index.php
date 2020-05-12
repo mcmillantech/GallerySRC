@@ -4,7 +4,7 @@
 //	File	index.php
 //		Home page
 //
-//  Author	John McMillan
+//  Author	John McMillan 
 //  Copyright   McMillan Technology 2019
 // ------------------------------------------------------
     session_start();
@@ -16,6 +16,7 @@
 
     $mysqli = dbConnect($config);
     $title = "Art by " . ARTIST;
+    $title = ARTIST;
     showTop($title, $title);
 
     $dta['imgrecent'] = $impath . '/small/Recent.jpg';
@@ -74,6 +75,13 @@ function fetchData()
     $dta['signuptext'] = str_replace ("\n", "%0d%0a", $record['text']);
     mysqli_free_result($result);
 
+    $sql = "SELECT * FROM text WHERE type='homeimage'";
+    $result = $mysqli->query($sql)
+            or myError(ERR_HOME_TEXT, "Text table error " . $mysqli->error);
+    $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $dta['imghome'] = str_replace ("\n", "%0d%0a", $record['text']);
+    mysqli_free_result($result);
+
     $dta['mailto'] = USER_EMAIL;
     return;
 }
@@ -96,14 +104,15 @@ function showOneImage($pic)
     $name = $pic['name'];
     $id = $pic['sequence'];
     $ar['id'] = $id;
-    $ar['img'] = $impath . "/small/" . $pic['image'];
+    $ar['img'] = $impath . '/' . $pic['image'];
+    $ar['hover'] = $impath . '/' . $pic['search'];
 
-    $imid = 'coli' . $id;				// Make the ID of the image
+    $imid = 'coli' . $id;		// Make the ID of the image
     $ar['imid'] = $imid;
     $ar['id2'] = $imid . 'm';
     $ar['idtxt'] = 'coltx' . $id;
     $ar['name'] = $name;
-                                                                                    // The collectImage has the handlers
+                                        // The collectImage has the handlers
     return $ar;
 }
 

@@ -17,7 +17,7 @@
     <div id='mainPanel'>
         <div class='homeLeft'>
 
-            <img src='{impath}/small/Lupe.jpg' style='width:83%; padding-top:12px;'>
+            <img src='{impath}/{imghome}' style='width:83%; padding-top:12px;'>
             <div style='text-align: left;padding-left:5px'>
             <p>{html}</p>
             </div>
@@ -49,8 +49,8 @@
         {colls}
             <span class='collectImage' onMouseOut='colMouseOut({id})' onClick='openColl({id})'>
                 <div onMouseOver='colMouseOver({id})' style='border:solid 1px;'>
-                    <img src='{img}' id='{imid}' style='height:237px;'>
-                    <img src='{img}' id='{id2}'
+                    <img src='{img}' id='{imid}' style='max-height:237px; max-width:200px;'>
+                    <img src='{hover}' id='{id2}'
                      style='height:237px; position:relative; opacity:0.5; display:none'>
                     <div class='whiteText' id={idtxt}><b>{name}</b></div>
                 </div>
