@@ -51,7 +51,7 @@ function fetchData()
     $result = $mysqli->query($sql)
             or myError(ERR_HOME_TEXT, "Text table error " . $mysqli->error);
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    $dta['html'] = $record['text'];
+    $dta['hometext'] = $record['text'];
     mysqli_free_result($result);
 
     $sql = "SELECT * FROM text WHERE type='signupprompt'";
