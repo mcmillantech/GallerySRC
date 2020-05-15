@@ -31,7 +31,7 @@ function showOnePicture ($pic, $uselowprice)
     $uselowprice = $record['uselowprice'];
     showTop("Art by " . ARTIST, $title);
 
-    $dta["colImage"] = $impath . '/small/' . $record['image'];
+    $dta["colImage"] = $impath . '/' . $record['image'];
     $dta['colText'] = $record['text'];
     mysqli_free_result($result);
 
