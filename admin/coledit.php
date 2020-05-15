@@ -18,6 +18,16 @@ protected function showForm($mode)
 
 JS function showFileFrame()
 */
+    session_start();
+ini_set("display_errors", "1");
+error_reporting(E_ALL);
+    require_once "../common.php";
+    require_once "adminmenus.php";
+    require_once "DataEdit.php";
+
+    $config = setConfig();					// Connect to database
+    $mysqli = dbConnect($config);
+    $cked = $config['ckeditor'];
 ?>
 <!DOCTYPE html>
 
@@ -29,6 +39,10 @@ JS function showFileFrame()
 <link type="text/css" rel="stylesheet" href="../Gallery.css">
 <link type="text/css" rel="stylesheet" href="../custom.css">
 <script src="../Cunha.js"></script>
+<?php
+    echo "<script src='$cked'></script>";
+?>
+
 <style>
 .input
 {
@@ -51,12 +65,6 @@ function showFileFrame(which)
 
 <body>
 <?php
-    session_start();
-ini_set("display_errors", "1");
-error_reporting(E_ALL);
-    require_once "../common.php";
-    include "adminmenus.php";
-    require_once "DataEdit.php";
 
 class colEdit extends DataEdit
 {
@@ -108,16 +116,19 @@ class colEdit extends DataEdit
 
         $dta = $this->record;
 
-        echo "<form method='post' action='$action'>";
-            $this->showLine('Name', $dta, 'name', 45);
-            $this->showLine('Image File', $dta, 'image', 45);
-            $this->showLine('Hover image', $dta, 'search', 45);
-            $this->showLine('Sequence', $dta, 'sequence', 8);
-            $this->showCheckBox('Use Ebay price', $dta, 'uselowprice');
-            $this->textArea('Text', $dta, 'text', 10, 60);
-            echo "<button type='submit'>Post</button>";
-        echo "</form>";
-
+        echo "<div style='width: 600px; margin-left:20px'>";
+            echo "<form method='post' action='$action'>";
+                $this->showLine('Name', $dta, 'name', 45);
+                $this->showLine('Image File', $dta, 'image', 45);
+                $this->showLine('Hover image', $dta, 'search', 45);
+                $this->showLine('Sequence', $dta, 'sequence', 8);
+                $this->showCheckBox('Use Ebay price', $dta, 'uselowprice');
+                $this->showTextEditor($dta['text']);
+    //            $this->textArea('Text', $dta, 'text', 10, 60);
+                echo "<button type='submit'>Post</button>";
+            echo "</form>";
+        echo "</div>";
+            
         echo "<button onClick='showFileFrame(1)' "
             . "style='position:absolute; top:162px; left:510px;'>Upload</button>";
         echo "<div style='position:absolute; left:70px; top:300px; visibility: hidden'>";
@@ -132,6 +143,25 @@ class colEdit extends DataEdit
                 . "src='colImageFrame2.html'></iframe> ";
         echo "</div>";
 
+    }
+
+    // -------------------------------------------
+    //  Show the CKEdit window
+    //  
+    //  Parameter   html text to be edited
+    // -------------------------------------------
+    private function showTextEditor($html)
+    {
+        echo "<span class='prompt'>Text</span><br>";
+//        <span class='input'><textarea rows='10' cols='60' name='text' onChange='fldChange()'>
+        echo "<div>";
+        echo "<textarea name='text' id='editTA' rows='10' cols='60' "
+        . "onChange='fldChange()'>"
+        . "$html</textarea>";
+        echo "<script>";
+        echo "  CKEDITOR.replace( 'text' );";
+        echo "  </script>";
+        echo "<div>\n";
     }
 
     private function collectionList()
@@ -152,12 +182,10 @@ class colEdit extends DataEdit
     }
 }
 
-	$config = setConfig();					// Connect to database
-	$mysqli = dbConnect($config);
 
-	echo "<h3>Edit Collection</h3>";
-	$lst = new colEdit($mysqli);
-	$lst->run();
+    echo "<h3>Edit Collection</h3>";
+    $lst = new colEdit($mysqli);
+    $lst->run();
 ?>
 </body>
 </html>

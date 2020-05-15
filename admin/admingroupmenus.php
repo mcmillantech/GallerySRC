@@ -26,7 +26,6 @@ function superMenu()
     $config = setConfig();
     $mysqli = dbConnect($config);
 
-
 ?>
 <div id='menu'>
     <ul>
@@ -38,7 +37,6 @@ function superMenu()
             echo $dd;
 ?>
             </div>
-<!--	<li><a href='eventlist.php'>Events</a></li> -->
         <li><a href='collist.php'>Artists</a></li>
 	<li><a href='#' onmouseover='mopen("m2")' onmouseout='mclosetime()'>Pictures</a>
             <div id='m2' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
@@ -78,10 +76,11 @@ function artistMenu()
 	<li><a href='#' onmouseover='mopen("m3")' onmouseout='mclosetime()'>Other</a>
             <div id='m3' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
             <a href='shiplist.php'>Shipping grid</a>
+            <a href='shipbands.php'>Shipping bands</a>
             <a href='aboutedit.php?type=abouttext'>About Text</a>
-            <a href='aboutedit.php?type=signupprompt'>Sign up Prompt</a>
+<!--            <a href='aboutedit.php?type=signupprompt'>Sign up Prompt</a>
             <a href='aboutedit.php?type=signupsubject'>Sign up Subject</a>
-            <a href='aboutedit.php?type=signuptext'>Signup Email Text</a>
+            <a href='aboutedit.php?type=signuptext'>Signup Email Text</a> -->
             </div>
 	<li><a href='logout.php'>Log Out</a></li>
     </ul>

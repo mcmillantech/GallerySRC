@@ -54,12 +54,17 @@ function uploadFiles()
     $targetDir = "../images/";
     $imgPath = $config['images'];
     $targetDir = " ../" . $imgPath . "/";
-    echo " $targetDir <br>";
+//    echo " $targetDir <br>";
     
     $imgField = 'images';           // Default - historical
     if (array_key_exists('imgfield', $_GET))
             $imgField = $_GET['imgfield'];
                                             // Store the original large image
+	$targetDir = "../images/large/";
+	$upload = $_FILES['upload'];
+	$fname = $upload['name'][0];
+	$tmpName = $upload['tmp_name'][0];
+	$targetFile = $targetDir . $fname;
     if (!move_uploaded_file($tmpName, $targetFile)) 
     die ("There was an error uploading $fname from $tmpName to $targetFile");
     resize($fname, $targetFile);		// And the small one

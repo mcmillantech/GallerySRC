@@ -75,7 +75,8 @@ class userEdit extends DataEdit
             'addr4' => '',
             'postcode' => '',
             'website' => '',
-            'level' => ''
+            'level' => '',
+            'collection' => ''
         );
     }
 
@@ -111,6 +112,7 @@ class userEdit extends DataEdit
         echo "<form method='post' action='$action'>";
             $this->showLine('User Name', $dta, 'username', 16);
             $this->showLine('Password', $dta, 'password', 16);
+            $this->showLine('Collection', $dta, 'collection', 5);
             $this->showLine('First Name', $dta, 'firstname', 45);
             $this->showLine('Full Name', $dta, 'fullname', 45);
             $this->showLine('Email', $dta, 'email', 45);

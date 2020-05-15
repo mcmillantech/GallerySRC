@@ -30,6 +30,7 @@
     logCheck();
     require_once "userlist.php";
     $userList = new UserList($mysqli);
+    $userList->showList();
 
 function logCheck()
 {

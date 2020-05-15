@@ -60,7 +60,7 @@ function showFileFrame()
             case "hometext";			// Use CKEditor for html types
             case "abouttext":
                 showTextEditor($html);
-                showImage("");
+                showImage("$type");
                 break;
             case "signupprompt":
                 showTextEditor($html);
@@ -84,6 +84,11 @@ function showFileFrame()
         echo "</div>";
     echo "</div>";
 
+// -------------------------------------------
+//  Show the CKEdit window
+//  
+//  Parameter   html text to be edited
+// -------------------------------------------
 function showTextEditor($html)
 {
     echo "<div>";
@@ -94,11 +99,31 @@ function showTextEditor($html)
     echo "<div>\n";
 }
 
-function showImage()
+// -------------------------------------------
+// Show the line for image input
+// 
+// -------------------------------------------
+function showImage($type)
 {
+    global $mysqli;
+
+    switch ($type){
+        case "hometext";
+            $newtype = "homeimage";
+            break;
+        case "abouttext":
+            $newtype = "aboutimage";
+            break;
+    }
+    $sql = "SELECT * FROM text WHERE type='$newtype'";
+    $result = $mysqli->query($sql)
+        or die("Text table error " . $mysqli->error());
+    $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $value = $record['text'];
+
     echo "<br><br>";
     echo "Image file &nbsp;\n";
-    echo "<input type='text' id='image' name='image' size='45' value='xxx'>";
+    echo "<input type='text' id='image' name='image' size='45' value='$value'>";
     echo " &nbsp;\n";
     echo "<input type='button' onClick='showFileFrame()' value='Upload'>";
 }

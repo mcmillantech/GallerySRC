@@ -43,6 +43,7 @@ function checkPassword()
         logOn();
         $_SESSION['userLevel'] = $record['level'];
         $_SESSION['fullName'] = $record['fullname'];
+        $_SESSION['artistId'] = $record['id'];
     }
     else
         echo "Error: wrong password";

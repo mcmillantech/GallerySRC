@@ -36,22 +36,36 @@ function makeDropDown($page, $mysqli)
 // ----------------------------------------------
 function picListSql($mysqli)
 {
-    $id = $_GET['artist'];
-    
+    $id = getArtistId();
+                                // First case. Superadmin is logged on
+                                // , has picked all artists
     if ($id=='all') {
         $sql = "SELECT l.*, c.id, c.name as artist, p.* FROM collections c "
             . "Join links l ON l.collection = c.id "
             . "JOIN paintings p ON p.id = l.picture "
             . "ORDER BY l.collection, p.dateset DESC";
     }
-    else {
+    else {          // Still superadmin, bas passed artist from the menu
+        $userLevel = $_SESSION['userLevel'];
+        if ($userLevel == 3) {
+            $where = "WHERE c.id='$id' ";
+        }
+        else {      // The artist is looged on
+                    // Fetch the collection if from the user table
+            $sql1 = "SELECT collection FROM users WHERE id=$id";
+            $result = $mysqli->query($sql1);
+            $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $col = $record['collection'];
+            $where = "WHERE l.collection=$col ";
+        }
+
         $sql = "SELECT l.*, c.id, c.name as artist, p.* FROM collections c "
             . "Join links l ON l.collection = c.id "
-            . "JOIN paintings p ON p.id = l.picture "
-            . "WHERE c.id='$id' "
-            . "ORDER BY p.dateset DESC";
-    }
+            . "JOIN paintings p ON p.id = l.picture ";
+        $sql .=  $where . "ORDER BY p.dateset DESC";
 
+    }
+// echo "$sql<br>";
     return $sql;
 }
 
@@ -62,7 +76,7 @@ function picListSql($mysqli)
 // ----------------------------------------------
 function orderListSql($mysqli)
 {
-    $id = $_GET['artist'];
+    $id = getArtistId();
     
     if ($id=='all') {
         $sql = "SELECT l.collection, c.name as artist, r.*, p.name as wrk "
@@ -83,6 +97,17 @@ function orderListSql($mysqli)
     }
     
     return $sql;
+}
+
+function getArtistId()
+{
+    $userLevel = $_SESSION['userLevel'];
+    if ($userLevel == 3)
+        $id = $_GET['artist'];
+    else 
+        $id = $_SESSION['artistId'];
+
+    return $id;    
 }
        
 /*
