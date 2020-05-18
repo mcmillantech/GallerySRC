@@ -50,6 +50,7 @@ function superMenu()
             <div id='m3' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
 <!--        <a href='voucherlist.php'>Vouchers xx</a>  -->
             <a href='shiplist.php'>Shipping grid</a>
+            <a href='territories.php?mode=upd'>Shipping territories</a>
             <a href='aboutedit.php?type=hometext'>Home Page Text</a>
             <a href='aboutedit.php?type=abouttext'>About Page Text</a>
             </div>
@@ -76,7 +77,7 @@ function artistMenu()
 	<li><a href='#' onmouseover='mopen("m3")' onmouseout='mclosetime()'>Other</a>
             <div id='m3' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
             <a href='shiplist.php'>Shipping grid</a>
-            <a href='shipbands.php'>Shipping bands</a>
+            <a href='territories.php?mode=upd'>Shipping territories</a>
             <a href='aboutedit.php?type=abouttext'>About Text</a>
 <!--            <a href='aboutedit.php?type=signupprompt'>Sign up Prompt</a>
             <a href='aboutedit.php?type=signupsubject'>Sign up Subject</a>

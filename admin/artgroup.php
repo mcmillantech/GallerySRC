@@ -99,6 +99,33 @@ function orderListSql($mysqli)
     return $sql;
 }
 
+// ----------------------------------------------
+// Fetch the territory names for a (group) artist
+// 
+// Parameter    Artist id
+// 
+// Returns      Array of names
+// ----------------------------------------------
+function getTerritories($artist)
+{
+    global $mysqli;
+    
+    $sql = "SELECT territory1, territory2, territory3, territory4 "
+//        . "FROM users WHERE id = $artist";
+        . "FROM users WHERE collection = $artist";
+
+    $result = $mysqli->query($sql)
+        or die ("Error getting territories");
+    $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    
+    return $record;
+}
+
+// ----------------------------------------------
+// Fetch the id for a group artist
+// 
+// From the session
+// ----------------------------------------------
 function getArtistId()
 {
     $userLevel = $_SESSION['userLevel'];
@@ -110,9 +137,3 @@ function getArtistId()
     return $id;    
 }
        
-/*
-    session_start();
-    require_once "../common.php";
-    require_once "adminmenus.php";
-    makeDropDown("collist");
-*/
