@@ -1,0 +1,36 @@
+Please enter your name and email address
+<br><br>
+<div>
+    <form>
+        <span class="prompt">Your name</span>
+        <span class="input">
+            <input type='text' id='name'>
+        </span>
+        <br><br>
+        <span class="prompt">Your email</span>
+        <span class="input">
+            <input type='text' id='email' size='40'>
+        </span>
+        <br><br>
+    </form>
+    <button onclick="submit()">Submit</button>
+    
+</div>
+
+<script>
+function submit()
+{
+    var elname = document.getElementById('name');
+    var name = elname.value;
+
+    var elmail = document.getElementById('email');
+    var email = elmail.value;
+    
+    var body = "Hello%0D%0A%0D%0AI wish to apply to join New art for You%0D%0A%0D%0A"
+        + "my email is " + email
+        + "%0D%0A%0D%0ARegards%0D%0A%0D%0A" + name;
+    window.open('mailto:join@newartforyou.co.uk?subject=Application to join New Art&body='
+        + body);
+}
+</script>
+
