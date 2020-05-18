@@ -27,6 +27,8 @@ function showOnePicture ($pic, $uselowprice)
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
     $colId = $record['id'];
+    $_SESSION['collection'] = $colId;          // Store for New Art
+    
     $title = "Collection: " . $record['name'];
     $uselowprice = $record['uselowprice'];
     showTop("Art by " . ARTIST, $title);

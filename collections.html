@@ -21,25 +21,25 @@
 // -------------------------------------------
 function showShipping(band)
 {
-	var el = document.getElementById("shipPanel");
+    var el = document.getElementById("shipPanel");
 
-	hAjax = openAjax();
-	hAjax.onreadystatechange=function()
-	{
-		if (ajax_response(hAjax))		// The list content is returned
-		{								// Place it in the list element and show it
-		    var httxt = hAjax.responseText;
-			var elr = document.getElementById('rates');
-			elr.innerHTML = httxt;
+    hAjax = openAjax();
+    hAjax.onreadystatechange=function()
+    {
+        if (ajax_response(hAjax))	// The list content is returned
+        {				// Place it in the list element and show it
+            var httxt = hAjax.responseText;
+            var elr = document.getElementById('rates');
+            elr.innerHTML = httxt;
 //			elr.style.visibility = 'visible';
-		}
-	}
+        }
+    }
 
-	var str = "ajaxcharges.php?band=" + band;
-	hAjax.open("GET",str,true);
-	hAjax.send();
+    var str = "ajaxcharges.php?band=" + band;
+    hAjax.open("GET",str,true);
+    hAjax.send();
 
-	el.style.visibility = "visible";
+    el.style.visibility = "visible";
 }
 
 function closePanel()

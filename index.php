@@ -87,13 +87,13 @@ function fetchData()
 }
 
 // ----------------------------------------------
-//	Place an element to hold a picture
+//  Place an element to hold a collection image
 //
-//	Parameter	DB record for the picture
+//  Parameter	DB record for the picture
 //
-//	Create a collectImage span element to contain:
-//		A col<i> div for the picture
-//		A hidded colTxt div for the details
+//  Create a collectImage span element to contain:
+//	A col<i> div for the picture
+//	A hidded colTxt div for the details
 // ----------------------------------------------
 function showOneImage($pic)
 {
