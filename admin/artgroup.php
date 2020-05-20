@@ -24,7 +24,7 @@ function makeDropDown($page, $mysqli)
         $html .= "<a href='$page.php?artist="
             . $record['id'] . "'>" . $record['name'] . "</a>\n";
     }
-    $html .= "<a href='$page.php?artist=all'>All</a>\n";
+    $html .= "<a href='$page.php?artist=99'>All</a>\n";
     return $html;
 
 }
@@ -39,19 +39,22 @@ function picListSql($mysqli)
     $id = getArtistId();
                                 // First case. Superadmin is logged on
                                 // , has picked all artists
-    if ($id=='all') {
+
+//    $id = $_SESSION['menuArtist'];
+//    echo "menuArt $id<br>";
+    if ($id==99) {
         $sql = "SELECT l.*, c.id, c.name as artist, p.* FROM collections c "
             . "Join links l ON l.collection = c.id "
             . "JOIN paintings p ON p.id = l.picture "
             . "ORDER BY l.collection, p.dateset DESC";
     }
-    else {          // Still superadmin, bas passed artist from the menu
+    else {          // Superadmin, bas passed artist from the menu
         $userLevel = $_SESSION['userLevel'];
         if ($userLevel == 3) {
             $where = "WHERE c.id='$id' ";
         }
         else {      // The artist is looged on
-                    // Fetch the collection if from the user table
+                    // Fetch the collection id from the user table
             $sql1 = "SELECT collection FROM users WHERE id=$id";
             $result = $mysqli->query($sql1);
             $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -78,7 +81,7 @@ function orderListSql($mysqli)
 {
     $id = getArtistId();
     
-    if ($id=='all') {
+    if ($id==99) {
         $sql = "SELECT l.collection, c.name as artist, r.*, p.name as wrk "
             . "FROM orders r "
             . "JOIN paintings p ON p.id = r.product "
@@ -86,7 +89,7 @@ function orderListSql($mysqli)
             . "JOIN collections c ON c.id=l.collection "
             . "ORDER BY date DESC";
         
-    } else {
+    } else {            // Remember that collection table is member artists here
         $sql = "SELECT l.collection, c.name as artist, r.*, p.name as wrk "
             . "FROM orders r "
             . "JOIN paintings p ON p.id = r.product "
@@ -136,4 +139,25 @@ function getArtistId()
 
     return $id;    
 }
-       
+/*
+function getArtistId()
+{
+            // Called from post methods in the list - use stored value
+    if (!array_key_exists('artist', $_GET)) {
+        $id = $_SESSION['menuArtist'];
+        return $id;    
+    }
+    
+            // Calls from menu. For super admin, this will be from the menu
+    $userLevel = $_SESSION['userLevel'];
+    if ($userLevel == 3) {
+        $id = $_GET['artist'];
+//        $id = 'all';
+    }
+    else    // ... but for an artist, it will the the logged user
+        $id = $_SESSION['artistId'];
+
+    $_SESSION['menuArtist'] = $id;
+    return $id;    
+}
+  */     
