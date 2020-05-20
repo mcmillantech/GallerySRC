@@ -50,8 +50,12 @@ function setConfig()
 function dbConnect($config)
 {
     $dbConnection = mysqli_connect 
-        ($config['dbhost'], $config['dbuser'], $config['dbpw'], $config['dbname'])
-        or myError (ERR_CONNECT, $config['dbname']);
+        ($config['dbhost'], $config['dbuser'], $config['dbpw'], $config['dbname']);
+//        or myError (ERR_CONNECT, $config['dbname']);
+        if ($dbConnection -> connect_errno) {
+          echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+          exit();
+        }
     mysqli_select_db($dbConnection, $config['dbname']) 
         or myError(ERR_SELECT, 
             "Could not select database : " . mysqli_error($dbConnection));
@@ -184,5 +188,10 @@ const ERR_PM_CUSTOMER_EMAIL = 105;
 const ERR_PM_ARTIST_EMAIL = 106;
 const ERR_VOUCHER = 70;
 
+const WEBSITE = "www.website.co.uk";
+const USER_EMAIL = "jon@mt.co.uk";
+const USER_ADDRESS = "Sudbury";
+const ARTIST = "John M";
+const ARTIST_FNAME = "John";
 
-
+?>
