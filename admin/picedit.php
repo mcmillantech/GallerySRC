@@ -154,6 +154,7 @@ class picEdit extends DataEdit
         echo "<input type='hidden' name='coll1' size='45' value=\"$artist\">";
         echo "<input type='hidden' name='coll2'>";
         echo "<input type='hidden' name='coll3'>";
+        $this->showLine('Sequence', $dta, 'seq', 3);
 //# alt 11
             $this->showDropDown('Collection', $dta, 'coll1', $collList);
             $this->showDropDown('', $dta, 'coll2', $collList);

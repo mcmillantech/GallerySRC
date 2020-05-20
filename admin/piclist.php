@@ -47,11 +47,16 @@ function doDelete(item, name)
 	width:			320px;
 }
 
+.lsSequence
+{
+	position:		absolute;
+	left:			330px;
+}
 
 .lsButton
 {
 	position:		absolute;
-	left:			280px;
+	left:			380px;
 }
 
 </style>
@@ -74,17 +79,27 @@ class PicList extends DataList
     {
         $id = $line['id'];
         $name = $line['name'];
+        $seq = $line['seq'];
         $onEdit = "window.location=\"picedit.php?mode=upd&item=$id\"";
 
         echo "\n<span class='lsTitle'>$name</span>";
+        echo "\n<span class='lsSequence'>$seq</span>";
         echo "<span class='lsButton'>";
+//# option 11 
+        if ($_SESSION['userLevel'] < 3) {
             echo "<button onClick='$onEdit'>Edit</button>";
             echo "&nbsp;";
             echo "<button onClick='doDelete($id, \"$name\")'>Delete</button>";
-        //# option 11
-        $artist = $line['artist'];
-        echo " &nbsp;$artist";
-        //# end
+        }
+        else {
+            $artist = $line['artist'];
+            echo " &nbsp;$artist";
+        }
+//# alt 11 
+            echo "<button onClick='$onEdit'>Edit</button>";
+            echo "&nbsp;";
+            echo "<button onClick='doDelete($id, \"$name\")'>Delete</button>";
+//# end 11 
         echo "</span>";
         echo '<br>';
     }
@@ -95,9 +110,10 @@ class PicList extends DataList
     // ----------------------------------------------
     public function showHeading()
     {
-            echo "\n<b><span class='lsTitle'>Title</span>";
-            echo "<span class='lsButton'> Edit</span>";
-            echo "</b><br><br>";
+        echo "\n<b><span class='lsTitle'>Title</span>";
+        echo "<span class='lsSequence'>Seq</span>";
+        echo "<span class='lsButton'> Edit</span>";
+        echo "</b><br><br>";
     }
 
     // -------------------------------------------
@@ -115,14 +131,15 @@ class PicList extends DataList
 
         $sql = "INSERT INTO paintings "
             . "(name, recent, dateset, media, size, mount, tags, priceweb, priceebay, "
-            . " costcovered, datesold, archive, image, notes, shippingrate, year, quantity, away) "
-            . " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            . " costcovered, datesold, archive, image, notes, shippingrate, "
+            . "year, quantity, away, seq) "
+            . " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         if (!($stmt = $this->mysqli->prepare($sql)))
             echo "Prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-        if (!$stmt->bind_param('sisssssiiisissiiis', $name, $recent, $dateset, $media, $size, 
+        if (!$stmt->bind_param('sisssssiiisissiiisi', $name, $recent, $dateset, $media, $size, 
             $mount, $tags, $priceweb, $priceebay, $costcovered, $datesold, $archive, $image,
-            $notes, $shippingrate, $year, $quantity, $away))
+            $notes, $shippingrate, $year, $quantity, $away, $seq))
         echo	"Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
         $name = $_POST['name'];
@@ -144,6 +161,7 @@ class PicList extends DataList
         $notes  = $_POST['notes'];
         $shippingrate = $_POST['shippingrate'];
         $quantity = $_POST['quantity'];
+        $seq = $_POST['seq'];
 
         if (!$stmt->execute())
             $this->sqlError("Insert painting failed");
@@ -166,15 +184,15 @@ class PicList extends DataList
         $sql = "UPDATE paintings SET name=?, recent=?, dateset=?, media=?, "
             . "size=?, mount=?, tags=?, priceweb=?, priceebay=?, costcovered=?, "
             . "datesold=?, archive=?, image=?, notes=?, shippingrate=?, year=?, "
-            . "quantity=?, away=?"
+            . "quantity=?, away=?, seq=?"
             . " WHERE id=$id";
 
         if (!($stmt = $this->mysqli->prepare($sql)))
             echo "Prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-        if (!$stmt->bind_param('sisssssiiisissiiis', $name, $recent, $dateset, $media, $size, 
+        if (!$stmt->bind_param('sisssssiiisissiiisi', $name, $recent, $dateset, $media, $size, 
             $mount, $tags, $priceweb, $priceebay, $costcovered, $datesold, $archive, 
-            $image, $notes, $shippingrate, $year, $quantity, $away))
+            $image, $notes, $shippingrate, $year, $quantity, $away, $seq))
             "Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
         $name = $_POST['name'];
@@ -196,6 +214,7 @@ class PicList extends DataList
         $shippingrate = $_POST['shippingrate'];
         $quantity = $_POST['quantity'];
         $away = $this->SQLDate($_POST['away']);
+        $seq = $_POST['seq'];
 
         $status = $stmt->execute();
         if ($status === false)
@@ -212,6 +231,7 @@ class PicList extends DataList
     // ----------------------------------------------
     private function setLinks($id)
     {
+        $collName = $_POST['coll1'];
                                     // Start by deleting the existing links
         $sql = "DELETE FROM links WHERE picture=?";
         $stmtDel = $this->mysqli->prepare($sql);
@@ -238,7 +258,6 @@ class PicList extends DataList
                 $this->sqlError ("Bind coll failed");
         $picId = $id;
 
-        $collName = $_POST['coll1'];
         if ($collName <> '') {
             $collId = $this->lookupColl($stmtColl, $collName);
             $status = $stmtLink->execute();
@@ -324,6 +343,8 @@ class PicList extends DataList
     $lst = new PicList($mysqli);
 //# option 11 
     require_once 'artgroup.php';
+    echo "Enter pic List<br>";
+    getArtistId();
     $sql = picListSql($mysqli);
 //# alt 11
     $sql = "SELECT * FROM paintings ORDER BY name";
