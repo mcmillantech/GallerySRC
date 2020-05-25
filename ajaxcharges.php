@@ -24,12 +24,14 @@
     $mysqli = dbConnect($config);
 
     $band = $_GET['band'];
-    $sql = "SELECT * FROM shipping WHERE sizeband=$band";
+    $col = $_SESSION['artistId'];
+    $sql = "SELECT * FROM shipping WHERE sizeband=$band AND artist=$col";
+//    echo "$sql<br>";
     $result = $mysqli->query($sql)
             or die("Collections error " . $mysqli->error);
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-    $col = $_SESSION['collection'];
+//    $col = $_SESSION['collection'];
     $terrs = getTerritories($col);
 
     echo "The rate varies according to country:<br><br>";
