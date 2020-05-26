@@ -24,11 +24,16 @@
     $mysqli = dbConnect($config);
 
     $band = $_GET['band'];
-    $col = $_SESSION['artistId'];
+    $col = $_SESSION['collection'];
     $sql = "SELECT * FROM shipping WHERE sizeband=$band AND artist=$col";
 //    echo "$sql<br>";
     $result = $mysqli->query($sql)
-            or die("Collections error " . $mysqli->error);
+            or die("Error fetching shipping $sql: " . $mysqli->error);
+    if (mysqli_num_rows($result) < 1){
+        $msg = "There is an error with this painting. Please tell "
+        . "support@newartforyou.co.uk, stating the name of the painting";
+        die($msg);
+    }
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
 //    $col = $_SESSION['collection'];
@@ -37,7 +42,8 @@
     echo "The rate varies according to country:<br><br>";
 
     echo "<span>No shipping, will collect</span>";
-    echo "<span class='amount'> 0.00</span><br>";
+    $charge = number_format($record['collect'] / 100.0, 2);
+    echo "<span class='amount'>&pound;$charge</span><br>";
     echo "<span>" . $terrs['territory1'] . "</span>";
     $charge = number_format($record['uk'] / 100.0, 2);
     echo "<span class='amount'>&pound;$charge</span><br>";

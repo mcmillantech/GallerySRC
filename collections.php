@@ -20,6 +20,7 @@ function showOnePicture ($pic, $uselowprice)
     $dta = array();
 
     $sequence = $_GET['col'];			// Use filter_var()
+//   $_SESSION['collection'] = $sequence;
 
     $sql = "SELECT * FROM collections WHERE sequence=$sequence";
     $result = $mysqli->query($sql)
