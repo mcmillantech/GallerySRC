@@ -58,14 +58,15 @@ function picListSql($mysqli)
             $sql1 = "SELECT collection FROM users WHERE id=$id";
             $result = $mysqli->query($sql1);
             $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            $col = $record['collection'];
+//            $col = $record['collection'];
+    $col = $_SESSION['loggedColl'];
             $where = "WHERE l.collection=$col ";
         }
 
         $sql = "SELECT l.*, c.id, c.name as artist, p.* FROM collections c "
             . "Join links l ON l.collection = c.id "
             . "JOIN paintings p ON p.id = l.picture ";
-        $sql .=  $where . "ORDER BY p.dateset DESC";
+        $sql .=  $where . "ORDER BY p.seq";
 
     }
 // echo "$sql<br>";
@@ -116,7 +117,7 @@ function getTerritories($artist)
     $sql = "SELECT territory1, territory2, territory3, territory4 "
 //        . "FROM users WHERE id = $artist";
         . "FROM users WHERE collection = $artist";
-
+//echo "$sql<br>";
     $result = $mysqli->query($sql)
         or die ("Error getting territories");
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -135,29 +136,7 @@ function getArtistId()
     if ($userLevel == 3)
         $id = $_GET['artist'];
     else 
-        $id = $_SESSION['artistId'];
+        $id = $_SESSION['loggedColl'];
 
     return $id;    
 }
-/*
-function getArtistId()
-{
-            // Called from post methods in the list - use stored value
-    if (!array_key_exists('artist', $_GET)) {
-        $id = $_SESSION['menuArtist'];
-        return $id;    
-    }
-    
-            // Calls from menu. For super admin, this will be from the menu
-    $userLevel = $_SESSION['userLevel'];
-    if ($userLevel == 3) {
-        $id = $_GET['artist'];
-//        $id = 'all';
-    }
-    else    // ... but for an artist, it will the the logged user
-        $id = $_SESSION['artistId'];
-
-    $_SESSION['menuArtist'] = $id;
-    return $id;    
-}
-  */     
