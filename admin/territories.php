@@ -34,7 +34,7 @@ protected function showForm($mode)
 
 <body>
 <?php
-	session_start(0);
+	session_start();
 	include "adminmenus.php";
 	require_once "../common.php";
 	require_once "DataEdit.php";
@@ -63,9 +63,9 @@ class Territory extends DataEdit
 // -------------------------------------------
     protected function fetchItem()
     {
-        $artist = $_SESSION['artistId'];
+        $artist = $_SESSION['loggedColl'];
 
-        $sql = "SELECT * FROM users WHERE id=$artist";
+        $sql = "SELECT * FROM users WHERE collection=$artist";
         $result = $this->mysqli->query($sql)
                 or die ("Error fetching shipping band" . mysqli_error($this->mysqli));
         $this->record =  mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -97,8 +97,7 @@ class Territory extends DataEdit
     }
 
 }
-
-    $config = setConfig();					// Connect to database
+    $config = setConfig();				// Connect to database
     $mysqli = dbConnect($config);
 
     echo "<h3>Edit Shipping Territories</h3>";

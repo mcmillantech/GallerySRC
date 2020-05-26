@@ -17,18 +17,19 @@
 <title>Shipping Territories</title>
 <link type="text/css" rel="stylesheet" href="../Gallery.css">
 <link type="text/css" rel="stylesheet" href="../custom.css">
+<script src="../Cunha.js"></script>
 </head>
 
 <body>
 <?php
-    session_start(0);
+    session_start();
     include "adminmenus.php";
     require_once "../common.php";
     require_once "DataEdit.php";
 
     $config = setConfig();			// Connect to database
     $mysqli = dbConnect($config);
-    $artist = $_SESSION['artistId'];
+    $artist = $_SESSION['loggedColl'];
 
     echo "<h3>Post Territory Values</h3>";
     
@@ -42,13 +43,14 @@
         . "territory2='$t2', " 
         . "territory3='$t3', " 
         . "territory4='$t4' " 
-        . "WHERE id = $artist";
+        . "WHERE collection = $artist";
 
     $result = $mysqli->query($sql)
         or die ("Error updating territory" . mysqli_error($mysqli));
     
     echo "Record updated";
-    exit();
+    echo footer();
+
 ?>
 
 </body>
