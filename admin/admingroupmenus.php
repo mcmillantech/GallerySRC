@@ -69,19 +69,14 @@ function artistMenu()
 ?>
 <div id='menu'>
     <ul>
-	<li><a href='index.php'>Admin home</a></li>
+	<li><a href='index.php'>Dashboard home</a></li>
 	<li><a href='orders.php'>View orders</a></li>
-<!--	<li><a href='eventlist.php'>Events</a></li> -->
         <li><a href='piclist.php'>Pictures</a></li>
-        </li>
 	<li><a href='#' onmouseover='mopen("m3")' onmouseout='mclosetime()'>Other</a>
             <div id='m3' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
-            <a href='shiplist.php'>Shipping grid</a>
-            <a href='territories.php?mode=upd'>Shipping territories</a>
-            <a href='aboutedit.php?type=abouttext'>About Text</a>
-<!--            <a href='aboutedit.php?type=signupprompt'>Sign up Prompt</a>
-            <a href='aboutedit.php?type=signupsubject'>Sign up Subject</a>
-            <a href='aboutedit.php?type=signuptext'>Signup Email Text</a> -->
+                <a href='bioedit.php'>Artist bio</a>
+                <a href='shiplist.php'>Shipping grid</a>
+                <a href='territories.php?mode=upd'>Shipping territories</a>
             </div>
 	<li><a href='logout.php'>Log Out</a></li>
     </ul>
