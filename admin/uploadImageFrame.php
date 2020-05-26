@@ -66,9 +66,13 @@ function uploadFiles()
 	$tmpName = $upload['tmp_name'][0];
 	$targetFile = $targetDir . $fname;
     if (!move_uploaded_file($tmpName, $targetFile)) 
-    die ("There was an error uploading $fname from $tmpName to $targetFile");
+        die ("There was an error uploading $fname from $tmpName to $targetFile");
+    
     resize($fname, $targetFile);		// And the small one
-    echo "$fname uploaded<br>";
+    echo "$fname uploaded<br><br>";
+    echo "Click 'Done' then click the 'Post' button at the bottom of the "
+        . "form to store the upload.<br><br>";
+
     echo "<button onClick='postBack(\"$fname\")'>Done</button>";
 
 }
