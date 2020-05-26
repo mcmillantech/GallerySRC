@@ -41,9 +41,15 @@ function checkPassword()
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
     if ($pw == $record['password']) {
         logOn();
-        $_SESSION['userLevel'] = $record['level'];
+        $level = $record['level'];
+        $_SESSION['userLevel'] = $level;
         $_SESSION['fullName'] = $record['fullname'];
-        $_SESSION['artistId'] = $record['id'];
+        $_SESSION['userId'] = $record['id'];
+        if ($level == 3)
+            $collection = 0;
+        else 
+            $collection = $record['collection'];
+        $_SESSION['loggedColl'] = $collection;
     }
     else
         echo "Error: wrong password";

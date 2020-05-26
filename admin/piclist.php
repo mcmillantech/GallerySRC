@@ -122,7 +122,7 @@ class PicList extends DataList
     // -------------------------------------------
     protected function insertItem()
     {
-        if ($_SESSION['picEdit'] == 0)				// Guard against repeating
+        if ($_SESSION['picEdit'] == 0)		// Guard against repeating
                 return;
 
         $recent = $this->getCheckBox('recent');
@@ -343,8 +343,7 @@ class PicList extends DataList
     $lst = new PicList($mysqli);
 //# option 11 
     require_once 'artgroup.php';
-    echo "Enter pic List<br>";
-    getArtistId();
+//    $artist = $_SESSION['loggedColl'];
     $sql = picListSql($mysqli);
 //# alt 11
     $sql = "SELECT * FROM paintings ORDER BY name";

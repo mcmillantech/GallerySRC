@@ -74,6 +74,7 @@ class picEdit extends DataEdit
             'coll2' => '',
             'coll3' => '',
             'recent' => 0,
+            'seq' => 1,
             'year' => '',
             'dateset' => $dt,
             'media' => '',
@@ -145,7 +146,7 @@ class picEdit extends DataEdit
         }
 
         $dta = $this->record;
-        $collList = $this->collectionList();
+         $collList = $this->collectionList();
 
         echo "<form method='post' action='$action'>";
             $this->showLine('Title', $dta, 'name', 45);
@@ -182,8 +183,9 @@ class picEdit extends DataEdit
 
         echo "<button onClick='showFileFrame()' "
             . "style='position:relative; top:-190px; left:500px;'>Upload</button>";
-        echo "<div style='position:absolute; left:600px; top:400px; visibility: hidden;'>";
-        echo "<iframe id='frame' style='background-color:white;' src='imageframe.html'></iframe> ";
+        echo "<div style='position:absolute; left:600px; top:400px; width:400px; visibility: hidden;'>";
+        echo "<iframe id='frame' style='background-color:white; width:400px; height:240px' "
+        . "src='imageframe.html'></iframe> ";
         echo "</div>";
 
     }
@@ -197,6 +199,7 @@ class picEdit extends DataEdit
         $sql = "SELECT l.*, c.name FROM links l "
                 . "JOIN collections c ON c.id = l.collection "
                 . "WHERE l. picture=$picId";
+    // echo "<br>$sql<br>";
         $result = $this->mysqli->query($sql)
                 or die ("Error reading link" . mysqli_error($this->mysqli));
         $i = 1;

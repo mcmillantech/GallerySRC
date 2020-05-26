@@ -96,7 +96,7 @@ class shiplist extends DataList
     // -------------------------------------------
     protected function insertItem()
     {
-        $artist = $_SESSION['artistId'];
+        $artist = $_SESSION['loggedColl'];
 
         $uselowprice = $this->getCheckBox('uselowprice');
 
@@ -131,42 +131,49 @@ class shiplist extends DataList
     // ----------------------------------------------
     protected function upDateItem()
     {
+        global $mysqli;
+    
         $id = $_GET['item'];
-        $artist = $_SESSION['artistId'];
+        $artist = $_SESSION['loggedColl'];
 
-        $sql = "UPDATE shipping SET sizeband=?, description=?, collect=?, uk=?, "
-            . "eu=?, usa=?, aus=?"
-            . " WHERE sizeband=$id AND artist=$artist";
-
-        if (!($stmt = $this->mysqli->prepare($sql)))
+/*        if (!($stmt = $this->mysqli->prepare($sql)))
             echo "Prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
         if (!$stmt->bind_param('isiiiii', $sizeband, $description, $collect, $uk, $eu, $usa, $aus)) 
             echo "Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
-
+*/
         $sizeband = $_POST['sizeband'];
         $description = $_POST['description'];
-        $collect = $_POST['collect'];
+        $collect = $_POST['collect'] * 100;
         $uk = $_POST['uk'] * 100;
         $eu = $_POST['eu'] * 100;
         $usa = $_POST['usa'] * 100;
         $aus = $_POST['aus'] * 100;
 
-        $status = $stmt->execute();
+        $sql = "UPDATE shipping SET sizeband=$sizeband, "
+            . "description='$description', "
+            . "collect=$collect, "
+            . "uk=$uk, eu=$eu, usa=$usa, aus=$aus"
+            . " WHERE sizeband=$id AND artist=$artist";
+
+        $result = $mysqli->query($sql)
+            or die ("Error updating shipplist $sql:" . mysqli_error($mysqli));
+
+/*$status = $stmt->execute();
         if ($status === false)
             $this->sqlError ("Execute failed");
-        $stmt->close();
+        $stmt->close(); */
 
     }
 
     // ----------------------------------------------
-    //	Process call to delete a painting
+    //	Process call to delete item
     //
     // ----------------------------------------------
     protected function deleteItem()
     {
         $id = $_GET['item'];
-        $artist = $_SESSION['artistId'];
+        $artist = $_SESSION['loggedColl'];
 
         $sql = "DELETE FROM shipping "
             . " WHERE sizeband=$id AND artist=$artist";
@@ -187,10 +194,11 @@ class shiplist extends DataList
     $config = setConfig();			// Connect to database
     $mysqli = dbConnect($config);
 
-    $artist = $_SESSION['artistId'];
+    $artist = $_SESSION['loggedColl'];
     echo "<h3>Shipping bands</h3>";
     $lst = new shiplist($mysqli);
     $lst->sqlShow("SELECT * FROM shipping WHERE artist=$artist");
+
     $lst->editPage("shipedit.php");
     $lst->run();
 ?>

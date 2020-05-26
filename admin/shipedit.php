@@ -72,9 +72,9 @@ class shipedit extends DataEdit
     protected function fetchItem()
     {
         $id = $_GET['item'];
-        $artist = $_SESSION['artistId'];
+        $collection = $_SESSION['loggedColl'];
 
-        $sql = "SELECT * FROM shipping WHERE sizeband=$id AND artist=$artist";
+        $sql = "SELECT * FROM shipping WHERE sizeband=$id AND artist=$collection";
         $result = $this->mysqli->query($sql)
                 or die ("Error fetching item" . mysqli_error($this->mysqli));
         $this->record =  mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -93,7 +93,7 @@ class shipedit extends DataEdit
             $action = "shiplist.php?mode=upd&item=$id";
         }
 
-        $artist = $_SESSION['artistId'];
+        $artist = $_SESSION['loggedColl'];
         $terr = getTerritories($artist);
         
         $dta = $this->record;
