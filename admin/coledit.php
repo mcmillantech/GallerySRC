@@ -22,8 +22,6 @@ JS function showFileFrame()
 ini_set("display_errors", "1");
 error_reporting(E_ALL);
     require_once "../common.php";
-    require_once "adminmenus.php";
-    require_once "DataEdit.php";
 
     $config = setConfig();					// Connect to database
     $mysqli = dbConnect($config);
@@ -54,10 +52,20 @@ error_reporting(E_ALL);
 function showFileFrame(which)
 {
 //	var el = document.getElementById("frame" + which);
-	var el = document.getElementById("frame");
-        if (which == 2)
+    switch (which)
+    {
+        case 1:
+            var el = document.getElementById("frame1");
+             break;
+        case 2:
+            var el = document.getElementById("frame2");
+            break;
+    }
+/*        if (which == 2)
             el.src = 'colImageFrame2.html';
-	el.style.visibility = "visible";
+        else
+            el.src = 'colImageFrame1.html'; */ 
+    el.style.visibility = "visible";
 }
 
 </script>
@@ -65,6 +73,8 @@ function showFileFrame(which)
 
 <body>
 <?php
+    require_once "adminmenus.php";
+    require_once "DataEdit.php";
 
 class colEdit extends DataEdit
 {
@@ -117,29 +127,29 @@ class colEdit extends DataEdit
         $dta = $this->record;
 
         echo "<div style='width: 600px; margin-left:20px'>";
-            echo "<form method='post' action='$action'>";
+            echo "\n<form method='post' action='$action'>";
                 $this->showLine('Name', $dta, 'name', 45);
                 $this->showLine('Image File', $dta, 'image', 45);
                 $this->showLine('Hover image', $dta, 'search', 45);
                 $this->showLine('Sequence', $dta, 'sequence', 8);
                 $this->showCheckBox('Use Ebay price', $dta, 'uselowprice');
-                $this->showTextEditor($dta['text']);
-    //            $this->textArea('Text', $dta, 'text', 10, 60);
+//                $this->showTextEditor($dta['text']);
+                $this->textArea('Text', $dta, 'text', 10, 60);
                 echo "<button type='submit'>Post</button>";
-            echo "</form>";
+            echo "\n</form>";
         echo "</div>";
             
         echo "<button onClick='showFileFrame(1)' "
             . "style='position:absolute; top:162px; left:510px;'>Upload</button>";
         echo "<div style='position:absolute; left:70px; top:300px; visibility: hidden'>";
-            echo "<iframe id='frame' style='background-color:white; height:300px; width:500px;' "
+            echo "<iframe id='frame1' style='background-color:white; height:300px; width:500px;' "
                 . "src='colImageFrame1.html'></iframe> ";
         echo "</div>";
 
         echo "<button onClick='showFileFrame(2)' "
-            . "style='position:absolute; top:200px; left:510px;'>Upload 2</button>";
+            . "style='position:absolute; top:200px; left:510px;'>Upload</button>";
         echo "<div style='position:absolute; left:70px; top:300px; visibility: hidden'>";
-            echo "<iframe id='frame' style='background-color:white; height:300px; width:500px;' "
+            echo "<iframe id='frame2' style='background-color:white; height:300px; width:500px;' "
                 . "src='colImageFrame2.html'></iframe> ";
         echo "</div>";
 
@@ -152,15 +162,17 @@ class colEdit extends DataEdit
     // -------------------------------------------
     private function showTextEditor($html)
     {
-        echo "<span class='prompt'>Text</span><br>";
+        
+        echo "\n<span class='prompt'>Text</span><br>";
 //        <span class='input'><textarea rows='10' cols='60' name='text' onChange='fldChange()'>
         echo "<div>";
-        echo "<textarea name='text' id='editTA' rows='10' cols='60' "
-        . "onChange='fldChange()'>"
-        . "$html</textarea>";
-        echo "<script>";
-        echo "  CKEDITOR.replace( 'text' );";
-        echo "  </script>";
+            echo "\n<textarea name='text' id='editTA' rows='10' cols='60' "
+                . "onChange='fldChange()'>"
+                . "$html</textarea>";
+
+            echo "\n<script>";
+                echo "  CKEDITOR.replace( 'text' );";
+            echo "  </script>";
         echo "<div>\n";
     }
 
