@@ -24,6 +24,7 @@ function makeDropDown($page, $mysqli)
         $html .= "<a href='$page.php?artist="
             . $record['id'] . "'>" . $record['name'] . "</a>\n";
     }
+    $html .= "<a href='$page.php?artist=0'>Admin</a>\n";
     $html .= "<a href='$page.php?artist=99'>All</a>\n";
     return $html;
 
@@ -83,6 +84,26 @@ function orderListSql($mysqli)
     $id = getArtistId();
     
     if ($id==99) {
+        $sql = "SELECT r.ref, r.date, r.price, r.status, r.shipped, r.user, "
+            . "u.fullname as artist "
+            . "FROM orders r "
+            . "JOIN users u ON u.id = r.user "
+            . "ORDER BY user, r.date DESC";
+    } else if ($id==0) {
+        $sql = "SELECT r.ref, r.date, r.price, r.status, r.shipped, r.user, "
+            . "'admin' as artist "
+            . "FROM orders r "
+            . "WHERE user=99 "
+            . "ORDER BY r.date DESC";
+    } else {
+        $sql = "SELECT r.ref, r.date, r.price, r.status, r.shipped, r.user, "
+            . "u.fullname as artist "
+            . "FROM orders r "
+            . "JOIN users u ON u.id = r.user "
+            . "WHERE user=$id "
+            . "ORDER BY r.date DESC";
+    }
+/*    if ($id==99) {
         $sql = "SELECT l.collection, c.name as artist, r.*, p.name as wrk "
             . "FROM orders r "
             . "JOIN paintings p ON p.id = r.product "
@@ -99,7 +120,7 @@ function orderListSql($mysqli)
             . "WHERE l.collection=$id "
             . "ORDER BY l.collection, date DESC";
     }
-    
+*/    
     return $sql;
 }
 
@@ -136,7 +157,19 @@ function getArtistId()
     if ($userLevel == 3)
         $id = $_GET['artist'];
     else 
-        $id = $_SESSION['loggedColl'];
+        $id = $_SESSION['userId'];
 
     return $id;    
+}
+
+function userFromCollection($coll)
+{
+    global $mysqli;
+    
+    $sql = "SELECT * FROM users WHERE collection=$coll";
+    $result = $mysqli->query($sql)
+            or die ("Error reading users $sql");
+    $record =  mysqli_fetch_array($result, MYSQLI_ASSOC);
+    
+    return $record['id'];
 }
