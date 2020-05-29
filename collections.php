@@ -45,7 +45,8 @@ function showOnePicture ($pic, $uselowprice)
         $sql = "SELECT l.*, p.* FROM links l "
             . "JOIN paintings p ON p.id = l.picture "
             . "WHERE l.collection = $colId "
-            . "ORDER BY p.dateset DESC";
+//            . "ORDER BY p.dateset DESC";
+            . "ORDER BY p.seq";
     }
 
     $result = $mysqli->query($sql)
