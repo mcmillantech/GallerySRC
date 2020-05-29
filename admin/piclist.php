@@ -142,14 +142,14 @@ class PicList extends DataList
             $notes, $shippingrate, $year, $quantity, $away, $seq))
         echo	"Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-        $name = $_POST['name'];
+        $name = addslashes($_POST['name']);
         $dt = $_POST['dateset'];
         $dateset = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2);
         $recent = $this->getCheckBox('recent');
         $year = $_POST['year'];
         $media = $_POST['media'];
         $mount = $_POST['mount'];
-        $size = $_POST['size'];
+        $size = addslashes($_POST['size']);
         $tags = $_POST['tags'];
         $priceweb = $_POST['priceweb'] * 100;
         $priceebay = $_POST['priceebay'] * 100;
