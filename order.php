@@ -43,11 +43,12 @@ JS function checkFld(fld)
 
     $title = $record['name'];
     showTop("Order Cunha Painting", "Order $title");
+	showTop("Order from " . ARTIST, "Buy $title");
 
-    $holdText = "This site will be live from June 1st 2020. Until then, it "
-            . "is not possible to make purchases. Please return after June 1st.";
+    $holdText = "This site will be live from June 3rd 2020. Until then, it "
+            . "is not possible to make purchases. Please return after June 3rd.";
     echo $holdText;
-    exit();
+//    exit();
     showForm($id, $record);
 	
 // ---------------------------------------
