@@ -45,7 +45,7 @@
 		token = "sandbox_79k7qx4p_nymy4h8qq7ck73sn";
 //	else
 //		token = "production_hcsjhmjj_rcy8fxhfbjfngsw4";
-
+        token = "production_38zqhm8t_fdyvvs3rm4gs2c5n";
 // ---------------------------------------------------
 //	Script taken from Braintree
 //

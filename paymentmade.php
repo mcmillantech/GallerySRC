@@ -28,10 +28,8 @@ function writeOrder($order)
     showTop("Buy artwork", "Purchase artwork");
     require_once "bootstrap.php";
 
-    const TEST = 1;				// Set to 1 to skip emails
-    const RERUN = 1;				// Set to 1 to skip Braintree
-
-//    $dbConnection = dbConnect($config);
+    const TEST = 0;				// Set to 1 to skip emails
+    const RERUN = 0;				// Set to 1 to skip Braintree
 
     $gateway = new Braintree_Gateway(
         [
@@ -64,10 +62,10 @@ function writeOrder($order)
 //
 // ----------------------------------------
 function takePayment($gateway)
-{										// Instantiate a Braintree Gateway 
+{					// Instantiate a Braintree Gateway 
 
     $nonceFromTheClient = $_POST["nonce"];
-                                                                                    // Then, create a transaction:
+    var_dump($nonceFromTheClient);           // Then, create a transaction:;
     $result = $gateway->transaction()->sale([
         'amount' => $_POST["amount"],
         'paymentMethodNonce' => "$nonceFromTheClient",
@@ -200,12 +198,15 @@ function sendArtistEmail($order)
     $name = $order['name'];
     $ref = $order['ref'];
     $cost = number_format($order['total'], 2);
-
+                                    // I changed this for the group
+                                    // I need to build into option 11
     $message = "Hi\r\n\r\n"
-        . "An order has been received from " . $name
-        . " for $picture, GBP$cost has been received."
-        . "\r\nThe order reference is $ref\r\n\r\n"
-        . "See " . WEBSITE . "/admin/vieworder.php?ref=$ref ";
+        . "An order has been made to newartforyou.co.uk for your work.\r\n"
+        . "<b>Name of work</b>  $picture\r\n\r\n"
+        . "<b>Customer name</b>  $name\r\n\r\n"
+        . "The order reference is $ref\r\n\r\n"
+        . "Please see the order on your dashboard: " . WEBSITE 
+        . "/admin/vieworder.php?ref=$ref ";
                                 // Test message
     if (TEST == 0) {
         $reply = mail($to, $subject, $message, $headers);
