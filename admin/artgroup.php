@@ -41,8 +41,6 @@ function picListSql($mysqli)
                                 // First case. Superadmin is logged on
                                 // , has picked all artists
 
-//    $id = $_SESSION['menuArtist'];
-//    echo "menuArt $id<br>";
     if ($id==99) {
         $sql = "SELECT l.*, c.id, c.name as artist, p.* FROM collections c "
             . "Join links l ON l.collection = c.id "
@@ -59,8 +57,7 @@ function picListSql($mysqli)
             $sql1 = "SELECT collection FROM users WHERE id=$id";
             $result = $mysqli->query($sql1);
             $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
-//            $col = $record['collection'];
-    $col = $_SESSION['loggedColl'];
+            $col = $_SESSION['loggedColl'];
             $where = "WHERE l.collection=$col ";
         }
 
@@ -70,7 +67,7 @@ function picListSql($mysqli)
         $sql .=  $where . "ORDER BY p.seq";
 
     }
-// echo "$sql<br>";
+
     return $sql;
 }
 
@@ -82,45 +79,29 @@ function picListSql($mysqli)
 function orderListSql($mysqli)
 {
     $id = getArtistId();
-    
-    if ($id==99) {
+
+    if ($id==99) {                      // Orders for all artists
         $sql = "SELECT r.ref, r.date, r.price, r.status, r.shipped, r.user, "
-            . "u.fullname as artist "
+            . "u.fullname as artist, r.name, r.transref "
             . "FROM orders r "
             . "JOIN users u ON u.id = r.user "
             . "ORDER BY user, r.date DESC";
-    } else if ($id==0) {
+    } else if ($id==0) {                // Orders for admin (artist fees)
         $sql = "SELECT r.ref, r.date, r.price, r.status, r.shipped, r.user, "
-            . "'admin' as artist "
+            . "'admin' as artist, r.name, r.transref "
             . "FROM orders r "
             . "WHERE user=99 "
             . "ORDER BY r.date DESC";
-    } else {
+    } else {                            // For this collection
+        $userId = userFromCollection($id);
         $sql = "SELECT r.ref, r.date, r.price, r.status, r.shipped, r.user, "
-            . "u.fullname as artist "
+            . "u.fullname as artist, r.transref "
             . "FROM orders r "
             . "JOIN users u ON u.id = r.user "
-            . "WHERE user=$id "
+            . "WHERE user=$userId "
             . "ORDER BY r.date DESC";
     }
-/*    if ($id==99) {
-        $sql = "SELECT l.collection, c.name as artist, r.*, p.name as wrk "
-            . "FROM orders r "
-            . "JOIN paintings p ON p.id = r.product "
-            . "JOIN links l ON l.picture = r.product "
-            . "JOIN collections c ON c.id=l.collection "
-            . "ORDER BY date DESC";
-        
-    } else {            // Remember that collection table is member artists here
-        $sql = "SELECT l.collection, c.name as artist, r.*, p.name as wrk "
-            . "FROM orders r "
-            . "JOIN paintings p ON p.id = r.product "
-            . "JOIN links l ON l.picture = r.product "
-            . "JOIN collections c ON c.id=l.collection "
-            . "WHERE l.collection=$id "
-            . "ORDER BY l.collection, date DESC";
-    }
-*/    
+    
     return $sql;
 }
 
@@ -136,9 +117,8 @@ function getTerritories($artist)
     global $mysqli;
     
     $sql = "SELECT territory1, territory2, territory3, territory4 "
-//        . "FROM users WHERE id = $artist";
         . "FROM users WHERE collection = $artist";
-//echo "$sql<br>";
+
     $result = $mysqli->query($sql)
         or die ("Error getting territories");
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);

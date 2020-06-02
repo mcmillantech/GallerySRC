@@ -1,17 +1,19 @@
 <?php
 // ------------------------------------------------------
-//  Project	Take payment for group artist
-//  File	carddetailsgrp.php
-//		Use Braintree API and fetch card details
+//  Project Take payment for group artist
+//  File    carddetailsgrp.php
+//          Use Braintree API and fetch card details
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//  Author  John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 
 ?>
 <!doctype html>
 <html>
 <head>
-  <title>Lupe Cunha Art: Payment</title>
+<?php
+  echo "<title>" . ARTIST . ": Payment</title>";
+?>
   <meta charset="utf-8">
   <script src="https://js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js">
   </script>

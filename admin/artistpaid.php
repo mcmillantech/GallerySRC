@@ -107,11 +107,11 @@ function writeOrder($transRef)
 {
     global $mysqli, $ref, $userName;
     
-    $user = $_SESSION['userId'];
+//    $user = $_SESSION['userId'];
     $dtSQL = date('Y-m-d');		// Makes today's date for SQL insertion
     $sql = "INSERT INTO orders (ref, name, user, addr1, postcode, status, "
             . "price, date, transref) "
-        . "VALUES ($ref, '$userName', $user, 'artist', 'artist', 1, 2500, "
+        . "VALUES ($ref, '$userName', 99, 'artist', 'artist', 1, 2500, "
         . "'$dtSQL', '$transRef')";
     $mysqli->query($sql)
         or die ("Error writing order $sql");
@@ -169,9 +169,9 @@ function updateUser()
     global $mysqli;
 
     $userId = $_SESSION['userId'];
-    $status = 4;
+    $status = 1;
     
-    $sql = "UPDATE users SET status=4 WHERE id=$userId";
+    $sql = "UPDATE users SET status=1 WHERE id=$userId";
     $errTxt = "There was a problem updating your record: $sql "
         . "Please pass this message to admin";
     $mysqli->query ($sql)

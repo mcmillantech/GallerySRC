@@ -48,7 +48,8 @@ error_reporting(E_ALL);
 <script>
     var domain = document.domain;
     var token;
-    token = "sandbox_79k7qx4p_nymy4h8qq7ck73sn";
+//    token = "sandbox_79k7qx4p_nymy4h8qq7ck73sn";
+    token = "production_38zqhm8t_fdyvvs3rm4gs2c5n";
 
 // ---------------------------------------------------
 //	Script taken from Braintree

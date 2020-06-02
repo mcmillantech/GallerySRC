@@ -45,12 +45,12 @@ function openOrder(id)
 <body>
 <?php
     session_start();
-    echo "<h3>Lupe Web Site: Orders</h3>";
 
     include "adminmenus.php";
     require_once "../common.php";
     $config = setConfig();					// Connect to database
     $mysqli = dbConnect($config);
+    echo "<h3>" . ARTIST . " Orders</h3>";
 
     headings();
 
@@ -77,6 +77,8 @@ function headings()
         echo "</span>";
         echo "<span class='orderEl' style='left:290px'>";
             echo 'Shipped';
+        echo "<span class='orderEl' style='left:190px'>";
+            echo 'Pay ref';
         echo "</span>";
     echo "<p>";
 }
@@ -86,6 +88,7 @@ function showOrder($order)
     $id = $order['ref'];
     $price = number_format($order['price'] / 100, 2);
     $shipped = ($order['status'] == 1) ? 'Yes' : 'No';
+    $transRef = $order['transref'];
     $sqlDt = $order['date'];
     $sDate = substr($sqlDt, 8, 2) . '/' . substr($sqlDt, 5, 2) . '/' . substr($sqlDt, 0, 4);
     $sqlDt = $order['shipped'];
@@ -109,9 +112,16 @@ function showOrder($order)
         echo $shipDate;
     echo "</span>";
     echo "<span class='orderEl' style='left:460px'>";
+        echo $transRef;
+    echo "</span>";
+    echo "<span class='orderEl' style='left:550px'>";
         echo "<button onClick='openOrder($id)'>Open</button>";
 //# option 11
-        $artist = $order['artist'];
+        if ($order['user'] == 99) {
+            $artist = $order['name'];
+        } else {
+            $artist = $order['artist'];
+        }
         echo " &nbsp;$artist";
 //# end
     echo "</span>";
