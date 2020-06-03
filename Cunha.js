@@ -19,9 +19,9 @@ function sizeCheck()
 	}
 }
 
-function logon()
+function logon(targetPage)
 {
-    window.location = "logon.php";
+    window.location = "logon.php?page=" + targetPage;
 }
 
 // ---------------------------------------

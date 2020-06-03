@@ -105,7 +105,7 @@ class UserList extends DataList
     {
         $sql = "INSERT INTO users "
             . "(username, password, fullname, firstname, email, addr1, "
-            . "addr2, addr3, addr4, postcode, website, level ) "
+            . "addr2, addr3, addr4, postcode, website, level, collection ) "
             . " VALUES ("
             . $this->postField('username') . ','
             . $this->postField('password') . ','
@@ -118,10 +118,33 @@ class UserList extends DataList
             . $this->postField('addr4') . ','
             . $this->postField('postcode') . ','
             . $this->postField('website') . ','
-            . $this->postField('level') 
+            . $this->postField('level') . ','
+            . $this->postField('collection') 
             . ")";
         $this->mysqli->query($sql)
-            or die ("Error inserting item " . mysqli_error($this->mysqli));
+            or die ("Error inserting user " . mysqli_error($this->mysqli));
+        
+//    $this->createCollection();
+    }
+
+    // -------------------------------------------
+    // Create a collection for this user
+    // 
+    // -------------------------------------------
+    private function createCollection()
+    {
+        $sql = "SELECT MAX(sequence) as sequence FROM collections";
+        $result = $this->mysqli->query($sql);
+        $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $nextSequence = $record['sequence'] + 1;
+        
+        $sql2 = "INSERT INTO collections (name, search, sequence) VALUES ("
+            . $this->postField('fullname')  . ','
+            . $this->postField('fullname')  . ','
+            . "$nextSequence)";
+        echo $sql2;
+        $this->mysqli->query($sql2)
+            or die ("Error creating collection" . mysqli_error($this->mysqli));
     }
 
     protected function upDateItem()
@@ -140,6 +163,7 @@ class UserList extends DataList
             . " ,addr4=" . $this->postField('addr4')
             . " ,postcode=" . $this->postField('postcode')
             . " ,website=" . $this->postField('website')
+            . " ,collection=" . $this->postField('collection')
             . " ,level=" . $_POST['level']
             . " WHERE id=$id";
 

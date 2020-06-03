@@ -70,20 +70,17 @@ function doShip()
 // ----------------------------------------------
 function viewOne()
 {
-	global $mysqli;
+    global $mysqli;
 
-	$ref = $_GET['ref'];
-	$sql = "SELECT r.*, p.name as wrk FROM orders r "
-		. "JOIN paintings p ON p.id = r.product "
-		. "WHERE r.ref=$ref";
+    $ref = $_GET['ref'];
+    $sql = "SELECT r.*, p.name as wrk FROM orders r "
+        . "JOIN paintings p ON p.id = r.product "
+        . "WHERE r.ref=$ref";
+    $reply = $mysqli->query($sql)
+        or myError ("viewOrder.viewOne " . $mysql-->error);
+    $record = mysqli_fetch_array($reply, MYSQLI_ASSOC);
 
-	$reply = $mysqli->query($sql)
-		or myError ("viewOrder.viewOne " . $mysql-->error);
-	$record = mysqli_fetch_array($reply, MYSQLI_ASSOC);
-
-	showOrder($record, $ref);
-	
-	
+    showOrder($record, $ref);
 }
 
 // ----------------------------------------------
@@ -92,51 +89,55 @@ function viewOne()
 // ----------------------------------------------
 function showOrder($record, $order)
 {
-	global $mysqli;
+    global $mysqli;
 
-	$price = number_format($record['price'] /100.0, 2);
-	$shipping = number_format($record['shippingprice'] / 100.0, 2);
-	$total = $record['price'] + $record['shippingprice'];
-	$total = number_format($total / 100.0, 2);
+    $price = number_format($record['price'] /100.0, 2);
+    $shipping = number_format($record['shippingprice'] / 100.0, 2);
+    $total = $record['price'] + $record['shippingprice'];
+    $total = number_format($total / 100.0, 2);
 
-	echo "<span class='prompt'>Order ref</span>";
-	echo "<span class='input'>" . $record['ref'] . "</span><br>";
-	echo "<span class='prompt'>Work</span>";
-	echo "<span class='input'>" . $record['wrk'] . "</span><br>";
-	echo "<span class='prompt'>Quantity</span>";
-	echo "<span class='input'>" . $record['quantity'] . "</span><br>";
-	echo "<span class='prompt'>Customer</span>";
-	echo "<span class='input'>" . $record['name'] . "</span><br>";
-	echo "<span class='prompt'>Address</span>";
-	echo "<span class='input'>" . $record['addr1'] . "</span><br>";
-	echo "<span class='input'>" . $record['addr2'] . "</span><br>";
-	echo "<span class='input'>" . $record['addr3'] . "</span><br>";
-	echo "<span class='input'>" . $record['addr4'] . "</span><br>";
-	echo "<span class='prompt'>Post code</span>";
-	echo "<span class='input'>" . $record['postcode'] . "</span><br>";
-	echo "<span class='prompt'>Shipping region</span>";
-	echo "<span class='input'>" . $record['region'] . "</span><br>";
-	echo "<span class='prompt'>Email</span>";
-	echo "<span class='input'>" . $record['email'] . "</span><br>";
-	echo "<span class='prompt'>Price</span>";
-	echo "<span class='input'>$price</span><br>";
-	echo "<span class='prompt'>Shipping charge</span>";
-	echo "<span class='input'>$shipping</span><br>";
-	echo "<span class='prompt'>Total price</span>";
-	echo "<span class='input'>$total</span><br>";
-	$dt = $record['date'];
-	$dt = substr($dt, 8, 2) . '/' . substr($dt, 5, 2) . '/' . substr($dt, 0, 4);
-	echo "<span class='prompt'>Date ordered</span>";
-	echo "<span class='input'>$dt</span><br>";
-	$status = ($record['status'] == 1) ? 'Shipped' : 'To ship';
-	echo "<span class='prompt'>Status</span>";
-	echo "<span class='input'>$status</span><br>";
+    echo "<span class='prompt'>Order ref</span>";
+    echo "<span class='input'>" . $record['ref'] . "</span><br>";
+    echo "<span class='prompt'>Work</span>";
+    echo "<span class='input'>" . $record['wrk'] . "</span><br>";
+    echo "<span class='prompt'>Quantity</span>";
+    echo "<span class='input'>" . $record['quantity'] . "</span><br>";
+    echo "<span class='prompt'>Customer</span>";
+    echo "<span class='input'>" . $record['name'] . "</span><br>";
+    echo "<span class='prompt'>Address</span>";
+    echo "<span class='input'>" . $record['addr1'] . "</span><br>";
+    echo "<span class='input'>" . $record['addr2'] . "</span><br>";
+    echo "<span class='input'>" . $record['addr3'] . "</span><br>";
+    echo "<span class='input'>" . $record['addr4'] . "</span><br>";
+    echo "<span class='prompt'>Post code</span>";
+    echo "<span class='input'>" . $record['postcode'] . "</span><br>";
+    echo "<span class='prompt'>Shipping region</span>";
+    echo "<span class='input'>" . $record['region'] . "</span><br>";
+    echo "<span class='prompt'>Email</span>";
+    echo "<span class='input'>" . $record['email'] . "</span><br>";
+    echo "<span class='prompt'>Price</span>";
+    echo "<span class='input'>$price</span><br>";
+    echo "<span class='prompt'>Shipping charge</span>";
+    echo "<span class='input'>$shipping</span><br>";
+    echo "<span class='prompt'>Total price</span>";
+    echo "<span class='input'>$total</span><br>";
+    $dt = $record['date'];
+    $dt = substr($dt, 8, 2) . '/' . substr($dt, 5, 2) . '/' . substr($dt, 0, 4);
+    echo "<span class='prompt'>Date ordered</span>";
+    echo "<span class='input'>$dt</span><br>";
+    $status = ($record['status'] == 1) ? 'Shipped' : 'To ship';
+    echo "<span class='prompt'>Status</span>";
+    echo "<span class='input'>$status</span><br>";
 
-	if ($record['status'] == 0)		// For an order that's not shipped
-		postForm($order);
+    if ($record['status'] == 0)		// For an order that's not shipped
+            postForm($order);
 
-	echo "<br><br>";
-	echo "<button onClick='document.location=\"orders.php\"'>Back to list</button>";
+    echo "<br><br>";
+//# option 11
+//# alt
+        $loc = '"orders.php"';
+    echo "<button onClick='document.location=$loc'>Back to list</button>";
+//# end
 }
 
 // ----------------------------------------------

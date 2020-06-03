@@ -4,19 +4,19 @@
 //	File	index.php
 //		Home page
 //
-//  Author	John McMillan
+//  Author	John McMillan 
 //  Copyright   McMillan Technology 2019
 // ------------------------------------------------------
     session_start();
     require_once "common.php";
     require "top2.php";
-
                                         // From here on we're in mainPanel
     $dta = array();
     $dta['impath'] = $impath;
 
     $mysqli = dbConnect($config);
     $title = "Art by " . ARTIST;
+    $title = ARTIST;
     showTop($title, $title);
 
     $dta['imgrecent'] = $impath . '/small/Recent.jpg';
@@ -36,6 +36,7 @@
 
     mysqli_free_result($result);
 
+    $dta['title'] = $title;
     $dta['footer'] = footer();
     showView("indexv.html", $dta);
 
@@ -50,7 +51,7 @@ function fetchData()
     $result = $mysqli->query($sql)
             or myError(ERR_HOME_TEXT, "Text table error " . $mysqli->error);
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    $dta['html'] = $record['text'];
+    $dta['hometext'] = $record['text'];
     mysqli_free_result($result);
 
     $sql = "SELECT * FROM text WHERE type='signupprompt'";
@@ -74,18 +75,25 @@ function fetchData()
     $dta['signuptext'] = str_replace ("\n", "%0d%0a", $record['text']);
     mysqli_free_result($result);
 
+    $sql = "SELECT * FROM text WHERE type='homeimage'";
+    $result = $mysqli->query($sql)
+            or myError(ERR_HOME_TEXT, "Text table error " . $mysqli->error);
+    $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $dta['imghome'] = str_replace ("\n", "%0d%0a", $record['text']);
+    mysqli_free_result($result);
+
     $dta['mailto'] = USER_EMAIL;
     return;
 }
 
 // ----------------------------------------------
-//	Place an element to hold a picture
+//  Place an element to hold a collection image
 //
-//	Parameter	DB record for the picture
+//  Parameter	DB record for the picture
 //
-//	Create a collectImage span element to contain:
-//		A col<i> div for the picture
-//		A hidded colTxt div for the details
+//  Create a collectImage span element to contain:
+//	A col<i> div for the picture
+//	A hidded colTxt div for the details
 // ----------------------------------------------
 function showOneImage($pic)
 {
@@ -96,14 +104,15 @@ function showOneImage($pic)
     $name = $pic['name'];
     $id = $pic['sequence'];
     $ar['id'] = $id;
-    $ar['img'] = $impath . "/small/" . $pic['image'];
+    $ar['img'] = $impath . '/' . $pic['image'];
+    $ar['hover'] = $impath . '/' . $pic['search'];
 
-    $imid = 'coli' . $id;				// Make the ID of the image
+    $imid = 'coli' . $id;		// Make the ID of the image
     $ar['imid'] = $imid;
     $ar['id2'] = $imid . 'm';
     $ar['idtxt'] = 'coltx' . $id;
     $ar['name'] = $name;
-                                                                                    // The collectImage has the handlers
+                                        // The collectImage has the handlers
     return $ar;
 }
 

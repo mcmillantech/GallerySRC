@@ -16,13 +16,17 @@
 
     <div id='mainPanel'>
         <div class='homeLeft'>
-
-            <img src='{impath}/small/Lupe.jpg' style='width:83%; padding-top:12px;'>
-            <div style='text-align: left;padding-left:5px'>
-            <p>{html}</p>
-            </div>
+                <img src='{impath}/{imghome}' style='width:83%; padding-top:12px;'>
+             <div style='text-align: left;padding-left:5px'> 
+                 <p>{hometext}</p>
+             </div>
             {signup}
-            <a href='mailto:{mailto}?subject={signupsubject}&body={signuptext}'>Keep me updated</a>
+            <a href='mailto:{mailto}?subject={signupsubject}&body={signuptext}'>
+                Keep me updated</a>
+        </div>
+<!--# option 11 -->
+            <br><br>
+<!--# alt 11 -->
             <h3>Recent works</h3>
             <span class='collectImage' style='width: 98%' onMouseOut='colMouseOut(0)' 
                   onClick='openColl(0)'>
@@ -36,17 +40,17 @@
                 <div class='collTxt' id='coltx0'>
                 </div>
             </span>
+<!--# end -->
 <!--	<img onClick='window.location="collections.php?col=0"' 
                 src='{impath}/small/Recent.jpg' style='width:83%; padding-top:12px;'>
          -->
-        </div>
 
         <div class='homeCollect'>
         {colls}
             <span class='collectImage' onMouseOut='colMouseOut({id})' onClick='openColl({id})'>
                 <div onMouseOver='colMouseOver({id})' style='border:solid 1px;'>
-                    <img src='{img}' id='{imid}' style='height:237px;'>
-                    <img src='{img}' id='{id2}'
+                    <img src='{img}' id='{imid}' style='max-height:237px; max-width:200px;'>
+                    <img src='{hover}' id='{id2}'
                      style='height:237px; position:relative; opacity:0.5; display:none'>
                     <div class='whiteText' id={idtxt}><b>{name}</b></div>
                 </div>
@@ -56,8 +60,9 @@
             </span>
         {/colls}
     <br></div>	<!-- homeCollect -->
-
+    <div style='clear:both'>&nbsp; </div>
     </div>		<!-- mainPanel -->
+    
     {footer}
     </div>		<!-- container -->
 </body>

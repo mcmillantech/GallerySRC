@@ -19,39 +19,34 @@ function getNextOrder()
 ?>
 <?php
 
-	$config = setConfig();					// Connect to database
+	$config = setConfig();			// Connect to database
 	$mysqli = dbConnect($config);
 	
-	$id = $_GET['id'];						// Fetch the painting details
+	$id = $_GET['id'];			// Fetch the painting details
 	$sql = "SELECT * FROM paintings WHERE id=$id";
 	$result = $mysqli->query($sql)
 		or myError (ERR_ORD2_READ_PAINTINGS, $mysqli->error);
 	$record = $result->fetch_array(MYSQLI_ASSOC);
-/*											// Mark the painting "reserved"?
-	$sql2 = "UPDATE paintings SET status=2 WHERE id=" . $id;
-	$mysqli->query ($sql)
-		or myError ("Writing order item" . $mysqli->error);
-*/
-	require "top2.php";						// Show the top of page
+
+	require "top2.php";			// Show the top of page
 	$title = $record['name'];
-	showTop("Purchase Lupe Cunha Painting", "Buy $title");
+	showTop("Purchase from " . ARTIST, "Buy $title");
 	
-	$order = $_POST;					// Set up order details - this is the view array
+	$order = $_POST;	// Set up order details - this is the view array
 	$order['ref'] = getNextOrder();
 	$order['id'] = $id;
 
-	if ($record['quantity'] > 1)		// Multiple copies of painting
-	{									// If so, create details for the view
-		$order['multi'] = true;			// <span> is set in the view
-		$order['quantities'] = "Quantity " . $order['quantity'] . "</span><br>";
+	if ($record['quantity'] > 1)	// Multiple copies of painting
+	{				// If so, create details for the view
+            $order['multi'] = true;	// <span> is set in the view
+            $order['quantities'] = "Quantity " . $order['quantity'] . "</span><br>";
 	}
-	else
-	{
-		$order['multi'] = false;
-		$order['quantities'] = '</span>';
+	else  {
+            $order['multi'] = false;
+            $order['quantities'] = '</span>';
 	}
-	if (!array_key_exists('quantity', $order))	// ... otherwise order the sole work
-		$order['quantity'] = 1;
+	if (!array_key_exists('quantity', $order)) // ... otherwise order the sole work
+            $order['quantity'] = 1;
 
 	$shipping = shippingPrice($record['shippingrate']);
 	$order['shipping']= sprintf('%5.2f', $shipping / 100.0);
@@ -63,6 +58,8 @@ function getNextOrder()
 
 //# option 1
 	checkVoucher ($record);
+//# alt 1
+	$order['voucher'] = '';
 //# end 1
 
 	$order['picture'] = $record['name'];
@@ -73,11 +70,11 @@ function getNextOrder()
 	mysqli_free_result($result);
 
 // ----------------------------------------------
-//	Fetch the shipping price
+// Fetch the shipping price
 //
-//	Parameter	Band for this work
+// Parameter	Band for this work
 //
-//	Return		The price
+// Return	The price
 // ----------------------------------------------
 function shippingPrice($sizeband)
 {
@@ -103,8 +100,8 @@ function checkVoucher ($painting)
 
 	$code = $order['voucher'];
 	if (strlen ($code) < 2)
-		return;								// No voucher code
-											// Validate the voucher
+		return;					// No voucher code
+                                                        // Validate the voucher
 	$sql = "SELECT * FROM vouchers WHERE code='$code'";
 	$result = $mysqli->query($sql)
 		or myError (ERR_VOUCHER, $mysqli->error);
@@ -118,27 +115,24 @@ function checkVoucher ($painting)
 	mysqli_free_result ($result);
 	
 	$today = date('Y-m-d');			// Makes today's date
-	if ($today > $voucher['expires'])
-	{
-		echo V_EXPIRED;
-		return;
+	if ($today > $voucher['expires']) {
+            echo V_EXPIRED;
+            return;
 	}
 	$discount = $voucher['discount'];
 	$amount = $voucher['amount'];
 	$freeship = $voucher['freeship'];
 
-	if ($discount > 0)
-	{
-		$order['price'] *= (1.0 - ($discount / 10000));
-		$order['discounts'] = $discount;
+	if ($discount > 0) {
+            $order['price'] *= (1.0 - ($discount / 10000));
+            $order['discounts'] = $discount;
 	}
-	else if ($amount > 0)
-	{
-		$order['price'] -= ($amount / 100.0);
-		$order['discounta'] = $amount;
+	else if ($amount > 0) {
+            $order['price'] -= ($amount / 100.0);
+            $order['discounta'] = $amount;
 	}
 	if ($freeship)
-		$order['shipping'] = 0;
+            $order['shipping'] = 0;
 
 	return $order;
 }

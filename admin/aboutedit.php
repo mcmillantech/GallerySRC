@@ -28,7 +28,16 @@
     echo "<script src='$cked'></script>";
 ?>
 
+<script>
+function showFileFrame()
+{
+	var el = document.getElementById("frame");
+	el.style.visibility = "visible";
+}
+
+</script>
 </head>
+
 <body>
 <h1>Edit</h1>
 <?php
@@ -44,30 +53,80 @@
     $action = "textpost.php?type=$type";
 
     echo "<br><br>";
-    echo "<div style='width: 800px; margin-left:20px'>";
-    echo "<form id='edForm' action='$action' method='post'>\n";
-    switch ($type) {
-        case "hometext";			// Use CKEditor for html types
+        echo "<div style='width: 600px; margin-left:20px'>";
+        echo "<form id='edForm' action='$action' method='post'>\n";
+
+        switch ($type) {
+            case "hometext";			// Use CKEditor for html types
+            case "abouttext":
+                showTextEditor($html);
+                showImage("$type");
+                break;
+            case "signupprompt":
+                showTextEditor($html);
+                break;
+            case "signupsubject":			// Single line
+                echo "<input type='text' name='htmltext' size='64' value='$html'>";
+                break;
+            case "signuptext":			// Multi line 
+                echo "<textarea name='htmltext' id='editTA' rows='10' cols='60'>$html</textarea>";
+                break;
+            }
+
+            echo "<br><br>";
+            echo "<button onClick='bmSend()' name='btnSave'>Save</button>";
+        echo "</form>";
+    echo "</div>";
+
+    echo "<div style='position:absolute; left:600px; top:400px; visibility: hidden;'>";
+        echo "<iframe id='frame' style='background-color:white;' "
+        . "src='rootImageFrame.html'></iframe> ";
+        echo "</div>";
+    echo "</div>";
+
+// -------------------------------------------
+//  Show the CKEdit window
+//  
+//  Parameter   html text to be edited
+// -------------------------------------------
+function showTextEditor($html)
+{
+    echo "<div>";
+    echo "<textarea name='htmltext' id='editTA' rows='25' cols='60'>$html</textarea>";
+    echo "<script>";
+    echo "  CKEDITOR.replace( 'htmltext' );";
+    echo "  </script>";
+    echo "<div>\n";
+}
+
+// -------------------------------------------
+// Show the line for image input
+// 
+// -------------------------------------------
+function showImage($type)
+{
+    global $mysqli;
+
+    switch ($type){
+        case "hometext";
+            $newtype = "homeimage";
+            break;
         case "abouttext":
-        case "signupprompt":
-            echo "<textarea name='htmltext' id='editTA' rows='25' cols='60'>$html</textarea>";
-            echo "<script>";
-            echo "  CKEDITOR.replace( 'htmltext' );";
-            echo "  </script>";
-            break;
-        case "signupsubject":			// Single line
-            echo "<input type='text' name='htmltext' size='64' value='$html'>";
-            break;
-        case "signuptext":			// Multi line 
-            echo "<textarea name='htmltext' id='editTA' rows='10' cols='60'>$html</textarea>";
+            $newtype = "aboutimage";
             break;
     }
+    $sql = "SELECT * FROM text WHERE type='$newtype'";
+    $result = $mysqli->query($sql)
+        or die("Text table error " . $mysqli->error());
+    $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $value = $record['text'];
 
     echo "<br><br>";
-    echo "<button onClick='bmSend()' name='btnSave'>Save</button>";
-
-    echo "</form>";
-    echo "</div>";
+    echo "Image file &nbsp;\n";
+    echo "<input type='text' id='image' name='image' size='45' value='$value'>";
+    echo " &nbsp;\n";
+    echo "<input type='button' onClick='showFileFrame()' value='Upload'>";
+}
 
 ?>
 </body>

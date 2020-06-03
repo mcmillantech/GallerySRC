@@ -17,16 +17,19 @@
 
     <div id='banner'>
 <!--# banner -->
-<!--        <img src='{impath}\Banner.jpg' style='width:100%; height:300px'>
+<!--        <img src='{impath}\banner2.img' style='width:100%; height:300px'>
         <div id='bannerContent'>
-                Lupe <br>Cunha
+                New Art <br>for You
         </div> -->
     </div>
 
     <div id='menu'>
     <ul>
         <li><a href='index.php'>Home</a></li>
+<!--# option 11 -->
+<!--# alt 11 -->
         <li><a href='collections.php?col=0'>Recent</a></li>
+<!--# end 11 >
 <!--# option 2  -->
         <li><a href='#' onmouseover='mopen("m2")' onmouseout='mclosetime()'>Collections</a>
             <div id='m2' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
@@ -35,12 +38,31 @@
         {/collectMenu}
         </div></li>
 <!--# end 2  -->
+<!--# option 11  -->
+        <li><a href='#' onmouseover='mopen("m2")' onmouseout='mclosetime()'>Artists</a>
+            <div id='m2' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
+        {collectMenu}
+            <a href='collections.php?col={id}'>{name}</a>
+        {/collectMenu}
+        </div></li>
+        <li><a href='about.php'>About NewArt</a></li> 
+        <li><a href='#' onmouseover='mopen("m4")' onmouseout='mclosetime()'>Join Newart</a>
+            <div id='m4' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
+                <a href="docs\FAQ.html">Frequent questions</a>
+                <a href="information.php?which=terms">Terms & conditions</a>
+                <a href="information.php?which=firststeps">First steps</a>
+                <a href="https://www.surveymonkey.co.uk/r/WJZ2WZ9" target="blenk">
+                    Register with New Art</a>
+                <a href="join.php">Join New Art</a>
+            </div></li>
+<!--# alt 11  -->
         <li><a href='#' onmouseover='mopen("m3")' onmouseout='mclosetime()'>Events</a>
             <div id='m3' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
             <a href='events.php?mode=exhibitions'>Exhibitions</a>
             <a href='events.php?mode=workshops'>Workshops</a>
             <a href='events.php?mode=other%20events'>Other Events</a>
             </div></li>
+<!--# end 11  -->
 <!--# option 5  -->
         <li><a href='about.php'>About Lupe</a></li> 
 <!--# end 5  -->

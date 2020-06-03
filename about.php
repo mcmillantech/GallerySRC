@@ -13,18 +13,22 @@
     $config = setConfig();					// Connect to database
     $mysqli = dbConnect($config);
     showTop("About " . ARTIST, ARTIST);
+    $dta = array();
 
     $sql = "SELECT * FROM text WHERE type='abouttext'";
     $result = $mysqli->query($sql)
             or myError(ERR_ABOUT_TEXT, $mysqli->error);
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    $html = $record['text'];
-    echo "<div style='margin: 8px'>";
-            echo $html;
-    echo "</div>";
-    echo footer();
+    $dta['text'] = $record['text'];
+    
+    $sql2 = "SELECT * FROM text WHERE type='aboutimage'";
+    $result = $mysqli->query($sql2)
+            or myError(ERR_ABOUT_TEXT, $mysqli->error);
+    $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $dta['image'] = $record['text'];
+    
+    $dta['footer'] = footer();
+
+    showView("about.html", $dta);
 
 ?>
-</div>		<!-- container -->
-</body>
-</html>

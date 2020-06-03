@@ -56,7 +56,7 @@ function logCheck()
 {
                             // See if a user is logged on
     if (!array_key_exists('userLevel', $_SESSION)) {
-        echo "<button onClick='logon()'>Please log on</button> ";
+        echo "<button onClick='logon(\"index.php\")'>Please log on</button> ";
         die();
     }
                             // Now there should be a session - process timeout

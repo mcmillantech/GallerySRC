@@ -76,11 +76,11 @@ function doSubmit(page)
     hAjax.onreadystatechange=function() {
         if (hAjax.readyState==4 && hAjax.status==200) {
             var httxt = hAjax.responseText;
-            if (httxt == 'OK') {				// Logon success
+            if (httxt == 'OK') {		// Logon success
                window.location = page;
             }
             var el = document.getElementById('errors');
-            el.innerHTML = httxt;					// Otherwise display the error
+            el.innerHTML = httxt;		// Otherwise display the error
         }
     }
     var str = "AjaxLogOn.php?user=" + uname + "&pw=" + pw;

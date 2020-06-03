@@ -17,18 +17,19 @@ function writeOrder($order)
 */
 
     session_start();
+    ini_set("display_errors", "1");
+    error_reporting(E_ALL);
     require 'common.php';
-    $config = setConfig();					// Connect to database
+    require_once 'admin/artgroup.php';;
+    $config = setConfig();			// Connect to database
     $mysqli = dbConnect($config);
 
     require 'top2.php';
-    showTop("Buy artwork", "Purchase Lupe Cunha Art");
+    showTop("Buy artwork", "Purchase artwork");
     require_once "bootstrap.php";
 
-    const TEST = 0;						// Set to 1 to skip emails
-    const RERUN = 0;					// Set to 1 to skip Braintree
-
-    $dbConnection = dbConnect($config);
+    const TEST = 0;				// Set to 1 to skip emails
+    const RERUN = 0;				// Set to 1 to skip Braintree
 
     $gateway = new Braintree_Gateway(
         [
@@ -39,13 +40,20 @@ function writeOrder($order)
         ]
     );
 
+    if (RERUN) {
+        doSuccess('981j6c7k');
+        return;
+    }
+    else if (RERUN == 0) 
+        takePayment($gateway);
+/*
     if (TEST) {
         doSuccess();
         return;
     }
     else
         takePayment($gateway);
-
+*/
     echo "<br><button onClick='window.location.assign(\"index.php\")'>Done</button>";
 
 // ----------------------------------------
@@ -54,10 +62,10 @@ function writeOrder($order)
 //
 // ----------------------------------------
 function takePayment($gateway)
-{										// Instantiate a Braintree Gateway 
+{					// Instantiate a Braintree Gateway 
 
     $nonceFromTheClient = $_POST["nonce"];
-                                                                                    // Then, create a transaction:
+    var_dump($nonceFromTheClient);           // Then, create a transaction:;
     $result = $gateway->transaction()->sale([
         'amount' => $_POST["amount"],
         'paymentMethodNonce' => "$nonceFromTheClient",
@@ -65,7 +73,9 @@ function takePayment($gateway)
     ]);
 
     if ($result->success) {
-        doSuccess();
+        $transaction = $result->transaction;
+        $transRef = $transaction->id;
+        doSuccess($transRef);
     } else if ($result->transaction) {
         doFailure($result->transaction->processorResponseText);
     } else {
@@ -96,12 +106,12 @@ function doFailure($msg)
 }
 
 // -----------------------------------
-//	Process successful receipt
+//  Process successful receipt
 //
 // -----------------------------------
-function doSuccess()
+function doSuccess($transRef)
 {
-    global $config, $dbConnection;
+    global $config;
 
     $order = $_SESSION['order'];
     $picture = $order['picture'];
@@ -131,7 +141,7 @@ function doSuccess()
     echo "<p>We have sent a confimation and receipt to " . $order['email'];
     echo "\n";
 
-    writeOrder($order);
+    writeOrder($order, $transRef);
 }
 
 // ----------------------------------------
@@ -177,6 +187,8 @@ function sendCustomerEmail($message, $order)
 // ----------------------------------------
 function sendArtistEmail($order)
 {
+    $picture = $order['picture'];
+    
     $subject = 'Order received for painting';
     $to = USER_EMAIL;
     $headers = "From: " . USER_EMAIL . "\r\n" .
@@ -185,12 +197,16 @@ function sendArtistEmail($order)
 
     $name = $order['name'];
     $ref = $order['ref'];
-
+    $cost = number_format($order['total'], 2);
+                                    // I changed this for the group
+                                    // I need to build into option 11
     $message = "Hi\r\n\r\n"
-        . "An order has been received from " . $name
-        . " for �" . $order['total']
-        . ". Order reference $ref\r\n\r\n"
-        . "See " . WEBSITE . "/admin/vieworder.php?ref=$ref ";
+        . "An order has been made to newartforyou.co.uk for your work.\r\n"
+        . "<b>Name of work</b>  $picture\r\n\r\n"
+        . "<b>Customer name</b>  $name\r\n\r\n"
+        . "The order reference is $ref\r\n\r\n"
+        . "Please see the order on your dashboard: " . WEBSITE 
+        . "/admin/vieworder.php?ref=$ref ";
                                 // Test message
     if (TEST == 0) {
         $reply = mail($to, $subject, $message, $headers);
@@ -229,7 +245,7 @@ function buildEmail($order)
     $html .= "<body>\n";
     $html .= "<p>Dear $name</p>\n";
     $html .= "<p>Thank you for your order of painting "
-            . "<i>$picture</i> from lupecunha.co.uk.</p>\n";
+            . "<i>$picture</i> from " . WEBSITE . ".</p>\n";
 
     $html .= "Your order reference is $ref<br><br>";
     if ($order['quantity'] > 1)
@@ -251,31 +267,33 @@ function buildEmail($order)
 }
 
 // ----------------------------------------------
-//	Write record to the order table
+//  Write record to the order table
 //
-//	Parameters	Order array
-//				id of the order
+//  Parameters	Order array
+//		id of the order
 // ----------------------------------------------
-function writeOrder($order)
+function writeOrder($order, $transRef)
 {
     global $mysqli;
 
-    $dtSQL = date('Y-m-d');			// Makes today's date for SQL insertion
-
+    $dtSQL = date('Y-m-d');		// Makes today's date for SQL insertion
+    $coll = $_SESSION['collection'];
+    $user = userFromCollection($coll);
+    
     $sql = "INSERT INTO orders "
         . "(ref, name, addr1, addr2, addr3, addr4, postcode, email, price, "
         . "date, region, product, shippingprice, status, quantity, voucher, "
-        . " discounta, discounts) "
-        . "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        . " discounta, discounts, user, transref) "
+        . "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     if (!($stmt = $mysqli->prepare($sql)))
         myError(ERR_PM_WO_PREP, 
             "Prepare failure: (" . $mysqli->errno . ") " . $mysqli->error);
 
-    if (!$stmt->bind_param('isssssssissiiiisii', 
+    if (!$stmt->bind_param('isssssssissiiiisiiis', 
         $ref, $name, $addr1, $addr2, $addr3, $addr4, $postcode, $email, 
         $price, $date, $region, $product, $shippingprice, $status, $quantity,
-        $voucher, $discounta, $discounts))
+        $voucher, $discounta, $discounts, $user, $transRef))
         myError(ERR_PM_WO_BIND, 
             "Bind failure: (" . $mysqli->errno . ") " . $mysqli->error);
 
@@ -294,8 +312,6 @@ function writeOrder($order)
     $shippingprice = $order['shipping'] * 100;
     $status = 0;
     $quantity = $order['quantity'];
-//	echo "\n Qty $quantity ";
-//	print_r($order);
     $voucher = $order['voucher'];
     $discounta = $order['discounta'];
     $discounts = $order['discounts'];
@@ -305,9 +321,10 @@ function writeOrder($order)
          "Insert failed: (" . $mysqli->errno . ") " . $mysqli->error);
     $stmt->close();
 
-                                                                                    // Mark painting sold
+                                                         // Mark painting sold
 //	if ($order['multi'])
-    $sql2 = "UPDATE paintings SET quantity = quantity - $quantity, datesold='$dtSQL' WHERE id=" . $order['id'];
+    $sql2 = "UPDATE paintings SET quantity = quantity - $quantity, "
+        . "datesold='$dtSQL' WHERE id=" . $order['id'];
     $mysqli->query ($sql2)
         or myError (ERR_PM_UPDATE_PAINTINGS, 
             "Updating painting record " . $mysqli->error);

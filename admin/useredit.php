@@ -75,7 +75,8 @@ class userEdit extends DataEdit
             'addr4' => '',
             'postcode' => '',
             'website' => '',
-            'level' => ''
+            'level' => '',
+            'collection' => ''
         );
     }
 
@@ -111,6 +112,7 @@ class userEdit extends DataEdit
         echo "<form method='post' action='$action'>";
             $this->showLine('User Name', $dta, 'username', 16);
             $this->showLine('Password', $dta, 'password', 16);
+            $this->showLine('Collection', $dta, 'collection', 5);
             $this->showLine('First Name', $dta, 'firstname', 45);
             $this->showLine('Full Name', $dta, 'fullname', 45);
             $this->showLine('Email', $dta, 'email', 45);
@@ -121,6 +123,8 @@ class userEdit extends DataEdit
             $this->showLine('Postcode', $dta, 'postcode', 16);
             $this->showLine('Website', $dta, 'website', 45);
             $this->showLine('Level', $dta, 'level', 2);
+            echo "<span class='prompt'> &nbsp;(2 artist, 3 superadmin)";
+            echo "</span><br>";
             echo "<button type='submit'>Post</button>";
         echo "</form>";
 
