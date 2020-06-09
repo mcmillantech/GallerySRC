@@ -105,7 +105,7 @@ class UserList extends DataList
     {
         $sql = "INSERT INTO users "
             . "(username, password, fullname, firstname, email, addr1, "
-            . "addr2, addr3, addr4, postcode, website, level ) "
+            . "addr2, addr3, addr4, postcode, phone, website, level ) "
             . " VALUES ("
             . $this->postField('username') . ','
             . $this->postField('password') . ','
@@ -117,6 +117,7 @@ class UserList extends DataList
             . $this->postField('addr3') . ','
             . $this->postField('addr4') . ','
             . $this->postField('postcode') . ','
+            . $this->postField('phone') . ','
             . $this->postField('website') . ','
             . $this->postField('level') 
             . ")";
@@ -139,6 +140,7 @@ class UserList extends DataList
             . " ,addr3=" . $this->postField('addr3')
             . " ,addr4=" . $this->postField('addr4')
             . " ,postcode=" . $this->postField('postcode')
+            . " ,phone=" . $this->postField('phone')
             . " ,website=" . $this->postField('website')
             . " ,level=" . $_POST['level']
             . " WHERE id=$id";
