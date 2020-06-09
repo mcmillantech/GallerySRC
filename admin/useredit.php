@@ -74,8 +74,9 @@ class userEdit extends DataEdit
             'addr3' => '',
             'addr4' => '',
             'postcode' => '',
+            'phone' => '',
             'website' => '',
-            'level' => ''
+            'level' => 1
         );
     }
 
@@ -119,6 +120,7 @@ class userEdit extends DataEdit
             $this->showLine('', $dta, 'addr3', 45);
             $this->showLine('', $dta, 'addr4', 45);
             $this->showLine('Postcode', $dta, 'postcode', 16);
+            $this->showLine('Phone', $dta, 'phone', 20);
             $this->showLine('Website', $dta, 'website', 45);
             $this->showLine('Level', $dta, 'level', 2);
             echo "<button type='submit'>Post</button>";
