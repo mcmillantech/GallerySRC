@@ -57,7 +57,7 @@ protected function SQLDate($dt)
 	require_once "../common.php";
 	require_once "DataList.php";
 
-class EvList extends DataList
+class UserList extends DataList
 {
 	function __construct($mysqli)
 	{
@@ -171,7 +171,7 @@ class EvList extends DataList
 	$mysqli = dbConnect($config);
 
 	echo "<h3>Vouchers</h3>";
-	$lst = new EvList($mysqli);
+	$lst = new UserList($mysqli);
 	$lst->sqlShow("SELECT * FROM vouchers  ORDER BY code DESC");
 	$lst->editPage("voucheredit.php");
 	$lst->run();

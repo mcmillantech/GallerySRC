@@ -32,23 +32,30 @@ class collist extends DataList
 <link type="text/css" rel="stylesheet" href="../custom.css">
 <script src="../Cunha.js"></script>
 <style>
-.lsTitle
+.lsId
 {
 	position:		absolute;
 	left:			20px;
+	width:			40px;
+}
+
+.lsTitle
+{
+	position:		absolute;
+	left:			70px;
 	width:			320px;
 }
 
 .lsSequence
 {
 	position:		absolute;
-	left:			280px;
+	left:			330px;
 }
 
 .lsButton
 {
 	position:		absolute;
-	left:			330px;
+	left:			380px;
 }
 
 </style>
@@ -69,19 +76,20 @@ class collist extends DataList
 
 	public function showListLine($line)
 	{
-		$id = $line['id'];
-		$name = $line['name'];
-		$sequence= $line['sequence'];
-		$onEdit = "window.location=\"coledit.php?mode=upd&item=$id\"";
-		$onDelete = "window.location=\"collist.php?mode=del&item=$id\"";
-	
-		echo "\n<span class='lsTitle'>$name</span>";
-		echo "<span class='lsSequence'>$sequence</span>";
-		echo "<span class='lsButton'>";
-			echo "<button onClick='$onEdit'>Edit</button>";
-			echo "&nbsp;";
-			echo "<button onClick='$onDelete'>Delete</button>";
-		echo "</span><br>";
+            $id = $line['id'];
+            $name = $line['name'];
+            $sequence= $line['sequence'];
+            $onEdit = "window.location=\"coledit.php?mode=upd&item=$id\"";
+            $onDelete = "window.location=\"collist.php?mode=del&item=$id\"";
+
+            echo "\n<span class='lsId'>$id</span>";
+            echo "<span class='lsTitle'>$name</span>";
+            echo "<span class='lsSequence'>$sequence</span>";
+            echo "<span class='lsButton'>";
+                echo "<button onClick='$onEdit'>Edit</button>";
+                echo "&nbsp;";
+                echo "<button onClick='$onDelete'>Delete</button>";
+            echo "</span><br>";
 	}
 
 	// ----------------------------------------------
@@ -90,10 +98,11 @@ class collist extends DataList
 	// ----------------------------------------------
 	public function showHeading()
 	{
-		echo "\n<b><span class='lsTitle'>Title</span>";
-		echo "<span class='lsSequence'>Seq</span>";
-		echo "<span class='lsButton'> Edit</span>";
-		echo "</b><br><br>";
+            echo "\n<b><span class='lsId'>Id</span>";
+            echo "<span class='lsTitle'>Title</span>";
+            echo "<span class='lsSequence'>Seq</span>";
+            echo "<span class='lsButton'> Edit</span>";
+            echo "</b><br><br>";
 	}
 
 	// -------------------------------------------
@@ -187,14 +196,23 @@ class collist extends DataList
 //	of collist
 // ----------------------------------------------
 
-	$config = setConfig();					// Connect to database
-	$mysqli = dbConnect($config);
+    $config = setConfig();				// Connect to database
+    $mysqli = dbConnect($config);
 
-	echo "<h3>Collections</h3>";
-	$lst = new collist($mysqli);
-	$lst->sqlShow("SELECT * FROM collections ORDER BY sequence");
-	$lst->editPage("coledit.php");
-	$lst->run();
+    echo "<h3>Collections</h3>";
+    $lst = new collist($mysqli);
+/* # option 11 
+    $colId = $_GET['col'];
+    $sql = "SELECT l.*, p.* FROM links l "
+        . "JOIN paintings p ON p.id = l.picture "
+        . "WHERE l.collection = $colId "
+        . "ORDER BY p.dateset DESC"; # alt 11  
+ */
+    $sql = "SELECT * FROM collections ORDER BY sequence";
+    /* # end      */
+    $lst->sqlShow($sql);
+    $lst->editPage("coledit.php");
+    $lst->run();
 ?>
 </body>
 </html>

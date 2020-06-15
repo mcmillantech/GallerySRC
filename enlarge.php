@@ -9,25 +9,9 @@
 	session_start();
 	require_once "common.php";
 	require "top2.php";
-?>
-<!DOCTYPE html>
 
-<html lang="en-GB">
-<head>
-<meta http-equiv="Content-Language" content="en-gb">
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>Lupe Cunha's Picture</title>
-<link type="text/css" rel="stylesheet" href="Gallery.css">
-<script src="Cunha.js"></script>
-</head>
+        $mysqli = dbConnect($config);
 
-<body onLoad='sizeCheck()'>
-<p>&nbsp;</p>
-	<div id='container'>
-<?php
-//	$config = setConfig();					// Connect to database
-	$mysqli = dbConnect($config);
-	
 	$id = $_GET['id'];
 	$sql = "SELECT * FROM paintings WHERE id=$id";
 	$result = $mysqli->query($sql)

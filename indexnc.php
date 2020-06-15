@@ -55,7 +55,7 @@ function showOnePicture ($pic, $uselowprice)
     $dta["list"] = $list;
     $dta['footer'] = footer();
 //    print_r($dta);
-    showView("index2.html", $dta);
+    showView("indexv.html", $dta);
 
 // ------------------------------------------------------
 //	Fetch text from the database

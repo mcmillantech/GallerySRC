@@ -22,7 +22,7 @@
 // ----------------------------------------------
 function showTop($title, $heading)
 {
-    global $impath;
+    global $impath, $dta;
 
     $dta = array();
 

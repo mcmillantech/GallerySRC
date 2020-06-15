@@ -44,67 +44,88 @@ function openOrder(id)
 
 <body>
 <?php
-	session_start();
-	echo "<h3>Lupe Web Site: Orders</h3>";
+    session_start();
 
-	include "adminmenus.php";
-	require_once "../common.php";
-	$config = setConfig();					// Connect to database
-	$mysqli = dbConnect($config);
+    include "adminmenus.php";
+    require_once "../common.php";
+    $config = setConfig();					// Connect to database
+    $mysqli = dbConnect($config);
+    echo "<h3>" . ARTIST . " Orders</h3>";
 
-	headings();
-	
-	$result = $mysqli->query("SELECT * FROM orders ORDER BY id DESC");
-	while ($order = mysqli_fetch_array($result, MYSQLI_ASSOC))
-		showOrder($order);
+    headings();
+
+//# option 11 
+    require_once 'artgroup.php';
+    $sql = orderListSQL($mysqli);
+//# alt 11
+    $sql = "SELECT * FROM orders ORDER BY id DESC";
+//# end
+
+    $result = $mysqli->query($sql);
+    while ($order = mysqli_fetch_array($result, MYSQLI_ASSOC))
+        showOrder($order);
 //
 function headings()
 {
-	echo "<p style='font-weight:bold'>";
-		echo "Ref";
-		echo "<span class='orderEl' style='left:60px'>";
-			echo 'Date';
-		echo "</span>";
-		echo "<span class='orderEl' style='left:190px'>";
-			echo 'Price';
-		echo "</span>";
-		echo "<span class='orderEl' style='left:290px'>";
-			echo 'Shipped';
-		echo "</span>";
-	echo "<p>";
+    echo "<p style='font-weight:bold'>";
+        echo "Ref";
+        echo "<span class='orderEl' style='left:60px'>";
+            echo 'Date';
+        echo "</span>";
+        echo "<span class='orderEl' style='left:190px'>";
+            echo 'Price';
+        echo "</span>";
+        echo "<span class='orderEl' style='left:290px'>";
+            echo 'Shipped';
+        echo "<span class='orderEl' style='left:190px'>";
+            echo 'Pay ref';
+        echo "</span>";
+    echo "<p>";
 }
 
 function showOrder($order)
 {
-	$id = $order['ref'];
-	$price = number_format($order['price'] / 100, 2);
-	$shipped = ($order['status'] == 1) ? 'Yes' : 'No';
-	$sqlDt = $order['date'];
-	$sDate = substr($sqlDt, 8, 2) . '/' . substr($sqlDt, 5, 2) . '/' . substr($sqlDt, 0, 4);
-	$sqlDt = $order['shipped'];
-	if ($sqlDt == '')
-		$shipDate = '';
-	else
-		$shipDate = substr($sqlDt, 8, 2) . '/' . substr($sqlDt, 5, 2) . '/' . substr($sqlDt, 0, 4);
+    $id = $order['ref'];
+    $price = number_format($order['price'] / 100, 2);
+    $shipped = ($order['status'] == 1) ? 'Yes' : 'No';
+    $transRef = $order['transref'];
+    $sqlDt = $order['date'];
+    $sDate = substr($sqlDt, 8, 2) . '/' . substr($sqlDt, 5, 2) . '/' . substr($sqlDt, 0, 4);
+    $sqlDt = $order['shipped'];
+    if ($sqlDt == '')
+        $shipDate = '';
+    else
+        $shipDate = substr($sqlDt, 8, 2) . '/' . substr($sqlDt, 5, 2) . '/' . substr($sqlDt, 0, 4);
 
-	echo "<div class='orderLine'>";
-	echo "$id";
-	echo "<span class='orderEl' style='left:60px'>";
-		echo $sDate;
-	echo "</span>";
-	echo "<span class='orderEl' style='left:170px; width:80px;text-align:right;'>&pound;";
-		echo $price;
-	echo "</span>";
-	echo "<span class='orderEl' style='left:300px'>";
-		echo $shipped;
-	echo "</span>";
-	echo "<span class='orderEl' style='left:350px'>";
-		echo $shipDate;
-	echo "</span>";
-	echo "<span class='orderEl' style='left:460px'>";
-		echo "<button onClick='openOrder($id)'>Open</button>";
-	echo "</span>";
-	echo "</div>\n";
+    echo "<div class='orderLine'>";
+    echo "$id";
+    echo "<span class='orderEl' style='left:60px'>";
+        echo $sDate;
+    echo "</span>";
+    echo "<span class='orderEl' style='left:170px; width:80px;text-align:right;'>&pound;";
+        echo $price;
+    echo "</span>";
+    echo "<span class='orderEl' style='left:300px'>";
+        echo $shipped;
+    echo "</span>";
+    echo "<span class='orderEl' style='left:350px'>";
+        echo $shipDate;
+    echo "</span>";
+    echo "<span class='orderEl' style='left:460px'>";
+        echo $transRef;
+    echo "</span>";
+    echo "<span class='orderEl' style='left:550px'>";
+        echo "<button onClick='openOrder($id)'>Open</button>";
+//# option 11
+        if ($order['user'] == 99) {
+            $artist = $order['name'];
+        } else {
+            $artist = $order['artist'];
+        }
+        echo " &nbsp;$artist";
+//# end
+    echo "</span>";
+    echo "</div>\n";
 }
 
 ?>

@@ -20,6 +20,7 @@ function showOnePicture ($pic, $uselowprice)
     $dta = array();
 
     $sequence = $_GET['col'];			// Use filter_var()
+//   $_SESSION['collection'] = $sequence;
 
     $sql = "SELECT * FROM collections WHERE sequence=$sequence";
     $result = $mysqli->query($sql)
@@ -27,11 +28,13 @@ function showOnePicture ($pic, $uselowprice)
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
     $colId = $record['id'];
+    $_SESSION['collection'] = $colId;          // Store for New Art
+    
     $title = "Collection: " . $record['name'];
     $uselowprice = $record['uselowprice'];
     showTop("Art by " . ARTIST, $title);
 
-    $dta["colImage"] = $impath . '/small/' . $record['image'];
+    $dta["colImage"] = $impath . '/' . $record['image'];
     $dta['colText'] = $record['text'];
     mysqli_free_result($result);
 
@@ -42,7 +45,8 @@ function showOnePicture ($pic, $uselowprice)
         $sql = "SELECT l.*, p.* FROM links l "
             . "JOIN paintings p ON p.id = l.picture "
             . "WHERE l.collection = $colId "
-            . "ORDER BY p.dateset DESC";
+//            . "ORDER BY p.dateset DESC";
+            . "ORDER BY p.seq";
     }
 
     $result = $mysqli->query($sql)

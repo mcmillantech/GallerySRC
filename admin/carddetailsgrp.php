@@ -1,19 +1,22 @@
 <?php
 // ------------------------------------------------------
-//  Project	Artist details
-//  File	carddetails.php
-//		Use Braintree API and fetch card details
+//  Project Take payment for group artist
+//  File    carddetailsgrp.php
+//          Use Braintree API and fetch card details
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//  Author  John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 
 ?>
 <!doctype html>
 <html>
 <head>
-  <title>Lupe Cunha Art: Payment</title>
+<?php
+  echo "<title>" . ARTIST . ": Payment</title>";
+?>
   <meta charset="utf-8">
-  <script src="https://js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js"></script>
+  <script src="https://js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js">
+  </script>
 </head>
 <body>
 <?php
@@ -25,7 +28,7 @@
 	<form id="checkout" method="post" action="paymentmade.php">
 	<input type='hidden' value='testnonce' name='nonce' id='nonceFld'>
 <?php
-	$price = $_GET['price'];
+	$price = 25.00;
 	echo "<input type='text' value='" . $price . "' name='amount' id='amount'>";
 ?>
 	<br>
@@ -43,9 +46,7 @@
 	var token;
 //	if (domain == "localhost")
 		token = "sandbox_79k7qx4p_nymy4h8qq7ck73sn";
-//	else
-//		token = "production_hcsjhmjj_rcy8fxhfbjfngsw4";
-        token = "production_38zqhm8t_fdyvvs3rm4gs2c5n";
+
 // ---------------------------------------------------
 //	Script taken from Braintree
 //
@@ -56,7 +57,7 @@
 
     var result = braintree.dropin.create(
     {
-      authorization: token,
+		authorization: token,
       container: '#dropin-container'
     }, function (createErr, instance) 
      {
