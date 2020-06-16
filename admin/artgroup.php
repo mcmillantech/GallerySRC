@@ -54,9 +54,6 @@ function picListSql($mysqli)
         }
         else {      // The artist is looged on
                     // Fetch the collection id from the user table
-            $sql1 = "SELECT collection FROM users WHERE id=$id";
-            $result = $mysqli->query($sql1);
-            $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
             $col = $_SESSION['loggedColl'];
             $where = "WHERE l.collection=$col ";
         }
@@ -93,11 +90,9 @@ function orderListSql($mysqli)
             . "WHERE user=99 "
             . "ORDER BY r.date DESC";
     } else {                            // For this collection
-        $userId = userFromCollection($id);
         $sql = "SELECT r.ref, r.date, r.price, r.status, r.shipped, r.user, "
-            . "u.fullname as artist, r.transref "
+            . "name as artist, r.transref "
             . "FROM orders r "
-            . "JOIN users u ON u.id = r.user "
             . "WHERE user=$id "
             . "ORDER BY r.date DESC";
     }
