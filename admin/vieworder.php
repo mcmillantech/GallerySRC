@@ -134,10 +134,12 @@ function showOrder($record, $order)
 
     echo "<br><br>";
 //# option 11
-//# alt
-        $loc = '"orders.php"';
-    echo "<button onClick='document.location=$loc'>Back to list</button>";
 //# end
+    $loc = '"orders.php"';
+    echo "<span class='prompt'>";
+    echo "<button onClick='document.location=$loc'>Back to list</button>";
+    echo "</span>";
+//
 }
 
 // ----------------------------------------------
