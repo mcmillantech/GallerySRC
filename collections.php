@@ -44,7 +44,7 @@ function showOnePicture ($pic, $uselowprice)
     else {
         $sql = "SELECT l.*, p.* FROM links l "
             . "JOIN paintings p ON p.id = l.picture "
-            . "WHERE l.collection = $colId "
+            . "WHERE l.collection = $colId AND p.deleted=0 "
 //            . "ORDER BY p.dateset DESC";
             . "ORDER BY p.seq";
     }
