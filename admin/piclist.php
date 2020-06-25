@@ -89,7 +89,8 @@ class PicList extends DataList
         if ($_SESSION['userLevel'] < 3) {
             echo "<button onClick='$onEdit'>Edit</button>";
             echo "&nbsp;";
-            echo "<button onClick='doDelete($id, \"$name\")'>Delete</button>";
+            if ($line['deleted'] != 1)
+                echo "<button onClick='doDelete($id, \"$name\")'>Delete</button>";
         }
         else {
             $artist = $line['artist'];
@@ -311,7 +312,7 @@ class PicList extends DataList
     {
         $id = $_GET['item'];
 
-        $sql = "DELETE FROM paintings "
+        $sql = "UPDATE paintings SET deleted=1"
             . " WHERE id=$id";
 
         $this->mysqli->query($sql)
