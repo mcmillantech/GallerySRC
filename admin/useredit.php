@@ -65,6 +65,7 @@ class userEdit extends DataEdit
         $this->record = array
         (
             'username' => '',
+            'collection' => '0',
             'password' => '',
             'fullname' => '',
             'firstname' => '',

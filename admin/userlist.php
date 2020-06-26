@@ -105,7 +105,7 @@ class UserList extends DataList
     {
         $sql = "INSERT INTO users "
             . "(username, password, fullname, firstname, email, addr1, "
-            . "addr2, addr3, addr4, postcode, phone, website, level ) "
+            . "addr2, addr3, addr4, postcode, phone, website, level, collection ) "
             . " VALUES ("
             . $this->postField('username') . ','
             . $this->postField('password') . ','
