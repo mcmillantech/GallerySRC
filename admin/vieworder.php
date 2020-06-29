@@ -111,6 +111,8 @@ function showOrder($record, $order)
     echo "<span class='input'>" . $record['addr4'] . "</span><br>";
     echo "<span class='prompt'>Post code</span>";
     echo "<span class='input'>" . $record['postcode'] . "</span><br>";
+    echo "<span class='prompt'>Phone</span>";
+    echo "<span class='input'>" . $record['phone'] . "</span><br>";
     echo "<span class='prompt'>Shipping region</span>";
     echo "<span class='input'>" . $record['region'] . "</span><br>";
     echo "<span class='prompt'>Email</span>";
