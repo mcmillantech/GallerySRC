@@ -17,7 +17,11 @@
     $mysqli = dbConnect($config);
     $title = "Art by " . ARTIST;
     $title = ARTIST;
+//# option 11
+    showTop("Online art for sale from NewArtForYou", "New Art for You: artists");
+//# alt 11
     showTop($title, $title);
+//# end 11
 
     $dta['imgrecent'] = $impath . '/small/Recent.jpg';
 
