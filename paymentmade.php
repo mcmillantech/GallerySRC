@@ -28,7 +28,7 @@ function writeOrder($order)
     showTop("Buy artwork", "Purchase artwork");
     require_once "bootstrap.php";
 
-    const TEST = 0;				// Set to 1 to skip emails
+    const TEST = 1;				// Set to 1 to skip emails
     const RERUN = 0;				// Set to 1 to skip Braintree
 
     $gateway = new Braintree_Gateway(
@@ -65,7 +65,7 @@ function takePayment($gateway)
 {					// Instantiate a Braintree Gateway 
 
     $nonceFromTheClient = $_POST["nonce"];
-    var_dump($nonceFromTheClient);           // Then, create a transaction:;
+//    var_dump($nonceFromTheClient);           // Then, create a transaction:;
     $result = $gateway->transaction()->sale([
         'amount' => $_POST["amount"],
         'paymentMethodNonce' => "$nonceFromTheClient",
@@ -259,7 +259,7 @@ function buildEmail($order)
     $html .= "<p>We shall be dispatching your order shortly</p>";
     $html .= "<p>" . ARTIST . "</p>";
 
-    $html .= "<span style='font-size:80%'>" . USER_ADDRESS . "</span></p>\n";
+    $html .= "<p><span style='font-size:80%'>" . USER_ADDRESS . "</span></p>\n";
     $html .= "</body>\n";
     $html .= "</html>\n";
 
@@ -283,17 +283,17 @@ function writeOrder($order, $transRef)
     $sql = "INSERT INTO orders "
         . "(ref, name, addr1, addr2, addr3, addr4, postcode, email, price, "
         . "date, region, product, shippingprice, status, quantity, voucher, "
-        . " discounta, discounts, user, transref) "
-        . "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        . " discounta, discounts, user, transref, phone) "
+        . "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     if (!($stmt = $mysqli->prepare($sql)))
         myError(ERR_PM_WO_PREP, 
             "Prepare failure: (" . $mysqli->errno . ") " . $mysqli->error);
 
-    if (!$stmt->bind_param('isssssssissiiiisiiis', 
+    if (!$stmt->bind_param('isssssssissiiiisiiiss', 
         $ref, $name, $addr1, $addr2, $addr3, $addr4, $postcode, $email, 
         $price, $date, $region, $product, $shippingprice, $status, $quantity,
-        $voucher, $discounta, $discounts, $user, $transRef))
+        $voucher, $discounta, $discounts, $user, $transRef, $phone))
         myError(ERR_PM_WO_BIND, 
             "Bind failure: (" . $mysqli->errno . ") " . $mysqli->error);
 
@@ -304,6 +304,7 @@ function writeOrder($order, $transRef)
     $addr3 =  addslashes($order['addr3']);
     $addr4 =  addslashes($order['addr4']);
     $postcode = addslashes($order['pcode']);
+    $phone = addslashes($order['phone']);
     $email = addslashes($order['email']);
     $price = $order['price'] * 100;
     $date = addslashes($dtSQL);

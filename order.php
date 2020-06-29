@@ -45,7 +45,7 @@ JS function checkFld(fld)
     showTop("Order from " . ARTIST, "Buy $title");
 
     showForm($id, $record);
-	
+    
 // ---------------------------------------
 //  Show a form to request delivery data
 //
@@ -55,7 +55,7 @@ JS function checkFld(fld)
 function showForm($id, $record)
 {
     $acn = "order2.php?id=$id";
-    echo "<p>Please enter your address</p>";
+    echo "<p>Please enter your address (fields marked * must be input)</p>";
     echo "<form action='$acn' onsubmit='return check()' method='post'>";
         echo "<span class='prompt'>Your name *</span>";
         showLine('name', 45);
@@ -64,8 +64,10 @@ function showForm($id, $record)
         showLine('addr2', 45);
         showLine('addr3', 45);
         showLine('addr4', 45);
-        echo "<span class='prompt'>Post code *</span>";
+        echo "<span class='prompt'>Post/zip code *</span>";
         showLine('pcode', 16);
+        echo "<span class='prompt'>Phone</span>";
+        showLine('phone', 45);
         echo "<span class='prompt'>Your email *</span>";
         showLine('email', 60);
 
