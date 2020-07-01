@@ -138,18 +138,16 @@ function imageFit($image)
 }
 
 // -------------------------------------------
-//	Return the text of the footer
+//  Fetch and return the text of the footer
 //
 // -------------------------------------------
 function footer()
 {
-    $txt = "<p>&nbsp;&nbsp;</p>\n" 
-        . "<div id='footer'>\n"
-        . "	<p class='jlink'>\n"
-        . "<br>Website produced by <a href='http://www.mcmillantech.co.uk' target='blank'>\n"
-        . "McMillan Technology</a></p>\n<br></div>";
+    $fh = fopen('footer.html', 'r');
+    $content = fread($fh, 4000);
+    fclose($fh);
 
-    return $txt;
+    return $content;
 }
 
 const PP_TEST = 0;		// In common master, Set this to 1 to use sandbox
