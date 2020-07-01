@@ -30,7 +30,7 @@ function showOnePicture ($pic, $uselowprice)
     $colId = $record['id'];
     $_SESSION['collection'] = $colId;          // Store for New Art
     
-    $title = "Collection: " . $record['name'];
+    $title = "Online art by " . $record['name'];
     $uselowprice = $record['uselowprice'];
     showTop("Art by " . ARTIST, $title);
 
