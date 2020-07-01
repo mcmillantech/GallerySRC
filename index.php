@@ -18,7 +18,9 @@
     $title = "Art by " . ARTIST;
     $title = ARTIST;
 //# option 11
-    showTop("Online art for sale from NewArtForYou", "New Art for You: artists");
+    $heading = "New Art for You: Online art sales";
+    showTop("Online art for sale from NewArtForYou", $heading);
+    echo "<h2>The Artists</h2>";
 //# alt 11
     showTop($title, $title);
 //# end 11

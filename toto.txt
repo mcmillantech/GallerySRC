@@ -1,0 +1,18 @@
+To Do
+=====
+Collections.php to use id, not seq
+piclist showForm is stll running on artist name
+Personalised shipping text
+Long artist name causes overflow on home page (?)
+vieworder.php needs a button "Back to list"
+Image paths to come from $impath
+
+Sandbox mode
+------------
+CommonMaster.php - set PP_TEST
+carddetails.php and artistfee - change token in Javascript 
+
+Done
+----
+Order process or delete painting - leave available for orders. Maybe restore 
+the SQL in vieworder show /
