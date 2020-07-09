@@ -7,6 +7,13 @@ Long artist name causes overflow on home page (?)
 vieworder.php needs a button "Back to list"
 Image paths to come from $impath
 
+Styles
+------
+PageBuilder->makeBanner set the height of the banner, hard coded, removed 3/7/30
+All menu styles are defined in preset style sheets in source/css. They are 
+copied in Customer.php->makeCustomStyle.
+Menus.css needs to be removed.
+
 Sandbox mode
 ------------
 CommonMaster.php - set PP_TEST

@@ -4,6 +4,22 @@ var timeout         = 500;
 var closetimer		= 0;
 var ddmenuitem      = 0;			// HTML div of currently showing drop down element
 
+// -----------------------------------------------------
+//  Toggle between adding and removing the "responsive" 
+//  class to topnav when the user clicks on the icon 
+//  
+// -----------------------------------------------------
+function toggleMenu() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+        x.className += " responsive";
+    } else {
+        x.className = "topnav";
+    }
+    var el = document.getElementById("myTopnav");
+}
+
+
 function sizeCheck()
 {
 	swidth = screen.width;

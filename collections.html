@@ -4,7 +4,7 @@
 {
 	position:			fixed;
 	top:				200px;
-	left:				300px;
+	left:				100px;
 	width:				340px;
 	height:				330px;
 	background-color:	white;
@@ -67,16 +67,16 @@ function enlarge(col, id)
 
 <!--  Show the top - collection details -->
         <span class='collectImage'>
-            <img src='{colImage}' style='width:83%; padding-top:12px;'>
+            <img src='{colImage}'>
         </span>
-        <span >
-            <p style='padding: 25px 25px 10px 10px;'>{colText}</p>
+        <span class="collectText">
+            {colText}
         </span>
 
 <!--  Now the 3 columns -->
         <div style='clear:both'> </div>
             {list}
-            <div class='collectImageH' style='height:735px;'>
+            <div class='pictureDiv' style='height:735px;'>
                 <h3 style='max-width: 98%; height:20px'>{name}</h3>
                 <p>{size}&nbsp;</p>
                 <div style="height:60px;">
