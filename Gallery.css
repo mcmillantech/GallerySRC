@@ -1,24 +1,14 @@
-h1
-{
-    color:      black;
-}
-
-h2
-{
-    color:      black;
-}
-
-h3
-{
-    color:      black;
-}
+h1 {color: black; }
+h2 {color: black; }
+h3 {color: black; }
 
 #container
 {
     position:		absolute;
-    width:		1100px;
-    left:		50%;
-    margin-left:	-550px;
+    width:              95%;
+/*    left:		50%;
+    margin-left:	-550px; */
+margin-left: 10px;
     margin-bottom:	15px;
     padding-left:	5px;
     padding-bottom:	10px;
@@ -27,57 +17,75 @@ h3
 
 #mainPanel
 {
+    position:       relative;
     width:		100%;
 }
 
-.homeLeft
+#bannerContent {
+    font-size:      140%;
+}
+
+/* Home page styles	*/
+
+.homeContent
 {
-    width:		27%;
-    float:		left;
+    position:           relative;
+    width:		98%;
     text-align:		center;
 }
-/*
-.ncPic
-{
-    width:              24%;
-    float:              left;
+
+.homeImage {
+    width:		83%;
+    padding-top:        12px;
+    margin:             auto;
 }
 
-.ncText
-{
-    width:              48%;
-    float:              left;
-    padding-right:      5px;
-}
-*/
-.ncSignup
-{
-    width:              24%;
-    float:              left;
-    padding-left:       3px;
+.homeText {
+    text-align:         left;
+    padding-left:       5px;
 }
 
-/*	Collections styles	*/
+.homeImage img {
+    max-width:          100%;
+    height:             auto;
+}
 
-.homeCollect
+.homeCollectList
 {
     position:		relative;
-    float:		left;
-    width:		72%;
+    width:		98%;
 }
 
-.collectImage
-{
-    width:		31%;
-    padding-left:	12px;
-    padding-top:	12px;
+.homeColImage {
+    max-width:          98%;
+    height:             auto;
+}
+
+.homeColHover {
+    max-width:          98%;
+    height:             auto;
+    opacity:            0.5;
+    display:            none;
+}
+
+.collectImage {                /* Image for the collection */
+    width:		48%;
     float:		left;
     text-align:		center;
 }
 
-.collectImageH
+.collectImage img {
+    max-width:  100%;
+}
+
+.collectText {
+    widtb:          46%;
+    padding:        30px 0px 10px 0px;
+}
+
+.pictureDiv
 {
-    width:		31%;
+    width:		48%;
     padding-top:	12px;
     float:		left;
     text-align:		center;
@@ -96,20 +104,7 @@ h3
     opacity:		1;
 }
 
-.picture		/* Holds one picture and its text */
-{
-    position:		relative; 
-    width:		100%;
-}
-
-.picDets
-{
-    position:		relative; 
-    width:		35%;
-    float:		left;
-}
-
-.picImage
+.picImage               /* Only used in events */
 {
     position:		relative;
     float:		left;
@@ -122,6 +117,72 @@ h3
     width:		94%;
     margin-left:	3%;
     text-align:		center;
+}
+
+@media screen and (min-width: 650px) {
+    .homeImage {
+        width:		27%;
+        float:          left;
+    }
+
+    .homeText {
+        width:          71%;
+        float:          right;
+    }
+}
+
+@media screen and (min-width: 850px) {
+    .homeContent {
+        width:		27%;
+        text-align:     center;
+        float:          left;
+    }
+    .homeCollectList {
+        width:		71%;
+        float:          right;
+    }
+
+    .collectImage {
+        width:          31%;
+    }
+    .homeColImage {
+        max-height:         237px; 
+        max-width:          200px;
+    }
+    .collectText {
+        width:          70%
+        padding:        25px 5px 10px 5px;
+    }
+    .pictureDiv {
+        width:          31%;
+    }
+
+}
+
+@media screen and (min-width: 1100px) {  /* Desktop styles */
+    #container {
+        width:		1100px;
+        left:		50%;
+        margin-left:	-550px;
+    }
+    .homeContent {
+        width:		26%;
+        float:          left;
+
+    }
+    .homeImage {
+        width:		83%;
+    }
+
+    .collectImage {
+        width:          31%;
+        padding-left:	12px;
+        float:          left;
+    }
+    .homeCollectList {
+        width:          72%;
+        float:		right;
+    }
 }
 
 /*  Styles for events */

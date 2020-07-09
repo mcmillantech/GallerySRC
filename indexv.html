@@ -15,19 +15,20 @@
 </style>
 
     <div id='mainPanel'>
-        <div class='homeLeft'>
-            <img src='{impath}/{imghome}' style='width:83%; padding-top:12px;'
-                 onClick='enlarge("{imghome}")'>
-
-            <div style='text-align: left;padding-left:5px'> 
-                <p>{hometext}</p>
+        <div class='homeContent'>
+            <div class="homeImage">
+                <img src='{impath}/{imghome}' alt="New Art"
+                     onClick='enlarge("{imghome}")'>
             </div>
+            <div class = "homeText"> 
+                <p>{hometext}</p>
             {signup}
             <a href='mailto:{mailto}?subject={signupsubject}&body={signuptext}'>
                 Keep me updated</a>
+            </div>
         </div>
 <!--# option 11 -->
-            <br><br>
+
 <!--# alt 11 -->
             <h3>Recent works</h3>
             <span class='collectImage' style='width: 98%' onMouseOut='colMouseOut(0)' 
@@ -47,13 +48,12 @@
                 src='{impath}/small/Recent.jpg' style='width:83%; padding-top:12px;'>
          -->
 
-        <div class='homeCollect'>
+        <div class='homeCollectList'>
         {colls}
             <span class='collectImage' onMouseOut='colMouseOut({id})' onClick='openColl({id})'>
                 <div onMouseOver='colMouseOver({id})' style='border:solid 1px;'>
-                    <img src='{img}' id='{imid}' style='max-height:237px; max-width:200px;'>
-                    <img src='{hover}' id='{id2}'
-                     style='height:237px; position:relative; opacity:0.5; display:none'>
+                    <img class='homeColImage' src='{img}' id='{imid}'>
+                    <img class='homeColHover' src='{hover}' id='{id2}'>
                     <div class='whiteText' id={idtxt}><b>{name}</b></div>
                 </div>
 
