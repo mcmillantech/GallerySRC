@@ -76,7 +76,7 @@ function enlarge(col, id)
 <!--  Now the 3 columns -->
         <div style='clear:both'> </div>
             {list}
-            <div class='pictureDiv' style='height:735px;'>
+            <div class='pictureDiv'>
                 <h3 style='max-width: 98%; height:20px'>{name}</h3>
                 <p>{size}&nbsp;</p>
                 <div style="height:60px;">
@@ -85,19 +85,16 @@ function enlarge(col, id)
                 <div style="height:40px;">
                     {mount}&nbsp;
                 </div>
-                </p>
-                <div style='height:405px;'>
+                
 <!--# option 3 -->
-                    <img src='{image}' style='{style}' 
+                    <img src='{image}'
                      onClick='enlarge({collection}, {id})'>
-                </div>
                 <p>Click to enlarge</p> 
 <!--# alt 3 -->
-                    <img src='{image}' style='{style}'> 
-                </div>
+                    <img src='{image}'> 
 <!--# end 3 -->
 <!--# option 4 -->
-                <div>Price {price} plus shipping 
+                <div style='height:40px;'>Price {price} plus shipping 
                 <span onclick='showShipping("{shippingrate}")' style='color:blue'>
                     Cost </span><br><br>
                 </div>

@@ -81,8 +81,6 @@ function showOnePicture ($pic, $uselowprice)
 
     $pic["image"] = $impath . '/small/' . $pic['image'];	// Path to image file
 
-    $pic['style'] = imageFit($pic["image"]);		// Fit image 
-
     if ($uselowprice)
         $pic["price"] = '&pound;' . sprintf('%.2f', $pic['priceebay'] / 100.0);
     else
@@ -91,13 +89,13 @@ function showOnePicture ($pic, $uselowprice)
     $dsold = $pic['datesold'];
     $id = $pic['id'];
 
-//	if ($dsold == null)			// Now use qty
     if ($pic['away'] != null) {
         $pic["buy"] = "<p>" . AWAY . dispDate($pic['away']) . "<br><br>";;
     }
     else {
         if ($pic['quantity'] > 0)
-            $pic["buy"] = "<div><button onclick='buy($id)'>Buy</button></div>";
+            $pic["buy"] = "<div>"
+                . "<button onclick='buy($id)'>Buy this work</button></div>";
         else
             $pic["buy"] = "<div style='color:red;font-size:120%'>Sold</div>";
     }

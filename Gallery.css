@@ -89,7 +89,13 @@ margin-left: 10px;
     padding-top:	12px;
     float:		left;
     text-align:		center;
-    height:		680px;
+    height:		610px;
+}
+
+.pictureDiv img {
+    width:          98%;
+    height:         290px;
+    object-fit:     contain;
 }
 
 .collTxt
@@ -119,18 +125,6 @@ margin-left: 10px;
     text-align:		center;
 }
 
-@media screen and (min-width: 650px) {
-    .homeImage {
-        width:		27%;
-        float:          left;
-    }
-
-    .homeText {
-        width:          71%;
-        float:          right;
-    }
-}
-
 @media screen and (min-width: 850px) {
     .homeContent {
         width:		27%;
@@ -146,15 +140,18 @@ margin-left: 10px;
         width:          31%;
     }
     .homeColImage {
-        max-height:         237px; 
-        max-width:          200px;
+        max-height:     237px; 
+        max-width:      200px;
     }
     .collectText {
-        width:          70%
+        width:          70%;
         padding:        25px 5px 10px 5px;
     }
     .pictureDiv {
         width:          31%;
+    }
+    .pictureDiv img {
+        height:         350px;
     }
 
 }
@@ -182,6 +179,27 @@ margin-left: 10px;
     .homeCollectList {
         width:          72%;
         float:		right;
+    }
+    .pictureDiv {
+        height:          735px;;
+    }
+}
+
+@media screen and (min-width: 650px) {
+    .homeImage {
+        width:		27%;
+        float:          left;
+    }
+
+    .homeText {
+        width:          71%;
+        float:          right;
+    }
+    .pictureDiv {
+        height:          735px;;
+    }
+    .pictureDiv img {
+        height:         390px;
     }
 }
 
