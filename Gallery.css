@@ -87,8 +87,7 @@ margin-left: 10px;
 {
     width:		48%;
     padding-top:	12px;
-    float:		left;
-    text-align:		center;
+    float:		left;   text-align:		center;
     height:		610px;
 }
 
@@ -98,6 +97,12 @@ margin-left: 10px;
     object-fit:     contain;
 }
 
+.pictureDiv button{
+    font-size:          18px;
+    background-color:	#ffe699;
+    color:		#cc0000;
+    padding:            2px 8px;
+}
 .collTxt
 {
     position:		relative; 
@@ -135,6 +140,10 @@ margin-left: 10px;
         width:		71%;
         float:          right;
     }
+    .homeImage {
+        width:		100%;
+        float:          left;
+    }
 
     .collectImage {
         width:          31%;
@@ -149,6 +158,7 @@ margin-left: 10px;
     }
     .pictureDiv {
         width:          31%;
+        height:          735px;
     }
     .pictureDiv img {
         height:         350px;
@@ -168,7 +178,7 @@ margin-left: 10px;
 
     }
     .homeImage {
-        width:		83%;
+        width:		100%;
     }
 
     .collectImage {
@@ -181,11 +191,11 @@ margin-left: 10px;
         float:		right;
     }
     .pictureDiv {
-        height:          735px;;
+        height:          735px;
     }
 }
 
-@media screen and (min-width: 650px) {
+@media screen and (min-width: 650px) and (max-width: 849px) {
     .homeImage {
         width:		27%;
         float:          left;
