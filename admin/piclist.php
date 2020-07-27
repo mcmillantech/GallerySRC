@@ -35,8 +35,11 @@ class PicList extends DataList
 <script>
 function doDelete(item, name)
 {
-	if (confirm("Delete " + name + ": are you sure?"))
-		window.location="piclist.php?mode=del&item=" + item;
+    var msg = "Delete " + name 
+        + "\nWARNING If you have sold a work, do not do this until you have shipped it"
+        + "\nare you sure?";
+    if (confirm(msg))
+        window.location="piclist.php?mode=del&item=" + item;
 }
 </script>
 <style>
@@ -89,8 +92,13 @@ class PicList extends DataList
         if ($_SESSION['userLevel'] < 3) {
             echo "<button onClick='$onEdit'>Edit</button>";
             echo "&nbsp;";
-            if ($line['deleted'] != 1)
-                echo "<button onClick='doDelete($id, \"$name\")'>Delete</button>";
+            if ($line['deleted'] != 1) {
+                echo "<button onClick='doDelete($id, \"$name\")'>";
+                echo "Remove from display</button>";
+            }
+            else {
+                echo "Deleted";
+            }
         }
         else {
             $artist = $line['artist'];
