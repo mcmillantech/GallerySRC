@@ -61,7 +61,7 @@ function picListSql($mysqli)
         $sql = "SELECT l.*, c.id, c.name as artist, p.* FROM collections c "
             . "Join links l ON l.collection = c.id "
             . "JOIN paintings p ON p.id = l.picture ";
-        $sql .=  $where . "ORDER BY p.seq";
+        $sql .=  $where . "ORDER BY p.deleted, p.seq";
 
     }
 
