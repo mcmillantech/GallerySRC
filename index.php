@@ -17,12 +17,11 @@
     $mysqli = dbConnect($config);
     $title = "Art by " . ARTIST;
     $title = ARTIST;
+    $title = "Online art for sale from " . ARTIST;
+    $heading = "Art sales from " . ARTIST;
+    showTop($title, $heading);
 //# option 11
-    $heading = "New Art for You: Online art sales";
-    showTop("Online art for sale from NewArtForYou", $heading);
     echo "<h2>The Artists</h2>";
-//# alt 11
-    showTop($title, $title);
 //# end 11
 
     $dta['imgrecent'] = $impath . '/small/Recent.jpg';
@@ -95,7 +94,7 @@ function fetchData()
 // ----------------------------------------------
 //  Place an element to hold a collection image
 //
-//  Parameter	DB record for the picture
+//  Parameter	DB record for the artist / collection
 //
 //  Create a collectImage span element to contain:
 //	A col<i> div for the picture
@@ -112,6 +111,7 @@ function showOneImage($pic)
     $ar['id'] = $id;
     $ar['img'] = $impath . '/' . $pic['image'];
     $ar['hover'] = $impath . '/' . $pic['search'];
+    $ar['alttext'] = "Art sales from $name";
 
     $imid = 'coli' . $id;		// Make the ID of the image
     $ar['imid'] = $imid;

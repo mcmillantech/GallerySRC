@@ -48,7 +48,7 @@ function collectionsList($dta)
     $menu = array();				// Holds pull down list
     $mline = array();				// Holds a pull down line
     while ($coll = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        $mline['id'] = $coll['sequence'];
+        $mline['id'] = urlencode($coll['name']);
         $mline['name'] = $coll['name'];
         array_push($menu, $mline);
     }

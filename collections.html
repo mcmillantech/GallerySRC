@@ -67,7 +67,7 @@ function enlarge(col, id)
 
 <!--  Show the top - collection details -->
         <span class='collectImage'>
-            <img src='{colImage}'>
+            <img src='{colImage}' alt='{colAlt}'>
         </span>
         <span class="collectText">
             {colText}
@@ -87,11 +87,11 @@ function enlarge(col, id)
                 </div>
                 
 <!--# option 3 -->
-                    <img src='{image}'
+                    <img src='{image}'  alt='{alttext}'
                      onClick='enlarge({collection}, {id})'>
                 <p>Click to enlarge</p> 
 <!--# alt 3 -->
-                    <img src='{image}'> 
+                    <img src='{image}' alt='{alttext}'> 
 <!--# end 3 -->
 <!--# option 4 -->
                 <div style='height:40px;'>Price {price} plus shipping 

@@ -17,7 +17,7 @@
     <div id='mainPanel'>
         <div class='homeContent'>
             <div class="homeImage">
-                <img src='{impath}/{imghome}' alt="New Art"
+                <img src='{impath}/{imghome}' alt="New Art For You - online art gallery"
                      onClick='enlarge("{imghome}")'>
             </div>
             <div class = "homeText"> 
@@ -50,10 +50,11 @@
 
         <div class='homeCollectList'>
         {colls}
-            <span class='collectImage' onMouseOut='colMouseOut({id})' onClick='openColl({id})'>
+            <span class='collectImage' onMouseOut='colMouseOut({id})' 
+                  onClick='openColl("{name}")'>
                 <div onMouseOver='colMouseOver({id})' style='border:solid 1px;'>
-                    <img class='homeColImage' src='{img}' id='{imid}'>
-                    <img class='homeColHover' src='{hover}' id='{id2}'>
+                    <img class='homeColImage' src='{img}' id='{imid}' alt='{alttext}'>
+                    <img class='homeColHover' src='{hover}' id='{id2}' alt='{alttext}'>
                     <div class='whiteText' id={idtxt}><b>{name}</b></div>
                 </div>
 

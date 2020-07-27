@@ -20,21 +20,25 @@ function showOnePicture ($pic, $uselowprice)
     $dta = array();
 
     $sequence = $_GET['col'];			// Use filter_var()
+    $coll = $_GET['col'];
 //   $_SESSION['collection'] = $sequence;
 
-    $sql = "SELECT * FROM collections WHERE sequence=$sequence";
+    $sql = "SELECT * FROM collections WHERE name='$coll'";
     $result = $mysqli->query($sql)
         or myError(ERR_COLLECT_LIST, $mysqli->error);
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
     $colId = $record['id'];
+    $colName = $record['name'];
+    $sequence = $record['sequence'];
     $_SESSION['collection'] = $colId;          // Store for New Art
     
-    $title = "Online art by " . $record['name'];
+    $title = "Art by $colName at " . ARTIST;
     $uselowprice = $record['uselowprice'];
-    showTop("Art by " . ARTIST, $title);
+    showTop("Online art by $colName at " . ARTIST, $title);
 
     $dta["colImage"] = $impath . '/' . $record['image'];
+    $dta['colAlt'] = $title;
     $dta['colText'] = $record['text'];
     mysqli_free_result($result);
 
@@ -45,7 +49,6 @@ function showOnePicture ($pic, $uselowprice)
         $sql = "SELECT l.*, p.* FROM links l "
             . "JOIN paintings p ON p.id = l.picture "
             . "WHERE l.collection = $colId AND p.deleted=0 "
-//            . "ORDER BY p.dateset DESC";
             . "ORDER BY p.seq";
     }
 
@@ -54,7 +57,7 @@ function showOnePicture ($pic, $uselowprice)
 
     $list = array();
     while ($pic = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        $image = showOnePicture($pic, $uselowprice);
+        $image = showOnePicture($pic, $colName, $uselowprice);
         $image['collection'] = $sequence;
         array_push($list, $image);
     }
@@ -65,21 +68,24 @@ function showOnePicture ($pic, $uselowprice)
     showView("collections.html", $dta);
 
 // ----------------------------------------------
-//	Set up the details for a picture in the
-//	main panel:
-//			path to image file
-//			format the price
-//			"Buy" button or "sold" 
+//  Set up the details for a picture in the
+//  main panel:
+//          path to image file
+//          format the price
+//          "Buy" button or "sold" 
 //
-//	Parameter	Array of date for the painting
+//  Parameter	Array of date for the painting
 //
-//	Returns		Modified array, for the view
+//  Returns	Modified array, for the view
 // ----------------------------------------------
-function showOnePicture ($pic, $uselowprice)
+function showOnePicture ($pic, $colName, $uselowprice)
 {
     global $impath;
 
-    $pic["image"] = $impath . '/small/' . $pic['image'];	// Path to image file
+    $picName = $pic['name'];
+    $altText = "Art work $picName by $colName";
+    $pic["image"] = $impath . '/small/' . $pic['image'];    // Path to image file
+    $pic['alttext'] = $altText;
 
     if ($uselowprice)
         $pic["price"] = '&pound;' . sprintf('%.2f', $pic['priceebay'] / 100.0);
@@ -94,10 +100,11 @@ function showOnePicture ($pic, $uselowprice)
     }
     else {
         if ($pic['quantity'] > 0)
-            $pic["buy"] = "<div>"
-                . "<button onclick='buy($id)'>Buy this work</button></div>";
+            $pic["buy"] = "<div class='buyButton'>"
+                . "<button onclick='buy($id)'>Buy this work...</button></div>";
         else
-            $pic["buy"] = "<div style='color:red;font-size:120%'>Sold</div>";
+            $pic["buy"] = "<div style='color:red;font-size:120%;height:30px;'>"
+                . "Sold</div>";
     }
 	return $pic;
 }
