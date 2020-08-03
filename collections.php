@@ -19,11 +19,17 @@ function showOnePicture ($pic, $uselowprice)
     $mysqli = dbConnect($config);
     $dta = array();
 
-    $sequence = $_GET['col'];			// Use filter_var()
+//    $sequence = $_GET['col'];			// Use filter_var()
     $coll = $_GET['col'];
-//   $_SESSION['collection'] = $sequence;
+    if (is_numeric($coll))                      // Allow old style link by id
+        $where = "id=$coll";
+    else {
+        $coll = str_replace('_', ' ', $coll);   // Allow underscore rather than speace
+        $where = "name='$coll'";
+    }
+    
 
-    $sql = "SELECT * FROM collections WHERE name='$coll'";
+    $sql = "SELECT * FROM collections WHERE $where";
     $result = $mysqli->query($sql)
         or myError(ERR_COLLECT_LIST, $mysqli->error);
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
