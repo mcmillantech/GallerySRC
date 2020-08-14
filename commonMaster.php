@@ -182,3 +182,6 @@ const ERR_PM_CUSTOMER_EMAIL = 105;
 const ERR_PM_ARTIST_EMAIL = 106;
 const ERR_VOUCHER = 70;
 
+const GEN_DSC = "Original affordable art from a collective in New Art for You";
+const COL_DSC = "Original art by ";
+const PIC_DSC = "Original art for sale from ";

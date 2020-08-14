@@ -37,11 +37,18 @@ function showOnePicture ($pic, $uselowprice)
     $colId = $record['id'];
     $colName = $record['name'];
     $sequence = $record['sequence'];
+    $tags = $record['tags'];
     $_SESSION['collection'] = $colId;          // Store for New Art
     
-    $title = "Art by $colName at " . ARTIST;
     $uselowprice = $record['uselowprice'];
-    showTop("Online art by $colName at " . ARTIST, $title);
+    $title = "Art by $colName at " . ARTIST;
+    $metadsc = COL_DSC . $colName;
+    if ($tags != "") {
+        $metadsc .= ": $tags";
+        $dta['tags'] = $tags;
+    }
+    
+    showTop("Online art by $colName at " . ARTIST, $title, $metadsc);
 
     $dta["colImage"] = $impath . '/' . $record['image'];
     $dta['colAlt'] = $title;

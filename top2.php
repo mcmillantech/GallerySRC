@@ -20,16 +20,26 @@
 // ----------------------------------------------
 //	Call point
 // ----------------------------------------------
-function showTop($title, $heading)
+function showTop($title, $heading, $dsc = "gen")
 {
     global $impath, $dta;
 
-    $dta = array();
-
-    $dta = collectionsList($dta);		// Fetch the entries for collections pull down
+    $dta = collectionsList($dta);	// Fetch the entries for collections pull down
     $dta["title"] = $title;
     $dta["heading"] = $heading;
     $dta["impath"] = $impath;
+    if (array_key_exists('tags', $dta)) {
+        $dta['keywords'] = $dta['tags'];
+    } else {
+        $dta['keywords'] = "";
+    }
+
+    if ($dsc == "gen") {
+        $dta["metadsc"] = GEN_DSC;
+    } else {
+        $dta["metadsc"] = $dsc;
+    }
+
     showView("topv.html", $dta);
 }
 
