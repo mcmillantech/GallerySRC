@@ -33,12 +33,13 @@
     echo "<h2>Edit artist bio</h2>";
 
     $col = $_SESSION['loggedColl'];
-    $sql = "SELECT text FROM collections WHERE id=$col";
+    $sql = "SELECT * FROM collections WHERE id=$col";
     $result = $mysqli->query($sql)
         or die("Text table error " . $mysqli->error());
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
     $html = $record['text'];
+    $tags = $record['tags'];
 //    echo $html;
 
     echo "<div style='margin-left:50px;width:700px;'>";
@@ -50,6 +51,14 @@
       CKEDITOR.replace( 'htmltext' );
       </script>
     </div>
+    <br><br>
+    Tags
+    <span style="padding-left:20px">
+<?php
+        echo '<input type="text" name="tags" size="60" value="' 
+            . $tags . '">';
+?>
+    </span>
     <br><br>
     <button type='submit'>Post</button>
     </form>

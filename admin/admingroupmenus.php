@@ -77,10 +77,9 @@ function artistMenu()
                 <a href='bioedit.php'>Artist bio</a>
                 <a href='shiplist.php'>Shipping grid</a>
                 <a href='territories.php?mode=upd'>Shipping territories</a>
-                <a target="blank" href="https://nextsteps2joinnewart.wordpress.com/">
-                    User manual</a>
-                </a>
-            </div>
+            </div></li>
+        <li><a target="blank" href="https://nextsteps2joinnewart.wordpress.com">
+               Help</a></li>
 	<li><a href='logout.php'>Log Out</a></li>
     </ul>
 </div>

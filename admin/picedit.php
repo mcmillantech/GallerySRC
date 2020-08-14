@@ -170,7 +170,7 @@ class picEdit extends DataEdit
             $this->showLine('Tags', $dta, 'tags', 45);
             $this->showLine('Web Price', $dta, 'priceweb', 15);
             $this->showLine('Ebay Price', $dta, 'priceebay', 15);
-            $this->showLine('Shipping Rate', $dta, 'shippingrate', 2);
+            $this->showLine('Shipping Band', $dta, 'shippingrate', 2);
             $this->showCheckBox('Cost Covered?', $dta, 'costcovered');
             $this->showLine('Date Sold', $dta, 'datesold', 10);
             $this->showCheckBox('Archived', $dta, 'archive');

@@ -31,8 +31,9 @@
     
     $txt = addslashes($_POST['htmltext']);
     $col = $_GET['col'];
+    $tags = addslashes($_POST['tags']);
     
-    $sql = "UPDATE collections SET text='$txt' WHERE id=$col";
+    $sql = "UPDATE collections SET text='$txt', tags='$tags' WHERE id=$col";
     if (! $mysqli->query($sql))
         die ("Error posting bio $sql" . $mysqli->error());
     
