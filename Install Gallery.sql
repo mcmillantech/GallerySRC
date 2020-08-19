@@ -20,6 +20,7 @@ CREATE TABLE `collections` (
   `uselowprice` tinyint(3) unsigned default NULL,
   `text` text,
   `tags` varchar(64) default NULL,
+  'altdsc' int(10) default 0,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
