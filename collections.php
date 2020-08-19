@@ -19,7 +19,6 @@ function showOnePicture ($pic, $uselowprice)
     $mysqli = dbConnect($config);
     $dta = array();
 
-//    $sequence = $_GET['col'];			// Use filter_var()
     $coll = $_GET['col'];
     if (is_numeric($coll))                      // Allow old style link by id
         $where = "id=$coll";
@@ -37,12 +36,17 @@ function showOnePicture ($pic, $uselowprice)
     $colId = $record['id'];
     $colName = $record['name'];
     $sequence = $record['sequence'];
-    $tags = $record['tags'];
-    $_SESSION['collection'] = $colId;          // Store for New Art
-    
     $uselowprice = $record['uselowprice'];
+    $_SESSION['collection'] = $colId;          // Store for New Art
     $title = "Art by $colName at " . ARTIST;
-    $metadsc = COL_DSC . $colName;
+
+    $altdsc = $record['altdsc'];                // Create metadata
+    if ($altdsc == 0)
+        $metadsc = COL_DSC . $colName;
+    else
+        $metadsc = COL_DSC2 . $colName;
+    
+    $tags = $record['tags'];
     if ($tags != "") {
         $metadsc .= ": $tags";
         $dta['tags'] = $tags;

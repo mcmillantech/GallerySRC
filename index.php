@@ -19,6 +19,7 @@
     $title = ARTIST;
     $title = "Online art for sale from " . ARTIST;
     $heading = "Art sales from " . ARTIST;
+    $dta['tags'] = GEN_KWS;
     showTop($title, $heading);
 //# option 11
     echo "<h2>The Artists</h2>";

@@ -182,6 +182,8 @@ const ERR_PM_CUSTOMER_EMAIL = 105;
 const ERR_PM_ARTIST_EMAIL = 106;
 const ERR_VOUCHER = 70;
 
-const GEN_DSC = "Original affordable art from a collective in New Art for You";
-const COL_DSC = "Original art by ";
-const PIC_DSC = "Original art for sale from ";
+const GEN_DSC = "Buy original art online from New Art for You";
+const GEN_KWS = "Paintings online, buy art online UK, buy original art online UK";
+const COL_DSC = "Original paintings online by ";
+const COL_DSC2 = "Original artworks online from ";
+const PIC_DSC = "Buy original art from ";

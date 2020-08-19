@@ -1,12 +1,11 @@
 To Do
 =====
-Admin: move user manual to "help"
 Use of H1 tags
 Collections and picture to apply html tags
 Admin - renew subs: basic £30, 9 images £45, 12 - £60
         add extras, £15 / 3 max 12
 Add collections tags to SQL update file
-piclist showForm is stll running on artist name
+piclist showForm is still running on artist name
 Personalised shipping text
 vieworder.php needs a button "Back to list"
 
@@ -24,6 +23,7 @@ carddetails.php and artistfee - change token in Javascript
 
 Done
 ----
+Admin: move user manual to "help"
 Collections.php to use name, not seq
 alt text in images, use $impath
 Order process or delete painting - leave available for orders. Maybe restore 

@@ -13,13 +13,20 @@
 // ------------------------------------------------------
 
     require_once "view.php";
-    $config = setConfig();				// Get path to images
+    $config = setConfig();			// Get path to images
     $impath = $config['images'];
 
 
-// ----------------------------------------------
-//	Call point
-// ----------------------------------------------
+// --------------------------------------------------
+//  Call point - set up the metadata and page heading
+//  
+//  Before calling, the view array ($dta) and
+//  the image path must be set
+//  
+//  Parameters  meta title
+//              page heading
+//              meta description
+// ---------------------------------------------------
 function showTop($title, $heading, $dsc = "gen")
 {
     global $impath, $dta;
@@ -33,8 +40,8 @@ function showTop($title, $heading, $dsc = "gen")
     } else {
         $dta['keywords'] = "";
     }
-
-    if ($dsc == "gen") {
+                                        // Set up the description
+    if ($dsc == "gen") {                // Default, fetch from common.php
         $dta["metadsc"] = GEN_DSC;
     } else {
         $dta["metadsc"] = $dsc;
