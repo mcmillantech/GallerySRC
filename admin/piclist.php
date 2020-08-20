@@ -252,13 +252,6 @@ class PicList extends DataList
                 $this->sqlError ("Execute delete linksfailed");
         $stmtDel->close();
 
-                                        // Prepare to look up collections		
-        $sql = "SELECT * FROM collections WHERE name=?";
-        if (!($stmtColl = $this->mysqli->prepare($sql)))
-                $this->sqlError ("Prepare colls failed");
-        if (!$stmtColl->bind_param('s', $collName))
-                $this->sqlError ("Bind coll failed");
-
                                             // Prepare to insert links
         $sql = "INSERT INTO links SET picture=?, collection=?";
         if (!($stmtLink = $this->mysqli->prepare($sql)))
@@ -267,8 +260,9 @@ class PicList extends DataList
                 $this->sqlError ("Bind coll failed");
         $picId = $id;
 
+        $collName = $_POST['coll1'];
         if ($collName <> '') {
-            $collId = $this->lookupColl($stmtColl, $collName);
+            $collId = $this->lookupColl($collName);
             $status = $stmtLink->execute();
             if (!$status)
                 $this->sqlError ("Link insert failed");
@@ -276,7 +270,7 @@ class PicList extends DataList
 
         $collName = $_POST['coll2'];
         if ($collName <> '') {
-            $collId = $this->lookupColl($stmtColl, $collName);
+            $collId = $this->lookupColl($collName);
             $status = $stmtLink->execute();
             if (!$status)
                 $this->sqlError ("Link insert failed");
@@ -284,13 +278,12 @@ class PicList extends DataList
 
         $collName = $_POST['coll3'];
         if ($collName <> '') {
-            $collId = $this->lookupColl($stmtColl, $collName);
+            $collId = $this->lookupColl($collName);
             $status = $stmtLink->execute();
             if (!$status)
                 $this->sqlError ("Link insert failed");
         }
 
-        $stmtColl->close();
         $stmtLink->close();
     }
 
@@ -299,16 +292,20 @@ class PicList extends DataList
     //
     //	Find the id of a collection given its name
     // ----------------------------------------------
-    private function lookupColl($stmtColl)
+    private function lookupColl($colName)
     {
-        try {
-            $status = $stmtColl->execute();
-            $result = $stmtColl->get_result();
-            $row = $result->fetch_assoc();
+        global $mysqli;
+                                        // Prepare to look up collections		
+        $sql = "SELECT * FROM collections WHERE name='$colName'";
+        $result = $mysqli->query($sql) 
+            or die ("Error looking up coll: $sql");
+        if (mysqli_num_rows($result) == 0) {
+            echo ("Error: $colName not found<br>");
+            return 0;
         }
-        catch(Exception $e){
-            $this->sqlError ("Lookup collection failed");
-        }
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+        mysqli_free_result($result);
         return $row['id'];
     }
 
