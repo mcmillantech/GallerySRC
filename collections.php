@@ -59,6 +59,18 @@ function showOnePicture ($pic, $uselowprice)
     $dta['colText'] = $record['text'];
     mysqli_free_result($result);
 
+//# option 11
+    $sqlU = "SELECT * FROM users WHERE collection=$colId";
+    $resultU = $mysqli->query($sqlU)
+        or myError(ERR_COLLECT_PICTURES, $mysqli->error);
+    $user = mysqli_fetch_array($resultU, MYSQLI_ASSOC);
+    mysqli_free_result($resultU);
+    $nworks = $user['nworks'];
+    $limit = " LIMIT $nworks";
+//# alt 11
+    $limit = "";
+//# end 11
+
     if ($sequence == 0) {
         $sql = "SELECT * FROM paintings WHERE recent=1 ORDER BY dateset DESC";
     }
@@ -66,7 +78,7 @@ function showOnePicture ($pic, $uselowprice)
         $sql = "SELECT l.*, p.* FROM links l "
             . "JOIN paintings p ON p.id = l.picture "
             . "WHERE l.collection = $colId AND p.deleted=0 "
-            . "ORDER BY p.seq";
+            . "ORDER BY p.seq $limit";
     }
 
     $result = $mysqli->query($sql)
