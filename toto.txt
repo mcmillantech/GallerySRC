@@ -1,9 +1,10 @@
 To Do
 =====
 Use of H1 tags
-Collections and picture to apply html tags
 Admin - renew subs: basic £30, 9 images £45, 12 - £60
         add extras, £15 / 3 max 12
+Purge removed images
+404 pages for removed artists
 Add collections tags to SQL update file
 piclist showForm is still running on artist name
 Personalised shipping text
@@ -23,6 +24,7 @@ carddetails.php and artistfee - change token in Javascript
 
 Done
 ----
+Collections and picture to apply html tags
 Admin: move user manual to "help"
 Collections.php to use name, not seq
 alt text in images, use $impath

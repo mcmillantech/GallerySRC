@@ -18,11 +18,19 @@
             or myError(ERR_COLLECT_ENLARGE, $mysqli->error);
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $title = $record['name'];
+    if ($record['tags'] != "") {
+        $dta['keywords'] = $record['tags'];
+        $dta['tags'] = $record['tags'];
+    }
     mysqli_free_result($result);
 
     showTop($title, $title);
     showImage($id, $record);
 
+// ---------------------------------------------
+//  Show the image
+//  
+// ---------------------------------------------
 function showImage($id, $record)
 {
     global $impath;
@@ -33,6 +41,9 @@ function showImage($id, $record)
     echo "\n<div id='mainPanel'>";
         echo "<div id='largeImage'>";
             echo "<img src='$img'  style='width:98%;' onload='loadLargeImage(this)' onClick='back($col)'>";
+            if ($record['tags'] != "") {
+                echo "Tags " . $record['tags'] . "<br>";
+            }
             if ($dsold == null)
                 echo "<p><button onClick='buy($id)'>Buy</button>&nbsp;&nbsp;";
             else

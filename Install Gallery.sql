@@ -240,6 +240,8 @@ CREATE TABLE `users` (
   `territory2` VARCHAR(16) DEFAULT 'EU',
   `territory3` VARCHAR(16) DEFAULT 'USA',
   `territory4` VARCHAR(16) DEFAULT 'Australia',
+  `nworks` TINYINT UNSIGNED DEFAULT 6,
+  `enddate` VARCHAR(12) AFTER `nworks`,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
