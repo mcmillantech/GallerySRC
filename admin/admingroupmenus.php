@@ -77,6 +77,8 @@ function artistMenu()
                 <a href='bioedit.php'>Artist bio</a>
                 <a href='shiplist.php'>Shipping grid</a>
                 <a href='territories.php?mode=upd'>Shipping territories</a>
+                <a href="artistfee.php?mode=invoice">Pay invoice</a>
+                <a href="nworks.php">Number of paintings</a>
             </div></li>
         <li><a target="blank" href="https://nextsteps2joinnewart.wordpress.com">
                Help</a></li>

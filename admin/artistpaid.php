@@ -14,110 +14,164 @@
     $config = setConfig();			// Connect to database
     $mysqli = dbConnect($config);
 
-                                    // Prepend parent dir to Btaintree path
-                                    // (Config holds relative to server root)
-    $config['braintree'] = "../" . $config['braintree'];
-
-    require_once "../bootstrap.php";
-
     const TEST = 0;				// Set to 1 to skip emails
-    const RERUN = 0;				// Set to 1 to skip Braintree
-
-    $dbConnection = dbConnect($config);
-
-    $gateway = new Braintree_Gateway(
-        [
-            'environment' => $environment,
-            'merchantId' => $merchantId,
-            'publicKey' => $publicKey,
-            'privateKey' => $privateKey
-        ]
-    );
-
-    $userName = userName();
-    $ref = getNextOrder();
+    const RERUN = 1;				// Set to 1 to skip Braintree
+    require 'btroutines.php';
     
-    if (RERUN) {
-        doSuccess('981j6c7k');
-        return;
+    $mode = $_GET['mode'];
+    
+    $fee = $_POST['fee'];
+    $transRef = takePayment($gateway, $fee);
+    switch($mode) {
+        case "invoice":
+                    // If payment fails, the script exits, so it's OK now
+            echo "<p>Thank you. Your payment has been accepted</p>";
+            payInvoice($transRef, $fee);
+            break;
+        case "number":
+            $userId = $_SESSION['userId'];
+            $nworks = $_GET['n'];
+            postWorksChange($userId, $nworks, $transRef, $fee);
+            echo "Thanks. We have updated your account<br><br>";
+            break;
     }
-    else if (RERUN == 0) 
-        takePayment($gateway);
-
-    echo "To exit, close this browser window";
-//    echo "<br><button onClick='window.location.assign(\"index.php\")'>Done</button>";
+    
+    echo "<br><button onClick='window.location.assign(\"index.php\")'>Done</button>";
 
 // ----------------------------------------
-//	Process Braintree payment
-//	and notify customer
-//
+// Post the works change to the user table
+// and write the order
+// 
 // ----------------------------------------
-function takePayment($gateway)
-{				// Instantiate a Braintree Gateway 
-    global $ref;
+function postWorksChange($userId, $nworks2, $transRef, $fee)
+{
+    global $mysqli;
+    
+    $sql = "UPDATE users SET nworks=$nworks2 WHERE id=$userId";
+    $errTxt = "There was a problem updating your record: $sql "
+        . "Please pass this message to admin";
+    $mysqli->query ($sql)
+            or die($errTxt);
 
-    $nonceFromTheClient = $_POST["nonce"];
-                                                // Then, create a transaction:
-    $result = $gateway->transaction()->sale([
-        'amount' => 25.00,
-        'paymentMethodNonce' => "$nonceFromTheClient",
-        'options' => [ 'submitForSettlement' => true]
-    ]);
-    if ($result->success) {
-        $transaction = $result->transaction;
-        $transRef = $transaction->id;
-        doSuccess($transRef);
-    } else if ($result->transaction) {
-        doFailure($result->transaction->processorResponseText);
-    } else {
-        $msg = $result->message;
-        doFailure($msg);
-    }
+    $user = readUserRecord();
+    writeOrder($user, $transRef, $fee);
+
 }
 
 // ----------------------------------------
-//	Payment failure
+//  Payment failure
 //
-//	Notify customer
+//  Notify the customer
 // ----------------------------------------
 function doFailure($msg)
 {
-
     echo "We are sorry, payment has not been accepted:<br>";
     echo "The message was $msg<br><br>";
+    exit();
 }
 
 // -----------------------------------
-//	Process successful receipt
+//  Process successful invoice receipt
 //
+//  Update the user status and end date
 // -----------------------------------
-function doSuccess($transRef)
+function payInvoice($transRef, $fee)
 {
-    global $config, $dbConnection, $userName;
 
-                                        // Present on screen message to artist
-    echo "Thank you. Your payment has been received.<br><br>";
-
-    updateUser();
-    writeOrder($transRef);
-    supportEmail($userName, $transRef);
+    $user = readUserRecord();
+    updateUser($user);
+    writeOrder($user, $transRef, $fee);
+//    supportEmail($userName, $transRef);
 }
 
-function writeOrder($transRef)
+// -------------------------------------
+// Write the receipt to the order table
+// 
+// -------------------------------------
+function writeOrder($user, $transRef, $fee)
 {
-    global $mysqli, $ref, $userName;
+    global $mysqli;
     
-//    $user = $_SESSION['userId'];
+    $ref = getNextOrder();
+    $userName = $user['fullname'];
+    
     $dtSQL = date('Y-m-d');		// Makes today's date for SQL insertion
     $sql = "INSERT INTO orders (ref, name, user, addr1, postcode, status, "
             . "price, date, transref) "
-        . "VALUES ($ref, '$userName', 99, 'artist', 'artist', 1, 2500, "
+        . "VALUES ($ref, '$userName', 99, 'artist', 'artist', 1, $fee, "
         . "'$dtSQL', '$transRef')";
     $mysqli->query($sql)
         or die ("Error writing order $sql");
-    
 }
 
+// ----------------------------------------------
+//  Update the user table for renewal
+//
+// ----------------------------------------------
+function updateUser($user)
+{
+    global $mysqli;
+
+    $userId = $_SESSION['userId'];
+    $status = 1;
+    
+    $endDate = $user['enddate'];        // Update the end date
+    $endMonth = substr($endDate, 5,2);
+    $endYear = substr($endDate, 0, 4);
+    $endMonth +=3;
+    if ($endMonth > 12) {
+        $endMonth -= 12;
+        $endYear += 1;
+    }
+    
+    $newEnd = sprintf("%4d-%02d", $endYear, $endMonth);
+    echo "New $newEnd<br>";
+    
+    $sql = "UPDATE users SET status=1, enddate='$newEnd' WHERE id=$userId";
+    $errTxt = "There was a problem updating your record: $sql "
+        . "Please pass this message to admin";
+    $mysqli->query ($sql)
+            or die($errTxt);
+}
+
+// -------------------------------------
+// Look up the user record
+// 
+// Returns the table record
+// -------------------------------------
+function readUserrecord()
+{
+    global $mysqli;
+
+    $userId = $_SESSION['userId'];
+    $sql = "SELECT * FROM users where id = $userId";
+    $result = $mysqli->query($sql);
+    if ($result=== FALSE)
+        echo "There has been an error: $sql. Please pass this message to admin";
+    $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    
+    return $record;
+}
+
+// ----------------------------------------------
+//  Generate next order number from system table
+//
+// ----------------------------------------------
+function getNextOrder()
+{
+    global $mysqli;
+
+    $result = $mysqli->query("SELECT * FROM system")
+            or die ("System read error");
+    $record = $result->fetch_array(MYSQLI_ASSOC);
+    $ordId = $record['nextorder'] + 1;
+    $sql = "UPDATE system SET nextorder = $ordId";
+    $mysqli->query($sql);
+
+    return $ordId;
+}
+
+/*
 // ----------------------------------------
 //  send email to site owner
 //
@@ -159,56 +213,7 @@ function supportEmail($userName, $transRef)
     }
 
 }
-
-// ----------------------------------------------
-//  Update the user
-//
-// ----------------------------------------------
-function updateUser()
-{
-    global $mysqli;
-
-    $userId = $_SESSION['userId'];
-    $status = 1;
-    
-    $sql = "UPDATE users SET status=1 WHERE id=$userId";
-    $errTxt = "There was a problem updating your record: $sql "
-        . "Please pass this message to admin";
-    $mysqli->query ($sql)
-            or die($errTxt);
-}
-
-function userName()
-{
-    global $mysqli;
-
-    $userId = $_SESSION['userId'];
-    $sql = "SELECT fullname FROM users where id = $userId";
-    $result = $mysqli->query($sql);
-    if ($result=== FALSE)
-        echo "There has been an error: $sql. Please pass this message to admin";
-    $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    
-    return $record['fullname'];
-}
-
-// ----------------------------------------------
-//	Generate next order number from system table
-//
-// ----------------------------------------------
-function getNextOrder()
-{
-	global $mysqli;
-
-	$result = $mysqli->query("SELECT * FROM system")
-		or die ("System read error");
-	$record = $result->fetch_array(MYSQLI_ASSOC);
-	$ordId = $record['nextorder'] + 1;
-	$sql = "UPDATE system SET nextorder = $ordId";
-	$mysqli->query($sql);
-
-	return $ordId;
-}
+*/
 
 ?>
 </body>
