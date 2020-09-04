@@ -92,10 +92,10 @@ function resize($fname, $fLarge)
     $img = imagecreatefromjpeg($fLarge);
     if (!$img)
             die ("Failed resize $fLarge");
-    $small = imagescale($img , 300, -1);
+    $small = imagescale($img , 500, -1);
     if ($small === FALSE)
         die ("Failed scaling $fLarge");
-    $small = imagescale($img , 300, -1);
+    $small = imagescale($img , 500, -1);
     if (!imagejpeg($small, $targetFile, 100))
     	die("Failed to save $targetFile");
 	

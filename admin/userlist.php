@@ -105,7 +105,8 @@ class UserList extends DataList
     {
         $sql = "INSERT INTO users "
             . "(username, password, fullname, firstname, email, addr1, "
-            . "addr2, addr3, addr4, postcode, phone, website, level, collection ) "
+            . "addr2, addr3, addr4, postcode, phone, website, level, "
+            . "collection, status, nworks, enddate ) "
             . " VALUES ("
             . $this->postField('username') . ','
             . $this->postField('password') . ','
@@ -120,7 +121,10 @@ class UserList extends DataList
             . $this->postField('phone') . ','
             . $this->postField('website') . ','
             . $this->postField('level') . ','
-            . $this->postField('collection') 
+            . $this->postField('collection') . ','
+            . $this->postField('status') . ','
+            . $this->postField('nworks') . ','
+            . $this->postField('enddate')
             . ")";
         $this->mysqli->query($sql)
             or die ("Error inserting user " . mysqli_error($this->mysqli));
@@ -167,6 +171,9 @@ class UserList extends DataList
             . " ,website=" . $this->postField('website')
             . " ,collection=" . $this->postField('collection')
             . " ,level=" . $_POST['level']
+            . " ,status=" . $this->postField('status')
+            . " ,nworks=" . $this->postField('nworks')
+            . " ,enddate=" . $this->postField('enddate')
             . " WHERE id=$id";
 
         $this->mysqli->query($sql)
