@@ -2,9 +2,9 @@
 // ------------------------------------------------------
 //  Project	OnLine Gallery
 //  File	enlarge.php
-//		Show large picture
+//		Show large version of home picture
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//  Author	John McMillan, McMillan Technology
 // ------------------------------------------------------
 	session_start();
 	require_once "common.php";
