@@ -20,7 +20,7 @@
     
     $mode = $_GET['mode'];
     
-    $fee = $_POST['fee'];
+    $fee = $_POST['fee'] * 100;
     $transRef = takePayment($gateway, $fee);
     switch($mode) {
         case "invoice":
