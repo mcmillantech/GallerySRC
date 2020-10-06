@@ -1,13 +1,14 @@
 <?php
+    session_start();
 // ------------------------------------------------------
-//  Project	OnLIne Gallery
-//  File	voucherlist.php
-//		List vouchers
+//  Project	Lupe Cunha
+//	File	voucherlist.php
+//			List vouchers
 //
-//  Parameters	default - show list
-//		mode - ins or upd
+//	Parameters	default - show list
+//				mode - ins or upd
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 /*
 public function showListLine($line)
@@ -24,9 +25,7 @@ protected function SQLDate($dt)
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<code>Gallery Vouchers</code>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <script src="../Cunha.js"></script>
 <style>
 .lscode
@@ -50,14 +49,13 @@ protected function SQLDate($dt)
 
 </style>
 </head>
-<body>
+<body onload="adminLoad()">
 <?php
-	session_start();
 	include "adminmenus.php";
 	require_once "../common.php";
 	require_once "DataList.php";
 
-class UserList extends DataList
+class EvList extends DataList
 {
 	function __construct($mysqli)
 	{
@@ -171,7 +169,7 @@ class UserList extends DataList
 	$mysqli = dbConnect($config);
 
 	echo "<h3>Vouchers</h3>";
-	$lst = new UserList($mysqli);
+	$lst = new EvList($mysqli);
 	$lst->sqlShow("SELECT * FROM vouchers  ORDER BY code DESC");
 	$lst->editPage("voucheredit.php");
 	$lst->run();

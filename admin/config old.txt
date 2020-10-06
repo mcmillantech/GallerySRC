@@ -1,0 +1,10 @@
+dbhost		shareddb-r.hosting.stackcp.net
+dbname		cunha-l-313233ac24
+dbpw		kUEk.KfjT
+dbuser		cunha-l-313233ac24
+images		images
+braintree	braintree-php-3.34.0/lib/Braintree.php
+ckeditor	../ckeditor/ckeditor.js
+sandbox		sandbox_79k7qx4p_nymy4h8qq7ck73sn
+production	production_38zqhm8t_fdyvvs3rm4gs2c5n
+

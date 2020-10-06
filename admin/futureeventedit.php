@@ -1,14 +1,14 @@
 <?php
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	futureeventedit.php
-//		Edit forthcoming event
+//  Project	Lupe Cunha
+//	File	futureeventedit.php
+//			Edit forthcoming event
 //
-//  Parameters	
-//		mode - ins or upd
-//		id - index of item, upd mode only
+//	Parameters	
+//				mode - ins or upd
+//				id - index of item, upd mode only
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 
 ?>
@@ -18,13 +18,12 @@
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>Gallery Future Event</title>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<title>Lupe Future Event</title>
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <style>
 </style>
 </head>
-<body>
+<body onload="adminLoad()">
 <?php
 	include "adminmenus.php";
 	require_once "../common.php";

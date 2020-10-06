@@ -1,15 +1,15 @@
 <?php
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	fteventlist.php
-//		List forthcoming events
+//  Project	Lupe Cunha
+//	File	fteventlist.php
+//			List forthcoming events
 //
-//  Parameters	default - show list
-//		mode - ins or upd
+//	Parameters	default - show list
+//				mode - ins or upd
 //
-//  Author	John McMillan, McMillan Technology
+//	Author	John McMillan, McMillan Technology
 //
-//  Class ftEvList which extends DataList
+//	Class ftEvList which extends DataList
 // ------------------------------------------------------
 
 ?>
@@ -19,9 +19,8 @@
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>Gallery Future events</title>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<title>Lupe Future events</title>
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <style>
 .lsTitle
 {
@@ -38,7 +37,7 @@
 
 </style>
 </head>
-<body>
+<body onload="adminLoad()">
 <?php
 	include "adminmenus.php";
 	require_once "../common.php";

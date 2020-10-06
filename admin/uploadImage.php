@@ -1,10 +1,10 @@
 <?php
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	uploadImage.php
-//		Upload JPEG files
+//  Project	Lupe Cunha
+//	File	uploadImage.php
+//			Upload JPEG files
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -14,13 +14,12 @@
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Upload images</title>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <script src="../Cunha.js"></script>
 </head>
 
 <body>
-<h3>Art Web Site: Upload Image Files</h3>
+<h3>Lupe Web Site: Upload Image Files</h3>
 <?php
 	include "adminmenus.php";
 //    <input type='file' name='imgFile[]' multiple id='csvFile' accept='.jpg'>
