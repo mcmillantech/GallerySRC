@@ -29,13 +29,14 @@ function takePayment($gateway, $fee) {
 
     // Instantiate a Braintree Gateway 
     $nonceFromTheClient = $_POST["nonce"];
-    echo "$nonceFromTheClient<br>";
+//    echo "$nonceFromTheClient<br>";
                                                 // Then, create a transaction:
     $result = $gateway->transaction()->sale([
         'amount' => $fee,
         'paymentMethodNonce' => "$nonceFromTheClient",
         'options' => [ 'submitForSettlement' => true]
     ]);
+
     if ($result->success) {
         $transaction = $result->transaction;
         $transRef = $transaction->id;

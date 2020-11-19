@@ -30,22 +30,22 @@ function postForm($order)
 <body>
 
 <?php
-	session_start();
-	include "adminmenus.php";
-	require_once "../common.php";
+    session_start();
+    include "adminmenus.php";
+    require_once "../common.php";
 
-	echo "<h3>Art Web Site: order</h3>";
-	$config = setConfig();					// Connect to database
-	$mysqli = dbConnect($config);
+    echo "<h3>Art Web Site: order</h3>";
+    $config = setConfig();					// Connect to database
+    $mysqli = dbConnect($config);
 
-	if (array_key_exists('action', $_GET))	// Check for shipped parameter
-	{
-		if ($_GET['action'] == 'ship')
-			doShip();
-	}
+    if (array_key_exists('action', $_GET))	// Check for shipped parameter
+    {
+        if ($_GET['action'] == 'ship')
+            doShip();
+    }
 
-	if (array_key_exists('ref', $_GET))
-		viewOne();
+    if (array_key_exists('ref', $_GET))
+            viewOne();
 
 // ----------------------------------------------
 //	Mark the order shipped
@@ -76,6 +76,7 @@ function viewOne()
     $sql = "SELECT r.*, p.name as wrk FROM orders r "
         . "JOIN paintings p ON p.id = r.product "
         . "WHERE r.ref=$ref";
+echo "$sql<br>";
     $reply = $mysqli->query($sql)
         or myError ("viewOrder.viewOne " . $mysql-->error);
     $record = mysqli_fetch_array($reply, MYSQLI_ASSOC);
@@ -84,7 +85,7 @@ function viewOne()
 }
 
 // ----------------------------------------------
-//	Show details of an order
+//  Show details of an order
 //
 // ----------------------------------------------
 function showOrder($record, $order)
