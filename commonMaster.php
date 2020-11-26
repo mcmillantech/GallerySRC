@@ -150,7 +150,7 @@ function footer()
     return $content;
 }
 
-const PP_TEST = 0;		// In common master, Set this to 1 to use sandbox
+const PP_TEST = 1;		// In common master, Set this to 1 to use sandbox
 
 const AWAY = "At exhibition until ";
 

@@ -73,7 +73,8 @@ function showForm($id, $record)
 
         if ($record['quantity'] > 1) {
             echo "<br><span class='prompt'>Number required *</span>";
-            showLine('quantity', 5);
+            echo "\n<span class='input'><input type='text' id='quantity' name='quantity' size='5' value='1'></span><br>";
+//            showLine('quantity', 5);
         }
         echo "<br><span class='prompt'>Country to ship to</span>";
 
@@ -147,6 +148,8 @@ function check()
 	checkFld ('name');
 	checkFld ('addr1');
 	checkFld ('pcode');
+	checkFld ('email');
+	checkFld ('quantity');
 	if (err)
 		alert (msg);
 	return !err;
@@ -173,6 +176,12 @@ function checkFld(fld)
 			break;
 		case 'pcode':
 			msg += "You must enter a postcode\n";
+			break;
+		case 'email':
+			msg += "You must enter an email address\n";
+			break;
+		case 'quantity':
+			msg += "You must enter a quantity\n";
 			break;
 		}
 		err = true;
