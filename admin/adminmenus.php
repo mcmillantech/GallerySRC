@@ -1,56 +1,91 @@
 <?php
 // ------------------------------------------------------
 //  Project	Artist Gallery
-//  File	admin/adminmenus.php
-//		Admin menus, also logon check
-//		The latter because every page includes this
-//
+//  File	admin/admingroupmenus.php
+//		Replaces adminmenus.php
+//		Every page includes this file
+//		
 //  Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 
-	logCheck();
+    logCheck();
+    $userLevel = $_SESSION['userLevel'];
+    if ($userLevel == 3)
+        superMenu ();
+    else
+        artistMenu();
+
+// --------------------------------------------
+// Show menu for superadmin
+// 
+// --------------------------------------------
+function superMenu()
+{
+    require_once "../common.php";
+    require_once 'artgroup.php';
+    $config = setConfig();
+    $mysqli = dbConnect($config);
+
 ?>
 <div id='menu'>
     <ul>
 	<li><a href='index.php'>Admin home</a></li>
-<!--	<li><a href='#' onmouseover='mopen("m1")' onmouseout='mclosetime()'>Upload</a>
+	<li><a href='#' onmouseover='mopen("m1")' onmouseout='mclosetime()'>View orders</a>
             <div id='m1' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
-            <a href='upload.php'>Upload spreadsheet</a>
-            <a href='uploadImage.php'>Upload images</a>
-            </div> -->
-	<li><a href='orders.php'>View orders</a></li>
-	<li><a href='eventlist.php'>Events</a></li>
-	<li><a href='#' onmouseover='mopen("m2")' onmouseout='mclosetime()'>Pictures</a>
-            <div id='m2' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
-            <a href='piclist.php'>Pictures</a>
 <?php
-    //# option 2 
-            echo "<a href='collist.php'>Collections</a>";
-    //# end 2
+            $dd = makeDropDown('orders', $mysqli);
+            echo $dd;
 ?>
             </div>
+        <li><a href='collist.php'>Artists</a></li>
+	<li><a href='#' onmouseover='mopen("m2")' onmouseout='mclosetime()'>Pictures</a>
+            <div id='m2' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
+<?php
+            $dd2 = makeDropDown('piclist', $mysqli);
+            echo $dd2;
+?>
+            </div>
+        </li>
 	<li><a href='#' onmouseover='mopen("m3")' onmouseout='mclosetime()'>Other</a>
             <div id='m3' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
-<?php
-    //# option 1 
-            echo "<a href='voucherlist.php'>Vouchers xx</a>";
-    //# end 1 
-    //# option 4 
-            echo "<a href='shiplist.php'>Shipping grid</a>";
-    //# end 4
-            echo "<a href='aboutedit.php?type=hometext'>Home Page Text</a>";
-    //# option 5
-            echo "<a href='aboutedit.php?type=abouttext'>About Page Text</a>";
-    //# end 5
-?>
-            <a href='aboutedit.php?type=signupprompt'>Sign up Prompt</a>
-            <a href='aboutedit.php?type=signupsubject'>Sign up Subject</a>
-            <a href='aboutedit.php?type=signuptext'>Signup Email Text</a>
+<!--        <a href='voucherlist.php'>Vouchers xx</a>  -->
+            <a href='shiplist.php'>Shipping grid</a>
+            <a href='territories.php?mode=upd'>Shipping territories</a>
+            <a href='aboutedit.php?type=hometext'>Home Page Text</a>
+            <a href='aboutedit.php?type=abouttext'>About Page Text</a>
             </div>
 	<li><a href='logout.php'>Log Out</a></li>
     </ul>
 </div>
 <?php
+}
+
+// --------------------------------------------
+// Show menu for an artist
+// 
+// --------------------------------------------
+function artistMenu()
+{
+?>
+<div id='menu'>
+    <ul>
+	<li><a href='index.php'>Dashboard home</a></li>
+	<li><a href='orders.php'>View orders</a></li>
+        <li><a href='piclist.php'>Pictures</a></li>
+	<li><a href='#' onmouseover='mopen("m3")' onmouseout='mclosetime()'>Other</a>
+            <div id='m3' onmouseover='mcancelclosetime()' onmouseout='mclosetime()'>
+                <a href='bioedit.php'>Artist bio</a>
+                <a href='shiplist.php'>Shipping grid</a>
+                <a href='territories.php?mode=upd'>Shipping territories</a>
+                <a href="artistfee.php?mode=invoice">Pay invoice</a>
+            </div></li>
+        <li><a target="blank" href="https://nextsteps2joinnewart.wordpress.com">
+               Help</a></li>
+	<li><a href='logout.php'>Log Out</a></li>
+    </ul>
+</div>
+<?php
+}
 
 function logCheck()
 {

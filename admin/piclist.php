@@ -88,7 +88,6 @@ class PicList extends DataList
         echo "\n<span class='lsTitle'>$name</span>";
         echo "\n<span class='lsSequence'>$seq</span>";
         echo "<span class='lsButton'>";
-//# option 11 
         if ($_SESSION['userLevel'] < 3) {
             echo "<button onClick='$onEdit'>Edit</button>";
             echo "&nbsp;";
@@ -104,11 +103,6 @@ class PicList extends DataList
             $artist = $line['artist'];
             echo " &nbsp;$artist";
         }
-//# alt 11 
-            echo "<button onClick='$onEdit'>Edit</button>";
-            echo "&nbsp;";
-            echo "<button onClick='doDelete($id, \"$name\")'>Delete</button>";
-//# end 11 
         echo "</span>";
         echo '<br>';
     }
@@ -347,13 +341,9 @@ class PicList extends DataList
 
     echo "<h3>Pictures</h3>";
     $lst = new PicList($mysqli);
-//# option 11 
     require_once 'artgroup.php';
 //    $artist = $_SESSION['loggedColl'];
     $sql = picListSql($mysqli);
-//# alt 11
-    $sql = "SELECT * FROM paintings ORDER BY name";
-//# end
     $lst->sqlShow($sql);
     $lst->editPage("picedit.php");
     $lst->run();

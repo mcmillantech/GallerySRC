@@ -54,12 +54,8 @@ function openOrder(id)
 
     headings();
 
-//# option 11 
     require_once 'artgroup.php';
     $sql = orderListSQL($mysqli);
-//# alt 11
-    $sql = "SELECT * FROM orders ORDER BY id DESC";
-//# end
 
     $result = $mysqli->query($sql);
     while ($order = mysqli_fetch_array($result, MYSQLI_ASSOC))
@@ -116,14 +112,12 @@ function showOrder($order)
     echo "</span>";
     echo "<span class='orderEl' style='left:550px'>";
         echo "<button onClick='openOrder($id)'>Open</button>";
-//# option 11
         if ($order['user'] == 99) {
             $artist = $order['name'];
         } else {
             $artist = $order['artist'];
         }
         echo " &nbsp;$artist";
-//# end
     echo "</span>";
     echo "</div>\n";
 }

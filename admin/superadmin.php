@@ -29,8 +29,9 @@
 
     logCheck();
     require_once "userlist.php";
-    $userList = new UserList($mysqli);
-    $userList->showList();
+/*    $userList = new UserList($mysqli);
+    $userList->run();
+    echo "<br>Done"; */
 
 function logCheck()
 {

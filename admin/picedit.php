@@ -150,17 +150,11 @@ class picEdit extends DataEdit
 
         echo "<form method='post' action='$action'>";
             $this->showLine('Title', $dta, 'name', 45);
-//# option 11
         $artist = $_SESSION['fullName'];
         echo "<input type='hidden' name='coll1' size='45' value=\"$artist\">";
         echo "<input type='hidden' name='coll2'>";
         echo "<input type='hidden' name='coll3'>";
         $this->showLine('Sequence', $dta, 'seq', 3);
-//# alt 11
-            $this->showDropDown('Collection', $dta, 'coll1', $collList);
-            $this->showDropDown('', $dta, 'coll2', $collList);
-            $this->showDropDown('', $dta, 'coll3', $collList);
-//# end
             $this->showCheckBox('Recent', $dta, 'recent');
             $this->showLine('Year', $dta, 'year', 10);
             $this->showLine('Uploaded', $dta, 'dateset', 10);

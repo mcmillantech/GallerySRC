@@ -136,8 +136,6 @@ function showOrder($record, $order)
             postForm($order);
 
     echo "<br><br>";
-//# option 11
-//# end
     $loc = '"orders.php"';
     echo "<span class='prompt'>";
     echo "<button onClick='document.location=$loc'>Back to list</button>";
