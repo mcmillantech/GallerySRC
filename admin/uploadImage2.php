@@ -1,10 +1,10 @@
 <?php
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	uploadInage2.php
-//		Upload image files
+//  Project	Lupe Cunha
+//	File	uploadInage2.php
+//			Upload image files
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 //	session_start();
 	require_once "../common.php";
@@ -16,13 +16,12 @@
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Upload images</title>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <script src="../Cunha.js"></script>
 </head>
 
 <body>
-<h3>Art Web Site: Import</h3>
+<h3>Lupe Web Site: Import</h3>
 
 <?php
 	include "adminmenus.php";

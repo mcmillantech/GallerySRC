@@ -1,13 +1,14 @@
 <?php
+    session_start();
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	shiplist.php
-//		List shipping grid
+//  Project	Lupe Cunha
+//	File	shiplist.php
+//			List shipping grid
 //
-//  Parameters	default - show list
-//		mode - ins or upd
+//	Parameters	default - show list
+//				mode - ins or upd
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 /*
 class shiplist extends DataList
@@ -24,9 +25,8 @@ class shiplist extends DataList
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>Gallery Collections</title>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<title>Lupe Collections</title>
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <script src="../Cunha.js"></script>
 <style>
 .lsTitle
@@ -50,137 +50,125 @@ class shiplist extends DataList
 
 </style>
 </head>
-<body>
+<body onload="adminLoad()">
 <?php
-	session_start();
 	require_once "../common.php";
 	require_once "adminmenus.php";
 	require_once "DataList.php";
 
 class shiplist extends DataList
 {
-    function __construct($mysqli)
-    {
-        parent::__construct($mysqli);
-    }
+	function __construct($mysqli)
+	{
+		parent::__construct($mysqli);
+	}
 
-    public function showListLine($line)
-    {
-        $id = $line['sizeband'];
-        $description = $line['description'];
-        $onEdit = "window.location=\"shipedit.php?mode=upd&item=$id\"";
-        $onDelete = "window.location=\"shiplist.php?mode=del&item=$id\"";
+	public function showListLine($line)
+	{
+		$id = $line['sizeband'];
+		$description = $line['description'];
+		$onEdit = "window.location=\"shipedit.php?mode=upd&item=$id\"";
+		$onDelete = "window.location=\"shiplist.php?mode=del&item=$id\"";
+	
+		echo "\n<span class='lsTitle'>$description</span>";
+		echo "<span class='lsButton'>";
+			echo "<button onClick='$onEdit'>Edit</button>";
+			echo "&nbsp;";
+			echo "<button onClick='$onDelete'>Delete</button>";
+		echo "</span><br>";
+	}
 
-        echo "\n<span class='lsTitle'>$description</span>";
-        echo "<span class='lsButton'>";
-            echo "<button onClick='$onEdit'>Edit</button>";
-            echo "&nbsp;";
-            echo "<button onClick='$onDelete'>Delete</button>";
-        echo "</span><br>";
-    }
+	// ----------------------------------------------
+	//	Show headings
+	//
+	// ----------------------------------------------
+	public function showHeading()
+	{
+		echo "\n<b><span class='lsTitle'>Description</span>";
+		echo "<span class='lsButton'> Edit</span>";
+		echo "</b><br><br>";
+	}
 
-    // ----------------------------------------------
-    //	Show headings
-    //
-    // ----------------------------------------------
-    public function showHeading()
-    {
-        echo "\n<b><span class='lsTitle'>Description</span>";
-        echo "<span class='lsButton'> Edit</span>";
-        echo "</b><br><br>";
-    }
+	// -------------------------------------------
+	//	Insert new item
+	//
+	// -------------------------------------------
+	protected function insertItem()
+	{
+		$uselowprice = $this->getCheckBox('uselowprice');
 
-    // -------------------------------------------
-    //	Insert new item
-    //
-    // -------------------------------------------
-    protected function insertItem()
-    {
-        $artist = $_SESSION['loggedColl'];
+		$sql = "INSERT INTO shipping "
+			. "(sizeband, description, collect, uk, eu, usa, aus) "
+			. " VALUES (?, ?, ?, ?, ?, ?, ?)";
+		if (!($stmt = $this->mysqli->prepare($sql)))
+			echo "SQL prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-        $uselowprice = $this->getCheckBox('uselowprice');
+		if (!$stmt->bind_param('isiiiii', $sizeband, $description, 
+			$collect, $uk, $eu, $usa, $aus)) 
+			echo "SQL bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-        $sql = "INSERT INTO shipping "
-            . "(sizeband, description, collect, uk, eu, usa, aus, artist) "
-            . " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        if (!($stmt = $this->mysqli->prepare($sql)))
-            echo "SQL prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
+		$sizeband = $_POST['sizeband'];
+		$description = $_POST['description'];
+		$collect = $_POST['collect'] * 100;
+		$uk = $_POST['uk'] * 100;
+		$eu = $_POST['eu'] * 100;
+		$usa = $_POST['usa'] * 100;
+		$aus = $_POST['aus'] * 100;
 
-        if (!$stmt->bind_param('isiiiiii', $sizeband, $description, 
-            $collect, $uk, $eu, $usa, $aus, $artist)) 
-            echo "SQL bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
+		if (!$stmt->execute())
+			$this->sqlError("Insert shipping band failed");
+		$newId = $this->mysqli->insert_id;
+		$stmt->close();
+	}
 
-        $sizeband = $_POST['sizeband'];
-        $description = $_POST['description'];
-        $collect = $_POST['collect'] * 100;
-        $uk = $_POST['uk'] * 100;
-        $eu = $_POST['eu'] * 100;
-        $usa = $_POST['usa'] * 100;
-        $aus = $_POST['aus'] * 100;
+	// ----------------------------------------------
+	//	Post updated record
+	//	Called from shipedit.php
+	//
+	// ----------------------------------------------
+	protected function upDateItem()
+	{
+		$id = $_GET['item'];
 
-        if (!$stmt->execute())
-            $this->sqlError("Insert shipping band failed");
-        $newId = $this->mysqli->insert_id;
-        $stmt->close();
-    }
+		$sql = "UPDATE shipping SET sizeband=?, description=?, collect=?, uk=?, eu=?, usa=?, aus=?"
+			. " WHERE sizeband=$id";
 
-    // ----------------------------------------------
-    //	Post updated record
-    //	Called from shipedit.php
-    //
-    // ----------------------------------------------
-    protected function upDateItem()
-    {
-        global $mysqli;
-    
-        $id = $_GET['item'];
-        $artist = $_SESSION['loggedColl'];
+		if (!($stmt = $this->mysqli->prepare($sql)))
+			echo "Prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-/*        if (!($stmt = $this->mysqli->prepare($sql)))
-            echo "Prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
+		if (!$stmt->bind_param('isiiiii', $sizeband, $description, $collect, $uk, $eu, $usa, $aus)) 
+			echo "Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-        if (!$stmt->bind_param('isiiiii', $sizeband, $description, $collect, $uk, $eu, $usa, $aus)) 
-            echo "Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
-*/
-        $sizeband = $_POST['sizeband'];
-        $description = $_POST['description'];
-        $collect = $_POST['collect'] * 100;
-        $uk = $_POST['uk'] * 100;
-        $eu = $_POST['eu'] * 100;
-        $usa = $_POST['usa'] * 100;
-        $aus = $_POST['aus'] * 100;
+		$sizeband = $_POST['sizeband'];
+		$description = $_POST['description'];
+		$collect = $_POST['collect'];
+		$uk = $_POST['uk'] * 100;
+		$eu = $_POST['eu'] * 100;
+		$usa = $_POST['usa'] * 100;
+		$aus = $_POST['aus'] * 100;
 
-        $sql = "UPDATE shipping SET sizeband=$sizeband, "
-            . "description='$description', "
-            . "collect=$collect, "
-            . "uk=$uk, eu=$eu, usa=$usa, aus=$aus"
-            . " WHERE sizeband=$id AND artist=$artist";
+		$status = $stmt->execute();
+		if ($status === false)
+			$this->sqlError ("Execute failed");
+		$stmt->close();
 
-        $result = $mysqli->query($sql)
-            or die ("Error updating shipplist $sql:" . mysqli_error($mysqli));
+	}
 
-/*$status = $stmt->execute();
-        if ($status === false)
-            $this->sqlError ("Execute failed");
-        $stmt->close(); */
+	
+	// ----------------------------------------------
+	//	Process call to delete a painting
+	//
+	// ----------------------------------------------
+	protected function deleteItem()
+	{
+		$id = $_GET['item'];
 
-    }
+		$sql = "DELETE FROM shipping "
+			. " WHERE sizeband=$id";
 
-    // ----------------------------------------------
-    //	Process call to delete item
-    //
-    // ----------------------------------------------
-    protected function deleteItem()
-    {
-        $id = $_GET['item'];
-        $artist = $_SESSION['loggedColl'];
-
-        $sql = "DELETE FROM shipping "
-            . " WHERE sizeband=$id AND artist=$artist";
-
-        $this->mysqli->query($sql)
-            or die ("Error deleting shipping band " . mysqli_error($this->mysqli));
-    }
+		$this->mysqli->query($sql)
+			or die ("Error deleting shipping band " . mysqli_error($this->mysqli));
+	}
 
 }
 
@@ -191,16 +179,14 @@ class shiplist extends DataList
 //	of shiplist
 // ----------------------------------------------
 
-    $config = setConfig();			// Connect to database
-    $mysqli = dbConnect($config);
+	$config = setConfig();					// Connect to database
+	$mysqli = dbConnect($config);
 
-    $artist = $_SESSION['loggedColl'];
-    echo "<h3>Shipping bands</h3>";
-    $lst = new shiplist($mysqli);
-    $lst->sqlShow("SELECT * FROM shipping WHERE artist=$artist");
-
-    $lst->editPage("shipedit.php");
-    $lst->run();
+	echo "<h3>Shipping bands</h3>";
+	$lst = new shiplist($mysqli);
+	$lst->sqlShow("SELECT * FROM shipping");
+	$lst->editPage("shipedit.php");
+	$lst->run();
 ?>
 </body>
 </html>

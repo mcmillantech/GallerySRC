@@ -1,14 +1,13 @@
 <?php
+    session_start();
 // ------------------------------------------------------
-//  Project	OnLine Gallery Admin
-//  File	admin/index.php
-//		Home page
+//  Project	Lupe Cunha Admin
+//	File	admin/index.php
+//			Home page
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
-	session_start();
 	require_once "../common.php";
-
 ?>
 <!DOCTYPE html>
 
@@ -17,16 +16,14 @@
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Art site Admin</title>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../Menus.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <script src="../Cunha.js"></script>
 
 </head>
-<body>
+<body onload="adminLoad()">
 <h1>Control Panel</h1>
 <?php
-    include "adminmenus.php";
+	include "adminmenus.php";
 ?>
 </body>
 </html>

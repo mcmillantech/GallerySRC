@@ -1,10 +1,10 @@
 <?php
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	upload2.php
-//		Upload CSV file
+//  Project	Lupe Cunha
+//	File	upload2.php
+//			Upload CSV file
 //
-//  GaAuthor	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 /*
 uploadFile()
@@ -23,13 +23,12 @@ makeCollectionsArray()
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Upload spreadsheet</title>
-<link type="text/css" rel="stylesheet" href="Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<link type="text/css" rel="stylesheet" href="Cunha.css">
 <script src="../Cunha.js"></script>
 </head>
 
 <body>
-<h3>Gallery Web Site: Import</h3>
+<h3>Lupe Web Site: Import</h3>
 
 <?php
 

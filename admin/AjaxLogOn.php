@@ -1,62 +1,69 @@
 <?php
 // -------------------------------------------------------------
-//  Project	Online Gallery
-//  File	AjaxLogOn.php
+//  Project	Mells Roofing
+//	File	AjaxLogOn.php
+//
+//	Author	John McMillan
+//  McMillan Technology Ltd
 //
 //  Ajax server for log on
-//  Checks the username and password
 //
-//  Author	John McMillan
-//  McMillan Technology Ltd
+//	Checks the password
 // --------------------------------------------------------------
     session_start();
 
-    require_once '../common.php';
-    
-    $config = setConfig();			// Connect to database
-    $mysqli = dbConnect($config);
-
     global $name;
-    checkPassword();
+    if (array_key_exists('pw', $_GET))
+        checkPassword();
+    else {
+        checkLoggedOn();
+    }
 
 // -------------------------------------------
-// Check the password
-//  If OK, log on
+// -------------------------------------------
+function checkLoggedOn()
+{
+                                            // See if a user is logged on
+    if (!array_key_exists('MLastAccess', $_SESSION)) {
+        echo "No logon";
+        return;
+    }
+                    // Now there should be a session - process timeout
+    $tm = time();
+    $lastTime = 0;
+//    if (array_key_exists('MLastAccess', $_SESSION))
+            $lastTime = $_SESSION['MLastAccess'];
+    if (($tm - $lastTime) > 3600) {
+        session_unset();
+        session_destroy();
+        echo "Timeout";
+        return;
+    }
+
+    $_SESSION['MLastAccess'] = $tm;
+    echo "OK";
+    return;
+
+}
+// -------------------------------------------
+//	Check the password
+//	If OK, log on
 //
 // -------------------------------------------
 function checkPassword()
 {
-    global $mysqli;
-
-    $uname = $_GET['user'];
     $pw = $_GET['pw'];
-    
-    $sql = "SELECT * FROM users WHERE username='$uname'";
-    $result = $mysqli->query($sql);
-    if (mysqli_num_rows($result) < 1) {
-        echo "User not recognised";
-        return;
-    }
-
-    $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    if ($pw == $record['password']) {
+    if ($pw == "small-garden") {
         logOn();
-        $level = $record['level'];
-        $_SESSION['userLevel'] = $level;
-        $_SESSION['fullName'] = $record['fullname'];
-        $_SESSION['userId'] = $record['id'];
-        if ($level == 3)
-            $collection = 0;
-        else 
-            $collection = $record['collection'];
-        $_SESSION['loggedColl'] = $collection;
+        $_SESSION['userLevel'] = 1;
     }
     else
         echo "Error: wrong password";
 }
 
 // -------------------------------------------
-//  Log the user on
+//	Log the user on
+//
 //	
 // -------------------------------------------
 function logOn()
@@ -66,5 +73,6 @@ function logOn()
 
     echo 'OK';
 }
+
 
 ?>

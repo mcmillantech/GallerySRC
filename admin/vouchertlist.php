@@ -1,13 +1,13 @@
 <?php
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	eventlist.php
-//		List current events
+//  Project	Lupe Cunha
+//	File	eventlist.php
+//			List current events
 //
-//  Parameters	default - show list
-//		mode - ins or upd
+//	Parameters	default - show list
+//				mode - ins or upd
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 /*
 public function showListLine($line)
@@ -24,9 +24,8 @@ protected function SQLDate($dt)
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>Gallery Events</title>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<title>Lupe Events</title>
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <script src="../Cunha.js"></script>
 <style>
 .lsTitle
@@ -57,7 +56,7 @@ protected function SQLDate($dt)
 	require_once "../common.php";
 	require_once "DataList.php";
 
-class UserList extends DataList
+class EvList extends DataList
 {
 	function __construct($mysqli)
 	{
@@ -195,7 +194,7 @@ class UserList extends DataList
 	$mysqli = dbConnect($config);
 
 	echo "<h3>Current Events</h3>";
-	$lst = new UserList($mysqli);
+	$lst = new EvList($mysqli);
 	$lst->sqlShow("SELECT * FROM events  ORDER BY date1 DESC");
 	$lst->editPage("eventedit.php");
 	$lst->run();

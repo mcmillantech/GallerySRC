@@ -1,14 +1,15 @@
 <?php
+    session_start();
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	eventedit.php
-//		Edit current event
+//  Project	Lupe Cunha
+//	File	eventedit.php
+//			Edit current event
 //
-//  Parameters	
-//		mode - ins or upd
-//		id - index of item, upd mode only
+//	Parameters	
+//				mode - ins or upd
+//				id - index of item, upd mode only
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 /*
 protected function setNewItem()
@@ -23,9 +24,8 @@ protected function showForm($mode)
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>Gallery Event Edit</title>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<title>Lupe Event Edit</title>
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <script src="../Cunha.js"></script>
 <script>
 function showFileFrame()
@@ -36,41 +36,42 @@ function showFileFrame()
 
 </script>
 </head>
-<body>
+<body onload="adminLoad()">
 <?php
-	session_start();
+//	session_start();
 	include "adminmenus.php";
 	require_once "../common.php";
 	require_once "DataEdit.php";
 
 class EvEdit extends DataEdit
 {
-    function __construct($mysqli)
-    {
-        parent::__construct($mysqli);
-    }
+	function __construct($mysqli)
+	{
+		parent::__construct($mysqli);
+	}
 
-    protected function setNewItem()
-    {
-        $this->record = array (
-                'title' => '',
-                'stream' => 'Exhibitions',
+	protected function setNewItem()
+	{
+		$this->record = array
+		(
+			'title' => '',
+			'stream' => 'Exhibitions',
 //			'mainimage' => '',
-                'date1' => '',
-                'date2' => '',
-                'times' => '',
-                'location' => '',
-                'address' => '',
-                'contact' => '',
-                'image1' => '',
-                'image2' => '',
-                'image3' => '',
-                'image4' => '',
-                'image5' => '',
-                'image6' => '',
-                'text' => ''
-        );
-    }
+			'date1' => '',
+			'date2' => '',
+			'times' => '',
+			'location' => '',
+			'address' => '',
+			'contact' => '',
+			'image1' => '',
+			'image2' => '',
+			'image3' => '',
+			'image4' => '',
+			'image5' => '',
+			'image6' => '',
+			'text' => ''
+		);
+	}
 
 // -------------------------------------------
 //	Override of DataEdit virtual function

@@ -1,14 +1,15 @@
 <?php
+    session_start();
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	voucheredit.php
-//		Edit voucher
+//  Project	Lupe Cunha
+//	File	voucheredit.php
+//			Edit voucher
 //
-//  Parameters	
-//		mode - ins or upd
-//		id - index of item, upd mode only
+//	Parameters	
+//				mode - ins or upd
+//				id - index of item, upd mode only
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 /*
 protected function setNewItem()
@@ -23,14 +24,12 @@ protected function showForm($mode)
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>Gallery Voucher Edit</title>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<title>Lupe Voucher Edit</title>
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <script src="../Cunha.js"></script>
 </head>
-<body>
+<body onload="adminLoad()">
 <?php
-	session_start();
 	include "adminmenus.php";
 	require_once "../common.php";
 	require_once "DataEdit.php";

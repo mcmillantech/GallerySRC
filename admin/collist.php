@@ -1,13 +1,14 @@
 <?php
+    session_start();
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	collist.php
-//		List collections
+//  Project	Lupe Cunha
+//	File	collist.php
+//			List collections
 //
-//  Parameters	default - show list
-//		mode - ins or upd
+//	Parameters	default - show list
+//				mode - ins or upd
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 /*
 class collist extends DataList
@@ -22,51 +23,49 @@ class collist extends DataList
 */
 ?>
 <!DOCTYPE html>
-
 <html lang="en-GB">
 <head>
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>Gallery Collections</title>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<title>Lupe Collections</title>
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <script src="../Cunha.js"></script>
 <style>
-.lsId
-{
-	position:		absolute;
-	left:			20px;
-	width:			40px;
-}
-
 .lsTitle
 {
 	position:		absolute;
-	left:			70px;
+	left:			20px;
 	width:			320px;
 }
 
 .lsSequence
 {
 	position:		absolute;
-	left:			330px;
+	left:			280px;
 }
 
 .lsButton
 {
 	position:		absolute;
-	left:			380px;
+	left:			330px;
 }
 
 </style>
 </head>
-<body>
+<body onload="adminLoad()">
 <?php
-	session_start();
 	require_once "../common.php";
 	require_once "adminmenus.php";
 	require_once "DataList.php";
 
+/*$config = setConfig();
+$mysqli = dbConnect($config);
+//print_r($config);
+$sql = "SELECT * FROM collections INTO OUTFILE 'collections.csv' "
+        . "FIELDS ENCLOSED BY '\"' TERMINATED BY ',' "
+        . "LINES TERMINATED BY '\r\n';";
+if (!$mysqli->query($sql))
+    die ("Query error"  . $mysqli -> error); */
 class collist extends DataList
 {
 	function __construct($mysqli)
@@ -76,20 +75,19 @@ class collist extends DataList
 
 	public function showListLine($line)
 	{
-            $id = $line['id'];
-            $name = $line['name'];
-            $sequence= $line['sequence'];
-            $onEdit = "window.location=\"coledit.php?mode=upd&item=$id\"";
-            $onDelete = "window.location=\"collist.php?mode=del&item=$id\"";
-
-            echo "\n<span class='lsId'>$id</span>";
-            echo "<span class='lsTitle'>$name</span>";
-            echo "<span class='lsSequence'>$sequence</span>";
-            echo "<span class='lsButton'>";
-                echo "<button onClick='$onEdit'>Edit</button>";
-                echo "&nbsp;";
-                echo "<button onClick='$onDelete'>Delete</button>";
-            echo "</span><br>";
+		$id = $line['id'];
+		$name = $line['name'];
+		$sequence= $line['sequence'];
+		$onEdit = "window.location=\"coledit.php?mode=upd&item=$id\"";
+		$onDelete = "window.location=\"collist.php?mode=del&item=$id\"";
+	
+		echo "\n<span class='lsTitle'>$name</span>";
+		echo "<span class='lsSequence'>$sequence</span>";
+		echo "<span class='lsButton'>";
+			echo "<button onClick='$onEdit'>Edit</button>";
+			echo "&nbsp;";
+			echo "<button onClick='$onDelete'>Delete</button>";
+		echo "</span><br>";
 	}
 
 	// ----------------------------------------------
@@ -98,11 +96,10 @@ class collist extends DataList
 	// ----------------------------------------------
 	public function showHeading()
 	{
-            echo "\n<b><span class='lsId'>Id</span>";
-            echo "<span class='lsTitle'>Title</span>";
-            echo "<span class='lsSequence'>Seq</span>";
-            echo "<span class='lsButton'> Edit</span>";
-            echo "</b><br><br>";
+		echo "\n<b><span class='lsTitle'>Title</span>";
+		echo "<span class='lsSequence'>Seq</span>";
+		echo "<span class='lsButton'> Edit</span>";
+		echo "</b><br><br>";
 	}
 
 	// -------------------------------------------
@@ -196,23 +193,14 @@ class collist extends DataList
 //	of collist
 // ----------------------------------------------
 
-    $config = setConfig();				// Connect to database
-    $mysqli = dbConnect($config);
+	$config = setConfig();					// Connect to database
+	$mysqli = dbConnect($config);
 
-    echo "<h3>Collections</h3>";
-    $lst = new collist($mysqli);
-/* # option 11 
-    $colId = $_GET['col'];
-    $sql = "SELECT l.*, p.* FROM links l "
-        . "JOIN paintings p ON p.id = l.picture "
-        . "WHERE l.collection = $colId "
-        . "ORDER BY p.dateset DESC"; # alt 11  
- */
-    $sql = "SELECT * FROM collections ORDER BY sequence";
-    /* # end      */
-    $lst->sqlShow($sql);
-    $lst->editPage("coledit.php");
-    $lst->run();
+	echo "<h3>Collections</h3>";
+	$lst = new collist($mysqli);
+	$lst->sqlShow("SELECT * FROM collections ORDER BY sequence");
+	$lst->editPage("coledit.php");
+	$lst->run();
 ?>
 </body>
 </html>

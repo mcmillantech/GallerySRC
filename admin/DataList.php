@@ -1,13 +1,13 @@
 <?php
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	DataList.php
-//		Class to List table contents
+//  Project	Lupe Cunha
+//	File	DataList.php
+//			Class to List table contents
 //
-//  Requirements
-//		Empty functions to be overriden
+//	Requirements
+//			Empty functions to be overriden
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 
 
@@ -38,24 +38,24 @@ class DataList
 
 	public function run()
 	{
-            // Process according to mode parameter
-            if (array_key_exists('mode', $_GET))
-            {
-                $mode = $_GET['mode'];
-                switch ($mode)
-                {
-                case 'ins':
-                    $this->insertItem();
-                    break;
-                case 'upd':
-                    $this->updateItem();
-                    break;
-                case 'del':
-                    $this->deleteItem();
-                    break;
-                }
-            }
-            $this->showList();
+		// Process according to mode parameter
+		if (array_key_exists('mode', $_GET))
+		{
+			$mode = $_GET['mode'];
+			switch ($mode)
+			{
+			case 'ins':
+				$this->insertItem();
+				break;
+			case 'upd':
+				$this->updateItem();
+				break;
+			case 'del':
+				$this->deleteItem();
+				break;
+			}
+		}
+		$this->showList();
 	}
 
 	protected function insertItem()

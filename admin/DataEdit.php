@@ -1,13 +1,13 @@
 <?php
 // ------------------------------------------------------
-//  Project	OnLine Gallery
-//  File	DataEdit.php
-//		Class to edit listed items
+//  Project	Lupe Cunha
+//	File	DataEdit.php
+//			Class to edit listed items
 //
-//  Requirements
-//		Empty functions to be overriden
+//	Requirements
+//			Empty functions to be overriden
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 /*
 function __construct($mysqli)

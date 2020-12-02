@@ -1,12 +1,11 @@
 <?php
 // ------------------------------------------------------
-//  Project	OnLIne Gallery
-//  File	eventImageFrame.php
-//		Frame to pick image files for events
-//		from eventedit.php
-//		Also collections
+//  Project	Lupe Cunha
+//	File	eventImageFrame.php
+//			Frame to pick image files for events
+//			from eventedit.php
 //
-//  Author	John McMillan, McMillan Technolo0gy
+//	Author	John McMillan, McMillan Technolo0gy
 // ------------------------------------------------------
 	require_once "../common.php";
 ?>
@@ -17,8 +16,7 @@
 <meta http-equiv="Content-Language" content="en-gb">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Upload images</title>
-<link type="text/css" rel="stylesheet" href="../Gallery.css">
-<link type="text/css" rel="stylesheet" href="../custom.css">
+<link type="text/css" rel="stylesheet" href="../Cunha.css">
 <style>
 .lsTitle
 {
@@ -63,9 +61,9 @@ function pick(image)
 }
 
 // -----------------------------------------
-//  Hander for the pick button for collects
+//	Hander for the pick button for collects
 //
-//  Retrieve the image name from select list
+//	Retrieve the image name from select list
 //  and show the select pane
 // -----------------------------------------
 function pickCol(image)
@@ -104,7 +102,7 @@ function selected()
 </head>
 
 <body>
-<h3>Gallery Web Site: Select images</h3>
+<h3>Lupe Web Site: Select images</h3>
 
 <?php
 	if (array_key_exists("which", $_GET))
@@ -114,7 +112,7 @@ function selected()
 
 	echo "<div style='position:absolute;'>";
 
-	$fileList = scandir("../images/small/");
+	$fileList = scandir("../Images/small/");
 	foreach ($fileList as $image)
 	{
 		if (substr($image, 0, 1) == '.')			// Don't show the folders
