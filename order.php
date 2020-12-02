@@ -73,13 +73,11 @@ function showForm($id, $record)
 
         if ($record['quantity'] > 1) {
             echo "<br><span class='prompt'>Number required *</span>";
-            echo "\n<span class='input'><input type='text' id='quantity' name='quantity' size='5' value='1'></span><br>";
-//            showLine('quantity', 5);
+            showLine('quantity', 5);
         }
         echo "<br><span class='prompt'>Country to ship to</span>";
 
                 // 2 variants of shippin dropdown, one for group, ons standard
-//# option 11
         $col = $_SESSION['collection'];
         $terrs = getTerritories($col);
         echo "\n<span class='input'>";
@@ -91,26 +89,7 @@ function showForm($id, $record)
             echo "<option value='collect'>Will collect from artist</option>";
             echo "</select>";
         echo "</span><br><br>";
-//# alt 11 
-        echo "This is Std<br>";
-        echo "\n<span class='input'>";
-            echo "<select id='region' name='region'>";
-            echo "\n<option value='uk' selected>UK</option>";
-            echo "<option value='eu'>EU</option>";
-            echo "<option value='usa'>USA, Canada</option>";
-            echo "<option value='aus'>Australia, Brazil</option>";
-            echo "<option value='collect'>Will collect from artist</option>";
-            echo "</select>";
-        echo "</span><br><br>";
-//# end 11
 
-//# option 1
-
-        echo "<span class='prompt'>Voucher code</span>";
-        showLine('voucher', 12, 1);
-        echo "\n<span style='margin-left:450px'>";
-        echo "<button type='button' onClick='checkVoucher()'>Check Code</button></span>";
-//# end 1
 
         echo "<br><span class='prompt'>";
         echo "<input type='submit' value='Submit'>";
@@ -148,8 +127,6 @@ function check()
 	checkFld ('name');
 	checkFld ('addr1');
 	checkFld ('pcode');
-	checkFld ('email');
-	checkFld ('quantity');
 	if (err)
 		alert (msg);
 	return !err;
@@ -176,12 +153,6 @@ function checkFld(fld)
 			break;
 		case 'pcode':
 			msg += "You must enter a postcode\n";
-			break;
-		case 'email':
-			msg += "You must enter an email address\n";
-			break;
-		case 'quantity':
-			msg += "You must enter a quantity\n";
 			break;
 		}
 		err = true;

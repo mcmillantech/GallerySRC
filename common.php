@@ -50,12 +50,8 @@ function setConfig()
 function dbConnect($config)
 {
     $dbConnection = mysqli_connect 
-        ($config['dbhost'], $config['dbuser'], $config['dbpw'], $config['dbname']);
-//        or myError (ERR_CONNECT, $config['dbname']);
-        if ($dbConnection -> connect_errno) {
-          echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
-          exit();
-        }
+        ($config['dbhost'], $config['dbuser'], $config['dbpw'], $config['dbname'])
+        or myError (ERR_CONNECT, $config['dbname']);
     mysqli_select_db($dbConnection, $config['dbname']) 
         or myError(ERR_SELECT, 
             "Could not select database : " . mysqli_error($dbConnection));
@@ -142,21 +138,19 @@ function imageFit($image)
 }
 
 // -------------------------------------------
-//	Return the text of the footer
+//  Fetch and return the text of the footer
 //
 // -------------------------------------------
 function footer()
 {
-    $txt = "<p>&nbsp;&nbsp;</p>\n" 
-        . "<div id='footer'>\n"
-        . "	<p class='jlink'>\n"
-        . "<br>Website produced by <a href='http://www.mcmillantech.co.uk' target='blank'>\n"
-        . "McMillan Technology</a></p>\n<br></div>";
+    $fh = fopen('footer.html', 'r');
+    $content = fread($fh, 4000);
+    fclose($fh);
 
-    return $txt;
+    return $content;
 }
 
-const PP_TEST = 1;				// Set this to 1 to use sandbox
+const PP_TEST = 1;		// In common master, Set this to 1 to use sandbox
 
 const AWAY = "At exhibition until ";
 
@@ -188,10 +182,15 @@ const ERR_PM_CUSTOMER_EMAIL = 105;
 const ERR_PM_ARTIST_EMAIL = 106;
 const ERR_VOUCHER = 70;
 
-const WEBSITE = "www.website.co.uk";
-const USER_EMAIL = "jon@mt.co.uk";
-const USER_ADDRESS = "Sudbury";
-const ARTIST = "John M";
-const ARTIST_FNAME = "John";
+const GEN_DSC = "Buy original art online from New Art for You";
+const GEN_KWS = "Paintings online, buy art online UK, buy original art online UK";
+const COL_DSC = "Original paintings online by ";
+const COL_DSC2 = "Original artworks online from ";
+const PIC_DSC = "Buy original art from ";
+const WEBSITE = "www.newartforyou.co.uk";
+const USER_EMAIL = "join@newartforyou.co.uk";
+const USER_ADDRESS = "83a, Ballingdon Street, Sudbury, Suffolk, CO10 2DA, UK";
+const ARTIST = "New Art for You";
+const ARTIST_FNAME = "New Art";
 
 ?>

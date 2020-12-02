@@ -58,13 +58,9 @@ function collectionsList($dta)
 {
     global $mysqli;
 
-//# option 11
     $sql = "SELECT u.status, c.* FROM collections c"
         ." JOIN users u ON u.collection=c.id"
         ." WHERE u.status=1 ORDER BY sequence";
-//# alt 11
-    $sql = "SELECT * FROM collections WHERE sequence > 0 ORDER BY sequence";
-//# end 11
     $result = $mysqli->query($sql)
         or myError(ERR_COMMON_MENU, "Collections error " . $mysqli->error);
 

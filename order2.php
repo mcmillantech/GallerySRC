@@ -57,11 +57,7 @@ function getNextOrder()
 	$order['discounts'] = 0;
 	$order['discounta'] = 0;
 
-//# option 1
-	checkVoucher ($record);
-//# alt 1
 	$order['voucher'] = '';
-//# end 1
 
 	$order['picture'] = $record['name'];
 	$order['total'] = $order['price'] + $order['shipping'];
@@ -83,11 +79,9 @@ function shippingPrice($sizeband)
 
     $region = $_POST['region'];
     $sql = "SELECT * FROM shipping WHERE sizeband=$sizeband";
-//# option 11
     $coll = $_SESSION['collection'];
-    $artist = $coll;
+    $artist = userFromCollection($coll);
     $sql .= " AND artist=$artist";
-//# end 11
     $result = $mysqli->query($sql)
         or die("Collections error " . $mysqli->error);
     $record = $result->fetch_array(MYSQLI_ASSOC);
@@ -97,52 +91,6 @@ function shippingPrice($sizeband)
     return $price;
 }
 
-//# option 1
-// ----------------------------------------------
-// ----------------------------------------------
-function checkVoucher ($painting)
-{
-	global $mysqli, $order;
-
-	$code = $order['voucher'];
-	if (strlen ($code) < 2)
-		return;					// No voucher code
-                                                        // Validate the voucher
-	$sql = "SELECT * FROM vouchers WHERE code='$code'";
-	$result = $mysqli->query($sql)
-		or myError (ERR_VOUCHER, $mysqli->error);
-	if (mysqli_num_rows($result) < 1)		// Voucher not found
-	{
-		die (V_INVALID);
-	}
-
-	$order['voucher'] = $code;
-	$voucher = $result->fetch_array(MYSQLI_ASSOC);
-	mysqli_free_result ($result);
-	
-	$today = date('Y-m-d');			// Makes today's date
-	if ($today > $voucher['expires']) {
-            echo V_EXPIRED;
-            return;
-	}
-	$discount = $voucher['discount'];
-	$amount = $voucher['amount'];
-	$freeship = $voucher['freeship'];
-
-	if ($discount > 0) {
-            $order['price'] *= (1.0 - ($discount / 10000));
-            $order['discounts'] = $discount;
-	}
-	else if ($amount > 0) {
-            $order['price'] -= ($amount / 100.0);
-            $order['discounta'] = $amount;
-	}
-	if ($freeship)
-            $order['shipping'] = 0;
-
-	return $order;
-}
-//# end 1
 
 // ----------------------------------------------
 //	Show the order details, invite correction
