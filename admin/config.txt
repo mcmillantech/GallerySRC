@@ -1,0 +1,7 @@
+dbhost		127.0.0.1
+dbname		cunha
+dbuser		root
+dbpw		sql
+images		images
+braintree	../../braintree-php-3.34.0/lib/Braintree.php
+ckeditor	../../../ckeditor/ckeditor.js
