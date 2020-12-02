@@ -46,7 +46,7 @@ error_reporting(E_ALL);
     $mode = $_GET['mode'];
     switch ($mode) {
         case "invoice":
-            $price = getPrice($nWorks);
+            $price = 30;
             $action = "artistpaid.php?mode=invoice";
             echo "<p>Please give your card details to activate your account</p>";
             break;
@@ -161,8 +161,8 @@ function postWorksChange($userId, $nworks2)
 <script>
     var domain = document.domain;
     var token;
-    token = "sandbox_79k7qx4p_nymy4h8qq7ck73sn";
-//    token = "production_38zqhm8t_fdyvvs3rm4gs2c5n";
+//    token = "sandbox_79k7qx4p_nymy4h8qq7ck73sn";
+    token = "production_38zqhm8t_fdyvvs3rm4gs2c5n";
 
 // ---------------------------------------------------
 //	Script taken from Braintree

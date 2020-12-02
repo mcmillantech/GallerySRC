@@ -22,7 +22,8 @@
     $dta['tags'] = GEN_KWS;
     showTop($title, $heading);
 //# option 11
-    echo "<h2>The Artists</h2>";
+//    echo "<h2>The Artists</h2>";
+    echo "<h2>Third NAFY virtual exhibition<br>18th November to 14th December 2020</h2>";
 //# end 11
 
     $dta['imgrecent'] = $impath . '/small/Recent.jpg';

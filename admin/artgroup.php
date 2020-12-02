@@ -17,7 +17,11 @@
 // ----------------------------------------------
 function makeDropDown($page, $mysqli)
 {
-    $sql = "SELECT * FROM collections";
+    if ($page == 'orders') {
+        $sql = "SELECT id, fullname as name FROM users";
+    }
+    else
+        $sql = "SELECT * FROM collections";
     $result = $mysqli->query($sql);
     $html = '';
     while ($record = mysqli_fetch_array($result, MYSQLI_ASSOC)) {

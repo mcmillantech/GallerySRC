@@ -87,7 +87,7 @@ function showOnePicture ($pic, $uselowprice)
     $list = array();
     while ($pic = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         $image = showOnePicture($pic, $colName, $uselowprice);
-        $image['collection'] = $sequence;
+        $image['collection'] = $colId;
         array_push($list, $image);
     }
     mysqli_free_result($result);

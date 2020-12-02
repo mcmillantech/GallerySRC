@@ -85,7 +85,7 @@ function shippingPrice($sizeband)
     $sql = "SELECT * FROM shipping WHERE sizeband=$sizeband";
 //# option 11
     $coll = $_SESSION['collection'];
-    $artist = userFromCollection($coll);
+    $artist = $coll;
     $sql .= " AND artist=$artist";
 //# end 11
     $result = $mysqli->query($sql)

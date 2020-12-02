@@ -15,7 +15,7 @@
     $mysqli = dbConnect($config);
 
     const TEST = 0;				// Set to 1 to skip emails
-    const RERUN = 1;				// Set to 1 to skip Braintree
+    const RERUN = 0;				// Set to 1 to skip Braintree
     require 'btroutines.php';
     
     $mode = $_GET['mode'];
@@ -80,7 +80,7 @@ function payInvoice($transRef, $fee)
 
     $user = readUserRecord();
     updateUser($user);
-    writeOrder($user, $transRef, $fee);
+    writeOrder($user, $transRef, $fee * 100);
 //    supportEmail($userName, $transRef);
 }
 

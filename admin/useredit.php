@@ -77,7 +77,10 @@ class userEdit extends DataEdit
             'postcode' => '',
             'phone' => '',
             'website' => '',
-            'level' => 1
+            'level' => 1,
+            'status' => 0,
+            'nworks' => 6,
+            'enddate' => ''
         );
     }
 
@@ -125,8 +128,12 @@ class userEdit extends DataEdit
             $this->showLine('Phone', $dta, 'phone', 20);
             $this->showLine('Website', $dta, 'website', 45);
             $this->showLine('Level', $dta, 'level', 2);
-            echo "<span class='prompt'> &nbsp;(2 artist, 3 superadmin)";
-            echo "</span><br>";
+            echo " &nbsp;(Level: 2 artist, 3 superadmin)";
+            echo " Status: 0 pending, 1 live, 9 expired";
+            echo "<br>";
+            $this->showLine('Status', $dta, 'status', 2);
+            $this->showLine('no. works', $dta, 'nworks', 2);
+            $this->showLine('End date (yyyy-mm)', $dta, 'enddate', 8);
             echo "<button type='submit'>Post</button>";
         echo "</form>";
 

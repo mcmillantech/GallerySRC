@@ -43,21 +43,21 @@
 // ---------------------------------------
 function uploadFiles()
 {
-	$targetDir = "../Images/large/";
+    $targetDir = "../images/large/";
 //print_r($_FILES);
-	$upload = $_FILES['upload'];
-	$number = count($upload['name']);
-	for( $i=0; $i < $number; $i++ )
-	{
-		$fname = $upload['name'][$i];
-		$tmpName = $upload['tmp_name'][$i];
-		$targetFile = $targetDir . $fname;
-											// Store the original large image
-		if (!move_uploaded_file($tmpName, $targetFile)) 
-        	die ("There was an error uploading $fname from $tmpName to $targetFile");
+    $upload = $_FILES['upload'];
+    $number = count($upload['name']);
+    for( $i=0; $i < $number; $i++ )
+    {
+        $fname = $upload['name'][$i];
+        $tmpName = $upload['tmp_name'][$i];
+        $targetFile = $targetDir . $fname;
+                                                                                // Store the original large image
+        if (!move_uploaded_file($tmpName, $targetFile)) 
+            die ("There was an error uploading $fname from $tmpName to $targetFile");
         resize($fname, $targetFile);		// And the small one
-		echo "$fname uploaded<br>";
-	}
+            echo "$fname uploaded<br>";
+    }
 
 }
 
@@ -70,16 +70,17 @@ function uploadFiles()
 // ---------------------------------------
 function resize($fname, $fLarge)
 {
-	$targetDir = "../Images/small/";
+    echo "Resize ";
+	$targetDir = "../images/small/";
 	$targetFile = $targetDir . $fname;
 
 	$img = imagecreatefromjpeg($fLarge);
 	if (!$img)
 		die ("Failed resize $fLarge");
-    $small = imagescale($img , 300, -1);
+    $small = imagescale($img , 500, -1);
 	if ($small === FALSE)
 		die ("Failed scaling $fLarge");
-    $small = imagescale($img , 300, -1);
+    $small = imagescale($img , 500, -1);
     if (!imagejpeg($small, $targetFile, 100))
     	die("Failed to save $targetFile");
 	
