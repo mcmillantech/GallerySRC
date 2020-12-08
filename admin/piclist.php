@@ -59,7 +59,7 @@ function doDelete(item, name)
 .lsButton
 {
 	position:		absolute;
-	left:			380px;
+	left:			420px;
 }
 
 </style>
@@ -80,13 +80,20 @@ class PicList extends DataList
 
     public function showListLine($line)
     {
+    $config = setConfig();			// Get path to images
+        $impath = $config['images'];
+
         $id = $line['id'];
         $name = $line['name'];
         $seq = $line['seq'];
+        $image = $line['image'];
         $onEdit = "window.location=\"picedit.php?mode=upd&item=$id\"";
 
         echo "\n<span class='lsTitle'>$name</span>";
-        echo "\n<span class='lsSequence'>$seq</span>";
+        echo "\n<span class='lsSequence'>$seq";
+        $img = "../$impath/small/$image";
+        echo "&nbsp;&nbsp;<img src='$img' style='height:36px'>";
+        echo "</span>";
         echo "<span class='lsButton'>";
         if ($_SESSION['userLevel'] < 3) {
             echo "<button onClick='$onEdit'>Edit</button>";
@@ -104,7 +111,7 @@ class PicList extends DataList
             echo " &nbsp;$artist";
         }
         echo "</span>";
-        echo '<br>';
+        echo '<br><br>';
     }
 
     // ----------------------------------------------
@@ -130,35 +137,32 @@ class PicList extends DataList
 
         $recent = $this->getCheckBox('recent');
         $archive = $this->getCheckBox('archive');
-        $costcovered = $this->getCheckBox('costcovered');
 
         $sql = "INSERT INTO paintings "
-            . "(name, recent, dateset, media, size, mount, tags, priceweb, priceebay, "
-            . " costcovered, datesold, archive, image, notes, shippingrate, "
+            . "(name, dateset, media, size, mount, colour, subject, tags, priceweb, "
+            . " datesold, image, notes, shippingrate, "
             . "year, quantity, away, seq) "
-            . " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            . " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         if (!($stmt = $this->mysqli->prepare($sql)))
             echo "Prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-        if (!$stmt->bind_param('sisssssiiisissiiisi', $name, $recent, $dateset, $media, $size, 
-            $mount, $tags, $priceweb, $priceebay, $costcovered, $datesold, $archive, $image,
+        if (!$stmt->bind_param('ssssssssisssiiisi', $name, $dateset, $media, $size, 
+            $mount, $tags, $priceweb, $datesold, $image,
             $notes, $shippingrate, $year, $quantity, $away, $seq))
         echo	"Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
         $name = addslashes($_POST['name']);
         $dt = $_POST['dateset'];
         $dateset = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2);
-        $recent = $this->getCheckBox('recent');
         $year = $_POST['year'];
         $media = $_POST['media'];
         $mount = $_POST['mount'];
+        $colour = $_POST['colour'];
+        $subject = $_POST['subject'];
         $size = addslashes($_POST['size']);
         $tags = $_POST['tags'];
         $priceweb = $_POST['priceweb'] * 100;
-        $priceebay = $_POST['priceebay'] * 100;
-        $archive = $this->getCheckBox('archive');
         $away = $this->SQLDate($_POST['away']);
-        $costcovered = $this->getCheckBox('costcovered');
         $datesold  = $this->SQLDate($_POST['datesold']);
         $image  = $_POST['image'];
         $notes  = $_POST['notes'];
@@ -184,33 +188,31 @@ class PicList extends DataList
     {
         $id = $_GET['item'];
 
-        $sql = "UPDATE paintings SET name=?, recent=?, dateset=?, media=?, "
-            . "size=?, mount=?, tags=?, priceweb=?, priceebay=?, costcovered=?, "
-            . "datesold=?, archive=?, image=?, notes=?, shippingrate=?, year=?, "
+        $sql = "UPDATE paintings SET name=?, dateset=?, media=?, "
+            . "size=?, mount=?, colour=?, subject=?, tags=?, priceweb=?, "
+            . "datesold=?, image=?, notes=?, shippingrate=?, year=?, "
             . "quantity=?, away=?, seq=?"
             . " WHERE id=$id";
-
+//            ssssssssisssiiiii
         if (!($stmt = $this->mysqli->prepare($sql)))
             echo "Prepare failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
-        if (!$stmt->bind_param('sisssssiiisissiiisi', $name, $recent, $dateset, $media, $size, 
-            $mount, $tags, $priceweb, $priceebay, $costcovered, $datesold, $archive, 
+        if (!$stmt->bind_param('ssssssssisssiiisi', $name, $dateset, $media, $size, 
+            $mount, $colour, $subject, $tags, $priceweb, $datesold,  
             $image, $notes, $shippingrate, $year, $quantity, $away, $seq))
             "Bind failed: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
 
         $name = $_POST['name'];
         $dt = $_POST['dateset'];
         $dateset = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2);
-        $recent = $this->getCheckBox('recent');
         $year = $_POST['year'];
         $media = $_POST['media'];
         $mount = $_POST['mount'];
         $size = $_POST['size'];
+        $colour = $_POST['colour'];
+        $subject = $_POST['subject'];
         $tags = $_POST['tags'];
         $priceweb = $_POST['priceweb'] * 100;
-        $priceebay = $_POST['priceebay'] * 100;
-        $archive = $this->getCheckBox('archive');
-        $costcovered = $this->getCheckBox('costcovered');
         $datesold  = $this->SQLDate($_POST['datesold']);
         $image  = $_POST['image'];
         $notes  = $_POST['notes'];
@@ -255,22 +257,6 @@ class PicList extends DataList
         $picId = $id;
 
         $collName = $_POST['coll1'];
-        if ($collName <> '') {
-            $collId = $this->lookupColl($collName);
-            $status = $stmtLink->execute();
-            if (!$status)
-                $this->sqlError ("Link insert failed");
-        }
-
-        $collName = $_POST['coll2'];
-        if ($collName <> '') {
-            $collId = $this->lookupColl($collName);
-            $status = $stmtLink->execute();
-            if (!$status)
-                $this->sqlError ("Link insert failed");
-        }
-
-        $collName = $_POST['coll3'];
         if ($collName <> '') {
             $collId = $this->lookupColl($collName);
             $status = $stmtLink->execute();
