@@ -80,8 +80,9 @@ function shippingPrice($sizeband)
     $region = $_POST['region'];
     $sql = "SELECT * FROM shipping WHERE sizeband=$sizeband";
     $coll = $_SESSION['collection'];
-    $artist = userFromCollection($coll);
+    $artist = $coll;
     $sql .= " AND artist=$artist";
+
     $result = $mysqli->query($sql)
         or die("Collections error " . $mysqli->error);
     $record = $result->fetch_array(MYSQLI_ASSOC);

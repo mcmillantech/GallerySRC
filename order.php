@@ -27,6 +27,7 @@ JS function checkFld(fld)
 
     $mode = 0;
     $order = array();
+
     if (array_key_exists('correct', $_GET)) {
         $mode = 1;
         $order = $_SESSION['order'];
@@ -35,7 +36,7 @@ JS function checkFld(fld)
     $sql = "SELECT * FROM paintings WHERE id=$id";
     $result = $mysqli->query($sql)
             or die("Error reading painting"
-            . "............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................." . $mysqli->error);
+            . $mysqli->error);
     $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $title = "Buy now";
 
@@ -73,7 +74,8 @@ function showForm($id, $record)
 
         if ($record['quantity'] > 1) {
             echo "<br><span class='prompt'>Number required *</span>";
-            showLine('quantity', 5);
+    echo "\n<span class='input'><input type='text' id='quantity' name='quantity' size='5' value='1'></span><br>";
+//            showLine('quantity', 5);
         }
         echo "<br><span class='prompt'>Country to ship to</span>";
 
@@ -114,6 +116,8 @@ function showLine($name, $size, $noLine = 0)
 ?>
 </div>
 <script>
+var err;
+
 // ---------------------------------------
 //	Validate the form
 //
@@ -127,6 +131,8 @@ function check()
 	checkFld ('name');
 	checkFld ('addr1');
 	checkFld ('pcode');
+	checkFld ('email');
+	checkFld ('quantity');
 	if (err)
 		alert (msg);
 	return !err;
@@ -153,6 +159,12 @@ function checkFld(fld)
 			break;
 		case 'pcode':
 			msg += "You must enter a postcode\n";
+			break;
+		case 'email':
+			msg += "You must enter an email address\n";
+			break;
+		case 'quantity':
+			msg += "You must enter a quantity\n";
 			break;
 		}
 		err = true;
