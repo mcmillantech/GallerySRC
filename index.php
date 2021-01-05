@@ -1,7 +1,7 @@
 <?php
 // ------------------------------------------------------
 //  Project	Art Gallery
-//	File	index.php
+//  File	index.php
 //		Home page
 //
 //  Author	John McMillan 
@@ -20,7 +20,7 @@
     $title = "Online art for sale from " . ARTIST;
     $heading = "Art sales from " . ARTIST;
     $dta['tags'] = GEN_KWS;
-    showTop($title, $heading);
+    showTop($title, $heading, '', 'block');
 //    echo "<h2>The Artists</h2>";
     echo "<h2>Third NAFY virtual exhibition<br>18th November to 14th December 2020</h2>";
 
