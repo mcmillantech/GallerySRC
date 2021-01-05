@@ -57,6 +57,30 @@
             onclick="toggleMenu()">&#9776;</a>
 
     </div>  <!-- topnav -->
-    </div>
-        
+    </div>  <!-- topbar -->
+
+    <div class="searchBar" style="display: {showFilter}">
+        <div style="width:100px;float:left">Search by</div>
+        <form method="post" action="filter.php">
+            <div class="searchItem">
+                Price range <select class="filter" name="selectPrice">
+                    {prices}
+                </select>
+            </div>
+            <div class="searchItem">
+                Colour <select name="selectColour">
+                    {colours}
+                </select>
+            </div>
+            <div class="searchItem">
+                Subject <select name="selectSubject">
+                    {subjects}
+                </select>
+            </div>
+            <div class="searchItem">
+                <input type="submit" value="Go">
+            </div>
+        </form>
+    </div>    
+
     <h1>{heading}</h1>
