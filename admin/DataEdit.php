@@ -88,23 +88,29 @@ class DataEdit
 
 	// ---------------------------------------------------
 	//  Show a drop down
-	//
+        //  
+        //  Parameters  Prompt
+        //              Array of data values for the form
+        //              Index to data column
+	//              Array of values to show (key, value)
 	// ---------------------------------------------------
-	protected function showDropDown($prompt, $dta, $key, $values)
+	protected function showDropDown($prompt, $dta, $key, $iniSection)
 	{
-		$curValue = $dta[$key];
-		echo "\n<span class='prompt'>$prompt</span>";
-		echo "<span class='input'>";
-		echo "<select id='$key' name='$key'>";
-		for ($n=0; $n<count($values); $n++)
-		{
-			$item = $values[$n];
-			echo "\n<option value='$item'";
-			if ($item == $curValue)
-				echo " selected";
-			echo ">$item</option>";
-		}
-		echo "</select></span><br><br>";
+            $curValue = $dta[$key];
+            $options = makeSelection($iniSection, $curValue);
+            
+            echo "\n<span class='prompt'>$prompt</span>";
+            echo "<span class='input'>";
+            echo "<select id='$key' name='$key'>";
+            echo $options;
+/*            for ($n=0; $n<count($values); $n++) {
+                $item = $values[$n];
+                echo "\n<option value='$item'";
+                if ($item == $curValue)
+                    echo " selected";
+                echo ">$item</option>";
+            } */
+            echo "</select></span><br><br>";
 	}
 
 	// ---------------------------------------------------

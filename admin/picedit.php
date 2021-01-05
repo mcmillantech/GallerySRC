@@ -73,7 +73,6 @@ class picEdit extends DataEdit
             'coll1' => '',
             'coll2' => '',
             'coll3' => '',
-            'recent' => 0,
             'seq' => 1,
             'year' => '',
             'dateset' => $dt,
@@ -82,15 +81,14 @@ class picEdit extends DataEdit
             'mount' => '',
             'tags' => '',
             'priceweb' => '',
-            'priceebay' => '',
-            'costcovered' => 0,
             'datesold' => '',
-            'archive' => 0,
             'image' => '',
             'notes' => '',
             'shippingrate' => 1,
             'quantity' => 1,
-            'away' => ''
+            'away' => '',
+            'colour' => '',
+            'subject' => ''
             );
 	}
 
@@ -108,14 +106,13 @@ class picEdit extends DataEdit
         $this->record =  mysqli_fetch_array($result, MYSQLI_ASSOC);
                                         // Convert dates to display
         $this->record['priceweb'] = number_format($this->record['priceweb'] / 100, 2, '.', '');
-        $this->record['priceebay'] = number_format($this->record['priceebay'] / 100, 2, '.', '');
         $date = $this->dispDate($this->record['datesold']);
         $this->record['datesold'] = $date;
         $date = $this->dispDate($this->record['dateset']);
         $this->record['dateset'] = $date;
         $date = $this->dispDate($this->record['away']);
         $this->record['away'] = $date;
-	}
+    }
 
 // -------------------------------------------
 //	Convert SQL date to display format
@@ -123,12 +120,12 @@ class picEdit extends DataEdit
 // -------------------------------------------
     protected function dispDate($dt)
     {
-            if ($dt == '')			// Null date
-                    return '';
-            list($year, $mon, $day) = explode("-", $dt);
-            $day = substr($day, 0, 2);			// Strip out time
-            $dtm = "$day/$mon/$year";
-            return $dtm;
+        if ($dt == '')			// Null date
+                return '';
+        list($year, $mon, $day) = explode("-", $dt);
+        $day = substr($day, 0, 2);			// Strip out time
+        $dtm = "$day/$mon/$year";
+        return $dtm;
     }
 
 // -------------------------------------------
@@ -146,28 +143,24 @@ class picEdit extends DataEdit
         }
 
         $dta = $this->record;
-         $collList = $this->collectionList();
+        $collList = $this->collectionList();
 
         echo "<form method='post' action='$action'>";
             $this->showLine('Title', $dta, 'name', 45);
         $artist = $_SESSION['fullName'];
         echo "<input type='hidden' name='coll1' size='45' value=\"$artist\">";
-        echo "<input type='hidden' name='coll2'>";
-        echo "<input type='hidden' name='coll3'>";
-        $this->showLine('Sequence', $dta, 'seq', 3);
-            $this->showCheckBox('Recent', $dta, 'recent');
+            $this->showLine('Sequence', $dta, 'seq', 3);
             $this->showLine('Year', $dta, 'year', 10);
             $this->showLine('Uploaded', $dta, 'dateset', 10);
             $this->showLine('Medium', $dta, 'media', 45);
             $this->showLine('Size', $dta, 'size', 45);
             $this->showLine('Mount', $dta, 'mount', 45);
+            $this->showDropDown('Colour', $dta, 'colour', 'colours');
+            $this->showDropDown('Subject', $dta, 'subject', 'subjects');
             $this->showLine('Tags', $dta, 'tags', 45);
             $this->showLine('Web Price', $dta, 'priceweb', 15);
-            $this->showLine('Ebay Price', $dta, 'priceebay', 15);
             $this->showLine('Shipping Band', $dta, 'shippingrate', 2);
-            $this->showCheckBox('Cost Covered?', $dta, 'costcovered');
             $this->showLine('Date Sold', $dta, 'datesold', 10);
-            $this->showCheckBox('Archived', $dta, 'archive');
             $this->showLine('Away', $dta, 'away', 10);
             $this->showLine('Image File', $dta, 'image', 45);
             $this->showLine('Quantity', $dta, 'quantity', 12);
@@ -187,20 +180,15 @@ class picEdit extends DataEdit
     private function getLinks($picId)
     {
         $this->record['coll1'] = '';
-        $this->record['coll2'] = '';
-        $this->record['coll3'] = '';
 
         $sql = "SELECT l.*, c.name FROM links l "
                 . "JOIN collections c ON c.id = l.collection "
                 . "WHERE l. picture=$picId";
-    // echo "<br>$sql<br>";
+//     echo "<br>$sql<br>";
         $result = $this->mysqli->query($sql)
                 or die ("Error reading link" . mysqli_error($this->mysqli));
-        $i = 1;
-        while ($link = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                $inx = "coll" . $i++;
-                $this->record[$inx] =  $link['name'];
-        }
+        $link = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                $this->record['coll1'] =  $link['name'];
 
         mysqli_free_result($result);
     }
