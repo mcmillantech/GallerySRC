@@ -27,7 +27,7 @@
 //              page heading
 //              meta description
 // ---------------------------------------------------
-function showTop($title, $heading, $dsc = "gen")
+function showTop($title, $heading, $dsc = "gen", $showFilter="none")
 {
     global $impath, $dta;
 
@@ -35,6 +35,9 @@ function showTop($title, $heading, $dsc = "gen")
     $dta["title"] = $title;
     $dta["heading"] = $heading;
     $dta["impath"] = $impath;
+    $dta['colours'] = makeSelection('colours', 'blank');
+    $dta['prices'] = makeSelection('prices');
+    $dta['subjects'] = makeSelection('subjects');
     if (array_key_exists('tags', $dta)) {
         $dta['keywords'] = $dta['tags'];
     } else {
@@ -46,6 +49,7 @@ function showTop($title, $heading, $dsc = "gen")
     } else {
         $dta["metadsc"] = $dsc;
     }
+    $dta['showFilter'] = $showFilter;
 
     showView("topv.html", $dta);
 }

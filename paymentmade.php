@@ -28,7 +28,7 @@ function writeOrder($order)
     showTop("Buy artwork", "Purchase artwork");
     require_once "bootstrap.php";
 
-    const TEST = 1;				// Set to 1 to skip emails
+    const TEST = 0;				// Set to 1 to skip emails
     const RERUN = 0;				// Set to 1 to skip Braintree
 
     $gateway = new Braintree_Gateway(
