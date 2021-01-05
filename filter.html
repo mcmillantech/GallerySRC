@@ -1,0 +1,107 @@
+<!--  Panel for shipping charge -->
+<style>
+#shipPanel
+{
+	position:			fixed;
+	top:				200px;
+	left:				100px;
+	width:				340px;
+	height:				330px;
+	background-color:	white;
+	border:				1px solid;
+	padding:			5px;
+	visibility:			hidden;
+}
+</style>
+<script>
+// -------------------------------------------
+//	Show the shipping grid for the picture
+//
+//	Parameter	Band for the painting
+// -------------------------------------------
+function showShipping(band)
+{
+    var el = document.getElementById("shipPanel");
+
+    hAjax = openAjax();
+    hAjax.onreadystatechange=function()
+    {
+        if (ajax_response(hAjax))	// The list content is returned
+        {				// Place it in the list element and show it
+            var httxt = hAjax.responseText;
+            var elr = document.getElementById('rates');
+            elr.innerHTML = httxt;
+//			elr.style.visibility = 'visible';
+        }
+    }
+
+    var str = "ajaxcharges.php?band=" + band;
+    hAjax.open("GET",str,true);
+    hAjax.send();
+
+    el.style.visibility = "visible";
+}
+
+function closePanel()
+{
+	var el = document.getElementById("shipPanel");
+	el.style.visibility = "hidden";
+}
+
+function enlarge(col, id)
+{
+	var str = "enlarge.php?col=" + col + "&id=" + id;
+	document.location = str;
+}
+
+</script>
+
+    <div id='mainPanel'>
+        <div id='shipPanel'>
+            Shipping includes packing, dispatch &amp; insurance. This is 
+            tailored to Saatchi Art Online specification to ensure highest standards of 
+            delivery of your order wherever you live.<br><br>
+            <div id='rates'>Rates</div>
+            <p><button onClick='closePanel()'>Close</button></p>
+        </div>
+
+<!--  Show the top - collection details -->
+
+<!--  Now the 3 columns -->
+        <div style='clear:both'> </div>
+            {list}
+            <div class='pictureDiv'>
+                <h3 style='max-width: 98%; height:20px'>{name}</h3>
+                <p>{size}&nbsp;</p>
+                <div style="height:60px;">
+                    <p>{year} - {media}<br>
+                </div>
+                <div style="height:40px;">
+                    {mount}&nbsp;
+                </div>
+                
+                    <img src='{image}'  alt='{alttext}'
+                     onClick='enlarge("collection", {id})'>
+                <p>Click to enlarge</p> 
+                <div style='height:40px;'>Price {price} plus shipping 
+                <span onclick='showShipping("{shippingrate}")' style='color:blue'>
+                    Cost </span><br><br>
+                </div>
+                {buy}<br>
+            <hr>		
+            </div>
+            {/list}
+        <div style='clear:both'>&nbsp; </div>
+
+    </div><br>
+    {footer}
+    </div>
+
+
+<script>
+
+</script>
+</body>
+</html>
+
+
