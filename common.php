@@ -150,6 +150,33 @@ function footer()
     return $content;
 }
 
+// -------------------------------------------
+// Make a dropdown from the ini file
+// 
+// Parameters   Ini file section
+//              Selected value
+//  Returns     Set of dropdown options
+// -------------------------------------------
+function makeSelection($which, $selectValue='')
+{
+    $ar = parse_ini_file("filters.ini",TRUE);
+    $filters = $ar[$which];
+
+    $options = "";
+/*    if ($selectValue == 'blank') {
+        $options .= "<option hidden value='' selected disabled></option>";
+    } */
+    $options .= "<option value='any' selected>any</option>";
+    foreach ($filters as $key => $value) {
+        $options .= "<option value='$key'";
+        if ($value == $selectValue) {
+            $options .= " selected";
+        }
+        $options .= ">$value</option>\n";
+    }
+    return $options;
+}
+
 const PP_TEST = 1;		// In common master, Set this to 1 to use sandbox
 
 const AWAY = "At exhibition until ";
