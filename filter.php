@@ -71,24 +71,27 @@ function buildSQL()
     $price = $_POST['selectPrice'];
     $colour = $_POST['selectColour'];
     $subject = $_POST['selectSubject'];
+    $size = $_POST['selectSize'];
                         // SQL without any filters
+    $where = '';
     $sql = "SELECT * FROM paintings WHERE 1";
     if ($price <> 'any') {
         list($low, $high)= explode(' ', $price);
         $low *= 100;
         $high *= 100;
-        $sql .= " AND priceweb >= $low AND priceweb <= $high";
+        $where .= " AND priceweb >= $low AND priceweb <= $high";
     }
     if ($colour <> 'any') {
-        $sql .= " AND colour='$colour'";
+        $where .= " AND colour='$colour'";
     }
     if ($subject <> 'any') {
-        $sql .= " And subject='$subject'";
+        $where .= " And subject='$subject'";
     }
     if ($price <> 'any') {      // Sort by price if present
-        $sql .= " ORDER BY priceweb";
+        $where .= " ORDER BY priceweb";
     }
-    echo "$sql";
+    $sql .= $where;
+    
     return $sql;
 }
     ?>

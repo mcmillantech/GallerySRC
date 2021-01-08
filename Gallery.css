@@ -40,7 +40,7 @@ margin-left: 10px;
     margin:             auto;
 }
 
-.homeText {
+.homeLeft {
     text-align:         left;
     padding-left:       5px;
 }
@@ -69,6 +69,7 @@ margin-left: 10px;
 }
 
 .collectImage {                /* Image for the collection */
+    box-sizing:         border-box;
     width:		48%;
     float:		left;
     text-align:		center;
@@ -168,10 +169,13 @@ margin-left: 10px;
 
     .collectImage {
         width:          31%;
+        padding-left:   5px;
+        padding-right:  5px;
     }
     .homeColImage {
+    box-sizing: border-box;
         max-height:     237px; 
-        max-width:      200px;
+        max-width:      95%;
     }
     .collectText {
         width:          70%;
@@ -222,7 +226,7 @@ margin-left: 10px;
         float:          left;
     }
 
-    .homeText {
+    .homeLeft {
         width:          71%;
         float:          right;
     }

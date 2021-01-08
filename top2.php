@@ -31,13 +31,16 @@ function showTop($title, $heading, $dsc = "gen", $showFilter="none")
 {
     global $impath, $dta;
 
-    $dta = collectionsList($dta);	// Fetch the entries for collections pull down
+    $dta = collectionsList($dta);	// Fetch the entries for artists pull down
     $dta["title"] = $title;
     $dta["heading"] = $heading;
     $dta["impath"] = $impath;
-    $dta['colours'] = makeSelection('colours', 'blank');
+                                        // Search drop downs
+    $dta['colours'] = makeSelection('colours');
     $dta['prices'] = makeSelection('prices');
     $dta['subjects'] = makeSelection('subjects');
+    $dta['sizes'] = makeSelection('sizes', 'blank');
+    
     if (array_key_exists('tags', $dta)) {
         $dta['keywords'] = $dta['tags'];
     } else {

@@ -81,16 +81,13 @@ a
 }
 
 #bannerContent {
-    position:		absolute;
-    top:		20px;
     right:		100px;
     width:		100%;
     color:		#cc0000;
     font-style:		italic;
-    text-align:  right;
-    font-family:   'Arial';
-    font-weight: bold;
-    font-size:      140%;
+    font-family:        'Arial';
+    font-weight:        bold;
+    font-size:          140%;
 }
 @media screen and (min-width: 650px) {
     #bannerContent {
@@ -114,13 +111,14 @@ a
     height:             30px;
     padding:            4px 16px;
     background-color:	#d4c8aa;
-     box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .searchItem
 {
-    margin-left:    20px;
-    float:          left;
+    margin-bottom:  30px;
+    margin-left:    5px;
+    text-align:     left;
 }
 
 

@@ -1,3 +1,8 @@
+<!--
+    This Contains the HTML head section, the menu bar and the page heading
+
+    Called from top2.php
+-->
 <!DOCTYPE html>
 
 <html lang="en-GB">
@@ -19,22 +24,13 @@
 <p>&nbsp;</p>
     <div id='container'>
 
-    <div id='banner'>
-<img src='{impath}/banner2.png' style='width:100%;'><div id='bannerContent'>New <br>Art <br><span>for You</span></div>
-
-    </div>
+        <div id='bannerContent'>
+            New Art for You<br>
+        </div>
 
     <div class="topbar">
     <div class="topnav" id="myTopnav">
         <a href="index.php">Home</a>
-        <div class="dropdown">
-            <button class="dropbtn">Artists</button>
-            <div class="dropdown-content">
-                {collectMenu}
-                <a href='/artist={name}'>{name}</a>
-                {/collectMenu}
-            </div>
-        </div>
         <a href='about.php'>About NewArt</a>
         <a href='https://newartforyoucom.wordpress.com' target="blank">
             Our Blog</a>
@@ -50,6 +46,14 @@
                 <a href="join.php">Join New Art</a>
             </div>
         </div>
+        <div class="dropdown">
+            <button class="dropbtn">Artists</button>
+            <div class="dropdown-content">
+                {collectMenu}
+                <a href='/artist={name}'>{name}</a>
+                {/collectMenu}
+            </div>
+        </div>
         <a href='contact.php'>Contact</a>
 
 <!-- Show the device menu icon, call a function to toggle it on a phonw -->
@@ -58,7 +62,7 @@
 
     </div>  <!-- topnav -->
     </div>  <!-- topbar -->
-
+<!--
     <div class="searchBar" style="display: {showFilter}">
         <div style="width:100px;float:left">Search by</div>
         <form method="post" action="filter.php">
@@ -81,6 +85,7 @@
                 <input type="submit" value="Go">
             </div>
         </form>
-    </div>    
+    </div>
+-->
 
     <h1>{heading}</h1>
