@@ -1,5 +1,5 @@
 dbhost		127.0.0.1
-dbname		cunha
+dbname		nafy
 dbuser		root
 dbpw		sql
 images		images
