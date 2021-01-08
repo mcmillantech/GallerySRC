@@ -53,6 +53,7 @@ function superMenu()
             <a href='territories.php?mode=upd'>Shipping territories</a>
             <a href='aboutedit.php?type=hometext'>Home Page Text</a>
             <a href='aboutedit.php?type=abouttext'>About Page Text</a>
+            <a href='aboutedit.php?type=signupprompt'>Sign up prompt</a>
             </div>
 	<li><a href='logout.php'>Log Out</a></li>
     </ul>
