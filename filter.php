@@ -71,10 +71,10 @@ function buildSQL()
     $price = $_POST['selectPrice'];
     $colour = $_POST['selectColour'];
     $subject = $_POST['selectSubject'];
-    $size = $_POST['selectSize'];
+    $sizedd = $_POST['selectSize'];
                         // SQL without any filters
     $where = '';
-    $sql = "SELECT * FROM paintings WHERE 1";
+    $sql = "SELECT * FROM paintings WHERE deleted=0";
     if ($price <> 'any') {
         list($low, $high)= explode(' ', $price);
         $low *= 100;
@@ -86,6 +86,9 @@ function buildSQL()
     }
     if ($subject <> 'any') {
         $where .= " And subject='$subject'";
+    }
+    if ($sizedd <> 'any') {
+        $where .= " And sizedd='$sizedd'";
     }
     if ($price <> 'any') {      // Sort by price if present
         $where .= " ORDER BY priceweb";

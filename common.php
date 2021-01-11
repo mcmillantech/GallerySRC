@@ -169,7 +169,7 @@ function makeSelection($which, $selectValue='')
     $options .= "<option value='any' selected>any</option>";
     foreach ($filters as $key => $value) {
         $options .= "<option value='$key'";
-        if ($value == $selectValue) {
+        if ($key == $selectValue) {
             $options .= " selected";
         }
         $options .= ">$value</option>\n";
