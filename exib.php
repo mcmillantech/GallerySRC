@@ -1,7 +1,7 @@
 <?php
 // ------------------------------------------------------
 //  Project	Art Gallery
-//  File	index.php
+//	File	index.php
 //		Home page
 //
 //  Author	John McMillan 
@@ -20,20 +20,19 @@
     $title = "Online art for sale from " . ARTIST;
     $heading = "Art sales from " . ARTIST;
     $dta['tags'] = GEN_KWS;
-    showTop($title, $heading, '', 'block');
-//  echo "<h2>The Artists</h2>";
-//    echo "<h2>Third NAFY virtual exhibition<br>18th November to 14th December 2020</h2>";
+    showTop($title, $heading);
+//    echo "<h2>The Artists</h2>";
+    echo "<h2>First NAFY Virtual Exhibition</h2>";
 
     $dta['imgrecent'] = $impath . '/small/Recent.jpg';
 
     fetchData();
 
-                            //	Set up the artist images
+                            //	Show the images for the collections
     $colls = array();
-                                        // Pick the three featured artists
     $sql = "SELECT u.status, c.* FROM collections c"
         ." JOIN users u ON u.collection=c.id"
-        ." WHERE u.status=1 ORDER BY sequence LIMIT 3";
+        ." WHERE u.status=1 ORDER BY sequence";
     $result = $mysqli->query($sql)
         or myError(ERR_HOME_COLLECT, "Collections error " . $mysqli->error);
     while ($coll = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -46,7 +45,7 @@
 
     $dta['title'] = $title;
     $dta['footer'] = footer();
-    showView("indexv.html", $dta);
+    showView("exib.html", $dta);
 
 // ------------------------------------------------------
 //	Fetch text from the database
@@ -103,50 +102,13 @@ function fetchData()
 //	A col<i> div for the picture
 //	A hidded colTxt div for the details
 // ----------------------------------------------
-function showOneImage($coll)
+function showOneImage($pic)
 {
-    global $mysqli, $impath;
+    global $impath;
 
     $ar = array();
-    $colId = $coll['id'];
-    
-    $sql = "SELECT l.*, p.* FROM links l "
-       . "JOIN paintings p ON p.id = l.picture "
-       . "WHERE l.collection = $colId AND p.deleted=0 "
-       . "ORDER BY p.seq LIMIT 1";
-//echo " $sql <br>";
-    $result = $mysqli->query($sql)
-        or myError(ERR_COLLECT_PICTURES, $mysqli->error);
 
-    $pic = mysqli_fetch_array($result, MYSQLI_ASSOC);
-//    if (mysqli_num_rows($result) == 0)
-  //      return;
-    mysqli_free_result($result);
-    $artist = $coll['name'];
-    $pic['artist'] = $artist;
-    $pic['colId'] = $colId;
-    $picName = $pic['name'];
-    $altText = "Art work $picName by artist";
-    $pic["image"] = $impath . '/small/' . $pic['image'];    // Path to image file
-    $pic['alttext'] = $altText;
-    $id = $pic['id'];
-    $pic["price"] = '&pound;' . sprintf('%.2f', $pic['priceweb'] / 100.0);
-    if ($pic['away'] != null) {
-        $pic["buy"] = "<p>" . AWAY . dispDate($pic['away']) . "<br><br>";;
-    }
-    else {
-        if ($pic['quantity'] > 0)
-            $pic["buy"] = "<div class='buyButton'>"
-                . "<button onclick='buy($id)'>Buy this work...</button></div>";
-        else
-            $pic["buy"] = "<div style='color:red;font-size:120%;height:30px;'>"
-                . "Sold</div>";
-    }
-//        print_r($pic);
-    
-    return $pic;
-
-/*    $name = $pic['name'];
+    $name = $pic['name'];
     $id = $pic['sequence'];
     $ar['id'] = $id;
     $ar['img'] = $impath . '/' . $pic['image'];
@@ -156,10 +118,10 @@ function showOneImage($coll)
     $imid = 'coli' . $id;		// Make the ID of the image
     $ar['imid'] = $imid;
     $ar['id2'] = $imid . 'm';
-    $ar['idtxt'] = 'coltx' . $id; 
+    $ar['idtxt'] = 'coltx' . $id;
     $ar['name'] = $name;
                                         // The collectImage has the handlers
-    return $ar; */
+    return $ar;
 }
 
 // ----------------------------------------------
